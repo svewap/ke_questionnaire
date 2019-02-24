@@ -132,7 +132,7 @@ class Chart extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the data
 	 *
-	 * @param Array $data
+	 * @param array $data
 	 * @return void
 	 */
 	public function setData($data) {
@@ -151,17 +151,18 @@ class Chart extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function addData($title, $value = 1) {
 		if(isset($this->data[$key])) {
 			$this->data[$key] += $value;
-		} else $this->data[$key] = $value;
+		} else {
+            $this->data[$key] = $value;
+        }
 	}
 
 	public function getVariables() {
 		return '
-			var title = ' . $this->title . ';' . CHR(10) . '
-			var width = ' . $this->width . ';' . CHR(10) . '
-			var height = ' . $this->height . ';' . CHR(10) . '
-			var chartData = ' . $this->getData() . ';' . CHR(10) . '
+			var title = ' . $this->title . ';' . chr(10) . '
+			var width = ' . $this->width . ';' . chr(10) . '
+			var height = ' . $this->height . ';' . chr(10) . '
+			var chartData = ' . $this->getData() . ';' . chr(10) . '
 		';
 	}
 
 }
-?>

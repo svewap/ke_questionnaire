@@ -61,7 +61,7 @@ if (TYPO3_MODE === 'BE'){
     // Hack damit das Modul direkt nach dem Web Modul erscheint
     // die Angabe der $position in addModule() funktioniert hier leider nicht
     if (!isset($TBE_MODULES[$mainModuleName])) {
-        $temp_TBE_MODULES = array();
+        $temp_TBE_MODULES = [];
         foreach($TBE_MODULES as $key => $val) {
             if($key == 'web') {
                 $temp_TBE_MODULES[$key] = $val;
@@ -79,11 +79,12 @@ if (TYPO3_MODE === 'BE'){
 		$mainModuleName,				   # Kategorie
 		'',								   # Modulname
 		'',                                # Position
-		Array ( ),     # Controller
-		Array (	'access' => 'user,group',  # Konfiguration
+		[],     # Controller
+		[
+            'access' => 'user,group',  # Konfiguration
 				'icon'	 => 'EXT:'.$_EXTKEY.'/ext_icon.gif',
-				'labels' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang_mod.xml',				
-		)
+				'labels' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang_mod.xml',
+        ]
 	);
 	
     // Authcode Backend Modul der Extension
@@ -92,12 +93,15 @@ if (TYPO3_MODE === 'BE'){
 		$mainModuleName,		   # Kategorie
 		'Authcode',				   # Modulname
 		'',                                # Position
-		Array ( 'Backend' => 'index,authCodes,createAuthCodes,authCodesSimple,authCodesMail,createAndMailAuthCodes,authCodesRemind,remindAndMailAuthCodes',
-				'Export'  => 'downloadPdf, pdf, downloadAuthCodesCsv'),     # Controller
-		Array (	'access' => 'user,group',  # Konfiguration
+		[
+            'Backend' => 'index,authCodes,createAuthCodes,authCodesSimple,authCodesMail,createAndMailAuthCodes,authCodesRemind,remindAndMailAuthCodes',
+				'Export'  => 'downloadPdf, pdf, downloadAuthCodesCsv'
+        ],     # Controller
+		[
+            'access' => 'user,group',  # Konfiguration
 				'icon'	 => 'EXT:'.$_EXTKEY.'/ext_icon.gif',
 				'labels' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang_mod_authcode.xml'
-		)
+        ]
 	);
 	
 	// Export Backend Modul der Extension
@@ -106,11 +110,12 @@ if (TYPO3_MODE === 'BE'){
 		$mainModuleName,		   # Kategorie
 		'Export',				   # Modulname
 		'',                                # Position
-		Array ( 'Export' => 'index,csv,csvRb,downloadCsv,downloadCsvRb,pdf,downloadPdf,csvInterval,csvRbInterval,csvCheckInterval,downloadCsvInterval'),     # Controller
-		Array (	'access' => 'user,group',  # Konfiguration
+		['Export' => 'index,csv,csvRb,downloadCsv,downloadCsvRb,pdf,downloadPdf,csvInterval,csvRbInterval,csvCheckInterval,downloadCsvInterval'],     # Controller
+		[
+            'access' => 'user,group',  # Konfiguration
 				'icon'	 => 'EXT:'.$_EXTKEY.'/ext_icon.gif',
 				'labels' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang_mod_export.xml',
-		)
+        ]
 	);
     
     // Analyse Backend Modul der Extension
@@ -119,11 +124,12 @@ if (TYPO3_MODE === 'BE'){
 		$mainModuleName,		   # Kategorie
 		'Analyse',				   # Modulname
 		'',                                # Position
-		Array ( 'Analyse' => 'index,questions,general'),     # Controller
-		Array (	'access' => 'user,group',  # Konfiguration
+		['Analyse' => 'index,questions,general'],     # Controller
+		[
+            'access' => 'user,group',  # Konfiguration
 				'icon'	 => 'EXT:'.$_EXTKEY.'/ext_icon.gif',
 				'labels' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang_mod_analyse.xml',
-		)
+        ]
 	);  
 	
 	// Report zur Prüfung des FileAcces auf den Temp Ordner

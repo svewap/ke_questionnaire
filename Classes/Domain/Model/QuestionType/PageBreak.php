@@ -33,4 +33,3 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
  */
 class PageBreak extends \Kennziffer\KeQuestionnaire\Domain\Model\Question {
 }
-?>

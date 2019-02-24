@@ -31,7 +31,7 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Validation extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
+class Validation extends AbstractAjax {
 
 	/**
 	 * questionRepository
@@ -65,4 +65,3 @@ class Validation extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
 	}
 
 }
-?>

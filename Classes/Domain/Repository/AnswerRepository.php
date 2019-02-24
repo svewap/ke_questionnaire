@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+use TYPO3\CMS\Extbase\Persistence\Generic\Query;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -36,16 +38,16 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * @var array
 	 */
-	protected $defaultOrderings = array(
+	protected $defaultOrderings = [
 		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-	);
-	
-	/**
-	 * find all answers for question
-	 * 
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @return Query Result
-	 */
+    ];
+
+    /**
+     * find all answers for question
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
+     */
 	public function findByQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question) {
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectSysLanguage(TRUE);
@@ -58,13 +60,13 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$query->matching($constraint);
 		return $query->execute();
 	}
-	
-	/**
-	 * find all results for pid
-	 * 
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @return Query Result
-	 */
+
+    /**
+     * find all results for pid
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
+     */
 	public function findByQuestionWithoutPid(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question) {
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
@@ -84,7 +86,6 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
 		$query->matching($query->equals('uid', $uid));
         $result = $query->execute();
-        return ($result[0]);
+        return $result[0];
 	}
 }
-?>

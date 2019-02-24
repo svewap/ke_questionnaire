@@ -31,7 +31,7 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AnswerValidation extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
+class AnswerValidation extends AbstractAjax {
 
 	/**
 	 * answerRepository
@@ -81,7 +81,7 @@ class AnswerValidation extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
 		// the validation Array should contain
 		// error => 0 no error / 1 error
 		// info => textmessage to be displayed
-		$validation = array();
+		$validation = [];
 		
 		//in the typoscript settings you can define the pattern for the validation types
 		//example: 
@@ -104,4 +104,3 @@ class AnswerValidation extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
 	}
 
 }
-?>

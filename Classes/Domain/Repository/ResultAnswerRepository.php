@@ -164,7 +164,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * 
 	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $row
 	 * @param string $value
-	 * @return integer
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function getResultAnswersForRowAndCol(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $row, $value){
 		$query = $this->createQuery();
@@ -179,7 +179,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * 
 	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $row
 	 * @param string $value
-	 * @return integer
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function getResultAnswersForRowAndColRaw(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $row, $value){
 		$query = $this->createQuery();
@@ -204,4 +204,3 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		return $query->execute();
 	}
 }
-?>

@@ -58,4 +58,3 @@ class Typo3Content extends \Kennziffer\KeQuestionnaire\Domain\Model\Question {
 		$this->contentId = $contentId;
 	}
 }
-?>

@@ -1,5 +1,15 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,168 +41,192 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
-	
-	/**
-	 * Terms
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\Answer>
-	 * @lazy
-	 */
-	protected $terms;
-	
-	/**
-	 * WordPositions
-	 *
-	 * @var array
-	 * @lazy
-	 */
-	protected $wordPositions;
-	
-	/**
-	 * __construct
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-	}
+class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
 
-	/**
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
-	 * @param boolean $useRepository
-	 * @return array Array containing the word positions
-	 */
-	public function getTerms(\Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question, $useRepository = false) {
-		$this->terms = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
-		if ($useRepository){
-			//Aus dem Repository holen, nicht aus der Frage, da sonst zuordnungen verschwinden
-			$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-			$rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
-			$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-			$querySettings->setRespectStoragePage(FALSE);
-			$querySettings->setRespectSysLanguage(FALSE);
-			$rep->setDefaultQuerySettings($querySettings);
-			$answers = $rep->findByQuestion($question);			
-		} else {
-			$answers = $question->getAnswers();
-		}
-		foreach ($answers as $answer) {
-			if ($answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm){
-				$this->terms->attach($answer);
-			}
-		}
-		
-		return $this->terms;
-	}
-	
-	/**
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
-	 * @return array Array containing the word positions
-	 */
-	public function getWordPositions(\Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question) {
-		/* @var $answer \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm */
-		foreach ($this->getTerms($question, true) as $answer) {
-			$pos = $answer->getWordPosition($this->getText());
-			$this->wordPositions[$pos[0]] = $pos;
-			$this->wordPositions[$pos[0]]['title'] = $answer->getTitle();
-			$this->wordPositions[$pos[0]]['answer'] = $answer;
-		}
-		if (is_array($this->wordPositions)) ksort($this->wordPositions);
-		return $this->wordPositions;
-	}	
-	
-	/**
-	 * 
-	 * @param array $resultAnswers
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @param boolean $withHTML
-	 * @return string $line
-	 */
-	public function getUserText($resultAnswers, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $withHTML = true){
-		$line = '';
-		$rterms = array();
-		
-		$text = $this->getText();
-		$terms = $this->getTerms($question, true);
-		$wordPositions = $this->getWordPositions($question);
-		foreach ($terms as $term){
-			foreach ($resultAnswers as $temp_ranswer){
-				if (is_object($temp_ranswer)){
-					if ($temp_ranswer->getAnswer()->getUid() == $term->getUid()){
-						$rterms[]= $temp_ranswer;
-					}
-				} else {
-					if ($temp_ranswer['answer'] == $term->getUid()){
-						$rterms[]= $temp_ranswer;
-					}
-				}
-			}
-		}										
-		
-		$line = '';
-		$start = 0;
-		foreach ($wordPositions as $wordPosition) {
-			foreach ($rterms as $nr => $rterm){
-				if (is_object($rterm)){
-					if ($rterm->getAnswer()->getUid() == $wordPosition['answer']->getUid()){
-						$line .= mb_substr($text, $start, ($wordPosition[0] - $start));
-						if ($withHTML) $line .= '<b>'.$rterm->getValue().'</b>';
-						else $line .= $rterm->getValue();
-						$start = $wordPosition[0] + $wordPosition[1];
-					}
-				} else {
-					if ($rterm['answer'] == $wordPosition['answer']->getUid()){
-						$line .= mb_substr($text, $start, ($wordPosition[0] - $start));
-						if ($withHTML) $line .= '<b>'.$rterm['value'].'</b>';
-						else $line .= $rterm['value'];
-						$start = $wordPosition[0] + $wordPosition[1];
-					}
-				}
-			}
-		}
-		$line .= mb_substr($text, $start);
-											
-		return $line;
-	}
-	
-	/**
-	 * Create the whole Csv Line
-	 * @param a $results
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @param array options
-	 * @return string
-	 */
-	public function getCsvLine(array $results, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $options = array()) {
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\ResultQuestionRepository');
-		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-		$querySettings->setRespectStoragePage(FALSE);
-		$rep->setDefaultQuerySettings($querySettings);
-		
-		$aL = array();
-		for ($i = 0; $i < $options['emptyFields']; $i++){
-			$aL[] = '';
-		}
-		
-		$aL[] = $this->getTitle();
-		if ($options['showAText']) {
-			$aL[] = strip_tags($this->getText());
-		}
-		
-		foreach ($results as $result){
-			$resultQuestion = $rep->findByQuestionAndResultId($question->getUid(), $result['uid']);
-			$resultQuestion = $resultQuestion[0];
-			if ($resultQuestion)$aL[] = $this->getUserText($resultQuestion->getAnswers(), $question, false);
-			else $aL[] = '';
-		}		
-		foreach ($aL as $nr => $value){
-			if (!is_numeric($value)) $aL[$nr] = $options['textMarker'].$value.$options['textMarker'];
-		}
-		$line = implode($options['separator'],$aL).$options['newline'];
-		
-		return $line;
-	}
+    /**
+     * Terms
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\Answer>
+     * @lazy
+     */
+    protected $terms;
+
+    /**
+     * WordPositions
+     *
+     * @var array
+     * @lazy
+     */
+    protected $wordPositions;
+
+    /**
+     * __construct
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     *
+     * @param Question $question
+     * @param boolean $useRepository
+     * @return array Array containing the word positions
+     */
+    public function getTerms(
+        Question $question,
+        $useRepository = false
+    ) {
+        $this->terms = GeneralUtility::makeInstance(ObjectStorage::class);
+        if ($useRepository) {
+            //Aus dem Repository holen, nicht aus der Frage, da sonst zuordnungen verschwinden
+            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $rep = $this->objectManager->get(AnswerRepository::class);
+            $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+            $querySettings->setRespectStoragePage(false);
+            $querySettings->setRespectSysLanguage(false);
+            $rep->setDefaultQuerySettings($querySettings);
+            $answers = $rep->findByQuestion($question);
+        } else {
+            $answers = $question->getAnswers();
+        }
+        foreach ($answers as $answer) {
+            if ($answer instanceof ClozeTerm) {
+                $this->terms->attach($answer);
+            }
+        }
+
+        return $this->terms;
+    }
+
+    /**
+     *
+     * @param Question $question
+     * @return array Array containing the word positions
+     */
+    public function getWordPositions(Question $question)
+    {
+        /* @var $answer \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm */
+        foreach ($this->getTerms($question, true) as $answer) {
+            $pos = $answer->getWordPosition($this->getText());
+            $this->wordPositions[$pos[0]] = $pos;
+            $this->wordPositions[$pos[0]]['title'] = $answer->getTitle();
+            $this->wordPositions[$pos[0]]['answer'] = $answer;
+        }
+        if (is_array($this->wordPositions)) {
+            ksort($this->wordPositions);
+        }
+        return $this->wordPositions;
+    }
+
+    /**
+     *
+     * @param array $resultAnswers
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param boolean $withHTML
+     * @return string $line
+     */
+    public function getUserText(
+        $resultAnswers,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        $withHTML = true
+    ) {
+        $line = '';
+        $rterms = [];
+
+        $text = $this->getText();
+        $terms = $this->getTerms($question, true);
+        $wordPositions = $this->getWordPositions($question);
+        foreach ($terms as $term) {
+            foreach ($resultAnswers as $temp_ranswer) {
+                if (is_object($temp_ranswer)) {
+                    if ($temp_ranswer->getAnswer()->getUid() == $term->getUid()) {
+                        $rterms[] = $temp_ranswer;
+                    }
+                } else {
+                    if ($temp_ranswer['answer'] == $term->getUid()) {
+                        $rterms[] = $temp_ranswer;
+                    }
+                }
+            }
+        }
+
+        $line = '';
+        $start = 0;
+        foreach ($wordPositions as $wordPosition) {
+            foreach ($rterms as $nr => $rterm) {
+                if (is_object($rterm)) {
+                    if ($rterm->getAnswer()->getUid() == $wordPosition['answer']->getUid()) {
+                        $line .= mb_substr($text, $start, $wordPosition[0] - $start);
+                        if ($withHTML) {
+                            $line .= '<b>' . $rterm->getValue() . '</b>';
+                        } else {
+                            $line .= $rterm->getValue();
+                        }
+                        $start = $wordPosition[0] + $wordPosition[1];
+                    }
+                } else {
+                    if ($rterm['answer'] == $wordPosition['answer']->getUid()) {
+                        $line .= mb_substr($text, $start, ($wordPosition[0] - $start));
+                        if ($withHTML) {
+                            $line .= '<b>' . $rterm['value'] . '</b>';
+                        } else {
+                            $line .= $rterm['value'];
+                        }
+                        $start = $wordPosition[0] + $wordPosition[1];
+                    }
+                }
+            }
+        }
+        $line .= mb_substr($text, $start);
+
+        return $line;
+    }
+
+    /**
+     * Create the whole Csv Line
+     * @param array $results
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param array options
+     * @return string
+     */
+    public function getCsvLine(
+        array $results,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        $options = []
+    ) {
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $rep = $this->objectManager->get(ResultQuestionRepository::class);
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(false);
+        $rep->setDefaultQuerySettings($querySettings);
+
+        $aL = [];
+        for ($i = 0; $i < $options['emptyFields']; $i++) {
+            $aL[] = '';
+        }
+
+        $aL[] = $this->getTitle();
+        if ($options['showAText']) {
+            $aL[] = strip_tags($this->getText());
+        }
+
+        foreach ($results as $result) {
+            $resultQuestion = $rep->findByQuestionAndResultId($question->getUid(), $result['uid']);
+            $resultQuestion = $resultQuestion[0];
+            if ($resultQuestion) {
+                $aL[] = $this->getUserText($resultQuestion->getAnswers(), $question, false);
+            } else {
+                $aL[] = '';
+            }
+        }
+        foreach ($aL as $nr => $value) {
+            if (!is_numeric($value)) {
+                $aL[$nr] = $options['textMarker'] . $value . $options['textMarker'];
+            }
+        }
+        return implode($options['separator'], $aL) . $options['newline'];
+    }
 }
-?>

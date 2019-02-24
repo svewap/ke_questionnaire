@@ -113,7 +113,7 @@ class QuestionnaireController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 	public function listAction() {		
             $this->view->assign('questionnaires',$this->getQuestionnaires());
             //SignalSlot for listAction
-            $this->signalSlotDispatcher->dispatch(__CLASS__, 'listAction', array($this));            
+            $this->signalSlotDispatcher->dispatch(__CLASS__, 'listAction', [$this]);
 	}
 	
 	/**
@@ -153,7 +153,7 @@ class QuestionnaireController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($this->settings['questionnaires']) $questionnaires = $this->questionnaireRepository->findForUids($this->settings['questionnaires']);
         else $questionnaires = $this->questionnaireRepository->findAll();
 		
-		$list = array();
+		$list = [];
 		if ($GLOBALS['TSFE']->fe_user) $user_id = $GLOBALS['TSFE']->fe_user->user['uid'];
 		switch ($this->settings['listType']){
 			case 'all':
@@ -192,4 +192,3 @@ class QuestionnaireController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 	}
 
 }
-?>

@@ -1,5 +1,10 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AuthCodeRepository;
+use Kennziffer\KeQuestionnaire\Domain\Repository\ResultRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -137,8 +142,8 @@ class AuthCode extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function generateAuthCode($length = 10, $pid){
 		//get the existent authcodes so no duplicates are created
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$ac_rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AuthCodeRepository');
+		$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+		$ac_rep = $this->objectManager->get(AuthCodeRepository::class);
 		// Generate authcode
 		$loop = 1;
 		while($loop){
@@ -150,11 +155,13 @@ class AuthCode extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 			for($i=0; $i<$length; $i++)
 			{
-				$key .= $inputs{mt_rand(0,61)};
+				$key .= $inputs{random_int(0,61)};
 			}
 
 			$existent = $ac_rep->findByAuthCodeForPid($key,$pid);
-			if ($existent) $loop = 0;
+			if ($existent) {
+                $loop = 0;
+            }
 		}
 		$this->setAuthCode($key);
 		return $key;
@@ -174,8 +181,8 @@ class AuthCode extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getAndLoadParticipations() {
             if (count($this->participations) == 0){
-                    $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-                    $rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\ResultRepository');
+                    $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+                    $rep = $this->objectManager->get(ResultRepository::class);
                     $this->participations = $rep->findForAuthCode($this);
             }
             return $this->participations;
@@ -304,4 +311,3 @@ class AuthCode extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->crdate = $crdate;
 	}
 }
-?>

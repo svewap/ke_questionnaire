@@ -47,4 +47,3 @@ class PremiumInfo {
 		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($content['fieldConf']['config']['text'], $content['fieldConf']['config']['extension']);
 	}
 }
-?>

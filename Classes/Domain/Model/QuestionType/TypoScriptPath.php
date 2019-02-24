@@ -33,4 +33,3 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
  */
 class TypoScriptPath extends \Kennziffer\KeQuestionnaire\Domain\Model\Question {
 }
-?>

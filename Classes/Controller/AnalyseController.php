@@ -1,5 +1,6 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +32,7 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AnalyseController extends  \Kennziffer\KeQuestionnaire\Controller\BackendController {
+class AnalyseController extends  BackendController {
 	
     /**
 	 * @var \Kennziffer\KeQuestionnaire\Utility\Analysis
@@ -85,7 +86,7 @@ class AnalyseController extends  \Kennziffer\KeQuestionnaire\Controller\BackendC
         } else {
 			foreach ($questions as $q){
 				if ($question == Null){
-					if ($q->getShortType() == 'Question') $question = $q;
+					if ($q->getShortType() === 'Question') $question = $q;
 				}
 			}
         }
@@ -120,4 +121,3 @@ class AnalyseController extends  \Kennziffer\KeQuestionnaire\Controller\BackendC
         $this->view->assign('counter',$this->countParticipations());
     }
 }
-?>

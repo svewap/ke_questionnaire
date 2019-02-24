@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Validator;
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -37,11 +39,10 @@ class AnswerValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVa
 	* validate
 	*/
 	public function isValid($result) {
-		if (!$result instanceof \Kennziffer\KeQuestionnaire\Domain\Model\Answer) {
+		if (!$result instanceof Answer) {
 			$this->addError('The given Object is not a KeQ-Answer.', 1262341470);
 			return FALSE;
 		}
 		return TRUE;
 	}
 }
-?>

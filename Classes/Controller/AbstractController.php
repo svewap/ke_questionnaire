@@ -1,5 +1,10 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Controller;
+use Kennziffer\KeQuestionnaire\View\TemplateView;
+use Kennziffer\KeQuestionnaire\Object\DataMapper;
+use Kennziffer\KeQuestionnaire\Domain\Model\Step;
+use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionnaireRepository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -45,7 +50,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 *
 	 * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
 	 */
-	var $questionRepository;
+    protected $questionRepository;
     
     /**
 	 * questionnaireRepository
@@ -66,7 +71,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 *
 	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\Questionnaire
 	 */
-	var $questionnaire;
+    protected $questionnaire;
 
 	/**
 	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\ExtConf
@@ -180,9 +185,9 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
 
 	/**
-	* @var defaultViewObjectName use custom extended \TYPO3\CMS\Fluid\View\TemplateView
+	* @var string defaultViewObjectName use custom extended \TYPO3\CMS\Fluid\View\TemplateView
 	*/
-	protected $defaultViewObjectName = 'Kennziffer\\KeQuestionnaire\\View\\TemplateView';
+	protected $defaultViewObjectName = TemplateView::class;
 		
 	/**
 	 * set the BasePartialRootPath for all Controllers extending this one
@@ -197,7 +202,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		
 		//check if there is a different Path in the base configuration
 		if (isset($extbaseFrameworkConfiguration['view']['basePartialRootPath'])
-			&& strlen($extbaseFrameworkConfiguration['view']['basePartialRootPath']) > 0
+			&& $extbaseFrameworkConfiguration['view']['basePartialRootPath'] !== ''
 			&& method_exists($view, 'setBasePartialRootPath')) {
 			$view->setBasePartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['basePartialRootPath']));
 		}
@@ -209,14 +214,16 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 */
 	public function initializeAction() {
 		parent::initializeAction();
-		if (!is_object($this->questionnaireRepository)) $this->questionnaireRepository = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\QuestionnaireRepository');
+		if (!is_object($this->questionnaireRepository)) {
+            $this->questionnaireRepository = $this->objectManager->get(QuestionnaireRepository::class);
+        }
 
 		// initialize steps
-		if ($this->steps AND $this->steps->count() == 0) {
+		if ($this->steps && $this->steps->count() === 0) {
 			if (is_array($this->settings['steps']) && count($this->settings['steps'])) {
 				/* @var $dataMapper \Kennziffer\KeQuestionnaire\Object\DataMapper */
-				$dataMapper = $this->objectManager->get('Kennziffer\KeQuestionnaire\Object\DataMapper');
-				$steps = $dataMapper->map('Kennziffer\KeQuestionnaire\Domain\Model\Step', $this->settings['steps']);
+				$dataMapper = $this->objectManager->get(DataMapper::class);
+				$steps = $dataMapper->map(Step::class, $this->settings['steps']);
 				foreach ($steps as $step) {
 					$this->steps->attach($step);
 				}
@@ -231,7 +238,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 * @return void
 	 */
 	public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
-		if($this->extConf->getEnableFeUserMarker() && is_array($GLOBALS['TSFE']->fe_user->user)) {
+		if(is_array($GLOBALS['TSFE']->fe_user->user) && $this->extConf->getEnableFeUserMarker()) {
 			$view->assign('feUser', $GLOBALS['TSFE']->fe_user->user);
 		}
 	}
@@ -264,13 +271,13 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		$this->flashMessageContainer->add($localizedMessage, $localizedTitle, $severity);
 	}
 
-	/**
-	 * helper function to use localized strings in BlogExample controllers
-	 *
-	 * @param string $key locallang key
-	 * @param string $default the default message to show if key was not found
-	 * @return string
-	 */
+    /**
+     * helper function to use localized strings in BlogExample controllers
+     *
+     * @param string $key locallang key
+     * @param string $defaultMessage
+     * @return string
+     */
 	protected function translate($key, $defaultMessage = '') {
 		$message = $this->localization->translate($key);
 		if ($message === NULL) {
@@ -298,7 +305,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		// search for current step in $this->steps
 		/* @var $step \Kennziffer\KeQuestionnaire\Domain\Model\Step */
 		foreach ($this->steps as $key => $step) {
-			if ($step->getAction() == $action && $step->getController() == $controller && $step->getExtension() == $extension) {
+			if ($step->getAction() === $action && $step->getController() === $controller && $step->getExtension() === $extension) {
 				$this->steps->next();
 				$nextStep = $this->steps->current();
 				break;
@@ -306,7 +313,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		}
 
 		$method = $nextStep->getType();
-		$this->$method($nextStep->getAction(), $nextStep->getController(), $nextStep->getExtension(), array('result' => $result));
+		$this->$method($nextStep->getAction(), $nextStep->getController(), $nextStep->getExtension(), ['result' => $result]);
 	}
     
     /**
@@ -318,4 +325,4 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		return $this->settings;
 	}
 }
-?>
+

@@ -92,4 +92,3 @@ class RankingTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DD
 		$this->selectItems = $selectItems;
 	}
 }
-?>

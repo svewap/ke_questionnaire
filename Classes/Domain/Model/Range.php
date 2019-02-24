@@ -146,8 +146,9 @@ class Range extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function matches($points){
 		if ($points >= $this->getPointsFrom() AND $points <= $this->getPointsUntil()){
 			return true;
-		} else return false;
+		} else {
+            return false;
+        }
 	}
 
 }
-?>

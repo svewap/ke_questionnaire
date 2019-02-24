@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,205 +33,225 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Mail {
+class Mail
+{
 
-	/**
-	 * SwiftMailer
-	 *
-	 * @var \TYPO3\CMS\Core\Mail\MailMessage
-	 */
-	protected $message = NULL;
+    /**
+     * SwiftMailer
+     *
+     * @var \TYPO3\CMS\Core\Mail\MailMessage
+     */
+    protected $message = null;
 
-	/**
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\ExtConf
-	 */
-	protected $extConf;
-
-
-
+    /**
+     * @var \Kennziffer\KeQuestionnaire\Domain\Model\ExtConf
+     */
+    protected $extConf;
 
 
-	/**
-	 * inject swift message
-	 *
-	 * @param \TYPO3\CMS\Core\Mail\MailMessage $message
-	 * @return void
-	 */
-	public function injectSwiftMessage(\TYPO3\CMS\Core\Mail\MailMessage $message) {
-		$this->message = $message;
-	}
+    /**
+     * inject swift message
+     *
+     * @param \TYPO3\CMS\Core\Mail\MailMessage $message
+     * @return void
+     */
+    public function injectSwiftMessage(\TYPO3\CMS\Core\Mail\MailMessage $message)
+    {
+        $this->message = $message;
+    }
 
-	/**
-	 * inject extConf
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\ExtConf $extConf
-	 */
-	public function injectExtConf(\Kennziffer\KeQuestionnaire\Domain\Model\ExtConf $extConf) {
-		$this->extConf = $extConf;
-	}
+    /**
+     * inject extConf
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ExtConf $extConf
+     */
+    public function injectExtConf(\Kennziffer\KeQuestionnaire\Domain\Model\ExtConf $extConf)
+    {
+        $this->extConf = $extConf;
+    }
 
 
-	/**
-	 * Returns the body
-	 *
-	 * @return string|array $body
-	 */
-	public function getBody() {
-		if(!$this->message->getBody()) {
-			// if body is not try to get attached children like HTML parts
-			if(count($this->message->getChildren())) {
-				return $this->message->getChildren();
-			} else return '';
-		} else return $this->message->getBody();
-	}
+    /**
+     * Returns the body
+     *
+     * @return string|array $body
+     */
+    public function getBody()
+    {
+        if (!$this->message->getBody()) {
+            // if body is not try to get attached children like HTML parts
+            if (count($this->message->getChildren())) {
+                return $this->message->getChildren();
+            } else {
+                return '';
+            }
+        } else {
+            return $this->message->getBody();
+        }
+    }
 
-	/**
-	 * Sets the body
-	 *
-	 * @param string $body
-	 * @return \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	public function setBody($body) {
-		$this->message->setBody($body);
-		return $this;
-	}
+    /**
+     * Sets the body
+     *
+     * @param string $body
+     * @return \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    public function setBody($body)
+    {
+        $this->message->setBody($body);
+        return $this;
+    }
 
-	/**
-	 * Sets the html
-	 *
-	 * @param string $html
-	 * @return \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	public function setHtml($html) {
-		$this->message->addPart($html, 'text/html');
-		return $this;
-	}
+    /**
+     * Sets the html
+     *
+     * @param string $html
+     * @return \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    public function setHtml($html)
+    {
+        $this->message->addPart($html, 'text/html');
+        return $this;
+    }
 
-	/**
-	 * Returns the subject
-	 *
-	 * @return string $subject
-	 */
-	public function getSubject() {
-		return $this->message->getSubject();
-	}
+    /**
+     * Returns the subject
+     *
+     * @return string $subject
+     */
+    public function getSubject()
+    {
+        return $this->message->getSubject();
+    }
 
-	/**
-	 * Sets the subject
-	 *
-	 * @param string $subject
-	 * @return \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	public function setSubject($subject) {
-		$this->message->setSubject($subject);
-		return $this;
-	}
+    /**
+     * Sets the subject
+     *
+     * @param string $subject
+     * @return \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    public function setSubject($subject)
+    {
+        $this->message->setSubject($subject);
+        return $this;
+    }
 
-	/**
-	 * Returns the from
-	 *
-	 * @return string $from
-	 */
-	public function getFrom() {
-		return $this->message->getFrom();
-	}
+    /**
+     * Returns the from
+     *
+     * @return string $from
+     */
+    public function getFrom()
+    {
+        return $this->message->getFrom();
+    }
 
-	/**
-	 * Sets the from
-	 *
-	 * @param string $from The from email address
-	 * @param string $name The from name
-	 * @return \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	public function setFrom($from, $name = NULL) {
-		$this->message->setFrom($from, $name);
-		return $this;
-	}
+    /**
+     * Sets the from
+     *
+     * @param string $from The from email address
+     * @param string $name The from name
+     * @return \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    public function setFrom($from, $name = null)
+    {
+        $this->message->setFrom($from, $name);
+        return $this;
+    }
 
-	/**
-	 * Returns the receivers
-	 *
-	 * @return array $receivers
-	 */
-	public function getReceivers() {
-		return $this->message->getTo();
-	}
+    /**
+     * Returns the receivers
+     *
+     * @return array $receivers
+     */
+    public function getReceivers()
+    {
+        return $this->message->getTo();
+    }
 
-	/**
-	 * Sets the receivers
-	 * By using this method the key should be the mail address
-	 *
-	 * @param array $receivers
-	 * @return \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	public function setReceivers($receivers) {
-		$this->message->setTo($receivers);
-		return $this;
-	}
+    /**
+     * Sets the receivers
+     * By using this method the key should be the mail address
+     *
+     * @param array $receivers
+     * @return \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    public function setReceivers($receivers)
+    {
+        $this->message->setTo($receivers);
+        return $this;
+    }
 
-	/**
-	 * Add a receiver
-	 *
-	 * @param string $receiver The receivers email address
-	 * @param string $name The receivers name
-	 * @return \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	public function addReceiver($receiver, $name = NULL) {
-		$this->message->addTo($receiver, $name);
-		return $this;
-	}
+    /**
+     * Add a receiver
+     *
+     * @param string $receiver The receivers email address
+     * @param string $name The receivers name
+     * @return \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    public function addReceiver($receiver, $name = null)
+    {
+        $this->message->addTo($receiver, $name);
+        return $this;
+    }
 
-	/**
-	 * send mail
-	 *
-	 * @return integer amount of valid receivers
-	 */
-	public function sendMail() {
-		if($this->validateMessage()) {
-			$number = $this->message->send();
-			$this->message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
-			return $number;
-		} else return 0;
-	}
+    /**
+     * send mail
+     *
+     * @return integer amount of valid receivers
+     */
+    public function sendMail()
+    {
+        if ($this->validateMessage()) {
+            $number = $this->message->send();
+            $this->message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
+            return $number;
+        } else {
+            return 0;
+        }
+    }
 
-	/**
-	 * validate message
-	 *
-	 * @return boolean
-	 */
-	protected function validateMessage() {
-		if(!$this->getFrom()) {
-			// first: try to get an alternative mail address and sender name from extConf
-			if($this->extConf->getEmailAddress()) {
-				if($this->extConf->getEmailSender()) {
-					$this->setFrom($this->extConf->getEmailAddress(), $this->extConf->getEmailSender());
-				} else {
-					$this->setFrom($this->extConf->getEmailAddress());
-				}
-			} else {
-				// second: try to get an alternative mail address and sender name from INSTALL_TOOL
-				if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
-					// third: no email address found. EXIT
-					throw new \Kennziffer\KeQuestionnaire\Exception('mailNoFrom', 1349702098);
-				} else {
-					if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'])) {
-						$this->setFrom($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']);
-					} else {
-						$this->setFrom($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'], $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName']);
-					}
-				}
-			}
-		}
-		if(count($this->getReceivers()) === 0) {
-			throw new \Kennziffer\KeQuestionnaire\Exception('mailNoReceivers', 1349702831);
-		}
-		if(!$this->getSubject()) {
-			throw new \Kennziffer\KeQuestionnaire\Exception('mailNoSubject', 1349702835);
-		}
-		if(!$this->getBody()) {
-			throw new \Kennziffer\KeQuestionnaire\Exception('mailNoBody', 1349702840);
-		}
-		return true;
-	}
+    /**
+     * validate message
+     *
+     * @return boolean
+     * @throws \Kennziffer\KeQuestionnaire\Exception
+     */
+    protected function validateMessage()
+    {
+        if (!$this->getFrom()) {
+            // first: try to get an alternative mail address and sender name from extConf
+            if ($this->extConf->getEmailAddress()) {
+                if ($this->extConf->getEmailSender()) {
+                    $this->setFrom($this->extConf->getEmailAddress(), $this->extConf->getEmailSender());
+                } else {
+                    $this->setFrom($this->extConf->getEmailAddress());
+                }
+            } else {
+                // second: try to get an alternative mail address and sender name from INSTALL_TOOL
+                if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+                    // third: no email address found. EXIT
+                    throw new \Kennziffer\KeQuestionnaire\Exception('mailNoFrom', 1349702098);
+                } else {
+                    if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'])) {
+                        $this->setFrom($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']);
+                    } else {
+                        $this->setFrom($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'],
+                            $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName']);
+                    }
+                }
+            }
+        }
+        if (count($this->getReceivers()) === 0) {
+            throw new \Kennziffer\KeQuestionnaire\Exception('mailNoReceivers', 1349702831);
+        }
+        if (!$this->getSubject()) {
+            throw new \Kennziffer\KeQuestionnaire\Exception('mailNoSubject', 1349702835);
+        }
+        if (!$this->getBody()) {
+            throw new \Kennziffer\KeQuestionnaire\Exception('mailNoBody', 1349702840);
+        }
+        return true;
+    }
 }
-?>
+

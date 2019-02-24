@@ -10,7 +10,7 @@
 # "version" and "dependencies" must not be touched!
 ########################################################################
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'Questionnaire',
 	'description' => 'SEE https://www.pivotaltracker.com/story/show/132754271 !! Easily create any type of questionnaire, survey, poll, quiz or eLearning. The results may be evaluated and displayed graphically at any time. See further information - also about the premium version - at www.ke-questionnaire.de',
 	'category' => 'plugin',
@@ -20,23 +20,23 @@ $EM_CONF[$_EXTKEY] = array(
 	'shy' => '',
 	'priority' => '',
 	'module' => '',
-	'state' => 'BETA',
+	'state' => 'beta',
 	'internal' => '',
 	'uploadfolder' => '1',
 	'createDirs' => '',
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 1,
 	'lockType' => '',
-	'version' => '8.7.5 !JV MODIFIED! ',
-	'constraints' => array(
-		'depends' => array(
+	'version' => '8.7.5.sw',
+	'constraints' => [
+		'depends' => [
 			'typo3' => '8.7.0-8.9.99',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
+        ],
+		'conflicts' => [
+        ],
+		'suggests' => [
+        ],
+    ],
+];
 
 ?>

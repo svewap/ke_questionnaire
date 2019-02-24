@@ -105,4 +105,3 @@ class Localization {
 		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'keQuestionnaire', $arguments);
 	}
 }
-?>

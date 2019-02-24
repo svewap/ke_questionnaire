@@ -174,4 +174,3 @@ class ConditionalJump extends \Kennziffer\KeQuestionnaire\Domain\Model\Question 
         $this->javascript = $javascript;
 	}   
 }
-?>

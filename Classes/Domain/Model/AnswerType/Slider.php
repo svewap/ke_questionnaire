@@ -199,11 +199,13 @@ class Slider extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 	public function getSliderSteps() {
 		$base = $this->getMaxValue() - $this->getMinValue();
 		$stepping = round($base / $this->getSliderIncrement());
-		if (!$width = $this->getWidth()) $width = 400;
+		if (!$width = $this->getWidth()) {
+            $width = 400;
+        }
 		$widthPercent = $width / $stepping;
 		$left = 0;
 		$step = 0;
-		$steps = array();
+		$steps = [];
 		while ($step < $base){
 			$steps[$left] = round($step);
 			$step += $this->getSliderIncrement();
@@ -250,4 +252,3 @@ class Slider extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 		$this->height = $height;
 	}
 }
-?>

@@ -1,5 +1,9 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -87,8 +91,8 @@ class Dependancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getQuestion() {
         if (!$this->question){
-            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-			$q_rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\QuestionRepository');
+            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+			$q_rep = $this->objectManager->get(QuestionRepository::class);
             $this->question = $q_rep->findByUid($this->answer->getQuestion());
         }
 		return $this->question;
@@ -163,7 +167,9 @@ class Dependancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 						$js .= '(';
 					break;
 			}
-		} else $js .= '(';
+		} else {
+            $js .= '(';
+        }
 		
 		switch ($this->getAnswer()->getShortType()){
 			case 'Radiobutton': 
@@ -181,10 +187,10 @@ class Dependancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * creates the Condition-Check to be used in the CheckDependanciesViewHelper
 	 * 
-	 * @return string
+	 * @return array
 	 */
 	public function getRelationCondition() {
-		$condition = array();
+		$condition = [];
 		$condition['type'] = $this->getRelation();
 		$condition['compareToQuestion'] = $this->getQuestion()->getUid();
 		$condition['compareToAnswer'] = $this->getAnswer()->getUid();
@@ -194,4 +200,3 @@ class Dependancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 }
-?>

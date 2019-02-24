@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+use TYPO3\CMS\Extbase\Persistence\Generic\Query;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -37,7 +39,7 @@ class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * find authcodes for a pid
 	 * 
 	 * @param integer $pid
-	 * @return Query Result
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findAllForPid($pid) {
 		$query = $this->createQuery();
@@ -51,14 +53,14 @@ class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * 
 	 * @param string $code
 	 * @param integer $pid
-	 * @return Query Result
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findByAuthCodeForPid($code, $pid){
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
 		$pid_cond = $query->equals('pid', $pid);
 		$code_cond = $query->equals('auth_code',$code);
-		$query->matching($query->logicalAnd($pid_cond,$code_cond));
+		$query->matching($query->logicalAnd([$pid_cond,$code_cond]));
 		return $query->execute();
 	}
 	
@@ -66,7 +68,7 @@ class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * find all results for pid
 	 * 
 	 * @param integer $pid
-	 * @return Query Result
+	 * @return int
 	 */
 	public function countAllForPid($pid) {
 		$query = $this->createQuery();
@@ -75,4 +77,3 @@ class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		return $query->count();
 	}
 }
-?>

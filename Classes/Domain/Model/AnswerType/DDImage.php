@@ -59,4 +59,3 @@ class DDImage extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDArea
 		$this->areaIndex = $areaIndex;
 	}
 }
-?>

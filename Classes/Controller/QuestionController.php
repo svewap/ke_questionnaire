@@ -61,4 +61,3 @@ class QuestionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	}
 
 }
-?>

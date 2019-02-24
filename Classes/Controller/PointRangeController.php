@@ -69,4 +69,3 @@ class PointRangeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 		$this->view->assign('resultText', $resultText);
 	}
 }
-?>

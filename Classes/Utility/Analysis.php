@@ -113,7 +113,7 @@ class Analysis {
      * @param array $results
      */
     public function createQuestionAnalysis(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $results) {
-		$charts = array();
+		$charts = [];
 		//create Data and Chart for all participations
         $adata = $this->createQuestionDataArray('all', $question, $results);
 		$charts['all'] = $this->createChartWithData('all', $adata, $question);
@@ -186,7 +186,7 @@ class Analysis {
 					break;
 				case 'DDImage':
 					//rework the values so the basis of the chart is the Area not the image
-					$reworked = array();
+					$reworked = [];
 					foreach ($values as $nr => $data){
 						foreach ($data['values'] as $area => $tvalues){
 							$reworked[$area][$data['answer']->getTitle()]['value'] += $tvalues['value'];
@@ -197,7 +197,7 @@ class Analysis {
 						$plotValues = $data;
 						$divs .= '<h5> Area '.$area.'</h5>';
 						$divs .= '<div id="chart_'.$type.'_'.$atype.'_'.$area.'_'.$question->getUid().'" style="height:300px; width:500px;"></div>'."\n";
-						$charts .= $this->jqPlot->getChart($chartType, $type.'_'.$atype.'_'.$area, $plotValues, $question, array())."\n";
+						$charts .= $this->jqPlot->getChart($chartType, $type.'_'.$atype.'_'.$area, $plotValues, $question, [])."\n";
 					}
 					break;
 				case 'DDAreaImage':
@@ -227,7 +227,7 @@ class Analysis {
 					break;
 				default:
 					$this->signalData = false;
-					$this->signalSlotDispatcher->dispatch(__CLASS__, 'createChartWithData', array($type, $data, $question, $this));
+					$this->signalSlotDispatcher->dispatch(__CLASS__, 'createChartWithData', [$type, $data, $question, $this]);
 					if ($this->signalData) {
 						$divs .= $this->signalData['div'];
 						$charts .= $this->signalData['chart'];								
@@ -240,10 +240,10 @@ class Analysis {
 			}
 		}
 		
-		$returner = array(
+		$returner = [
 			'chart' => $charts,
 			'div' => $divs
-		);
+        ];
 		return $returner;
 	}
 	
@@ -304,7 +304,7 @@ class Analysis {
      * @param array $results
      */
     public function createQuestionDataArray($type, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $results){
-		$answers = array();
+		$answers = [];
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		$resultQuestionRepository = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\ResultQuestionRepository');
 		$resultAnswerRepository = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\ResultAnswerRepository');
@@ -429,7 +429,7 @@ class Analysis {
 					break;
 				default:
 						$this->signalData = false;
-						$this->signalSlotDispatcher->dispatch(__CLASS__, 'createQuestionDataArray', array($type, $question, $results, $this));
+						$this->signalSlotDispatcher->dispatch(__CLASS__, 'createQuestionDataArray', [$type, $question, $results, $this]);
 						if ($this->signalData) $answers = $this->signalData;												
 					break;
 			}
@@ -443,7 +443,7 @@ class Analysis {
 	 * @param array $results
 	 */
 	public function createParticipationData($results){
-		$data = array();
+		$data = [];
 		$data['finished']['title'] = $this->localization->translate('participationChart.finished');
 		$data['all']['title'] = $this->localization->translate('participationChart.all');
         
@@ -466,4 +466,3 @@ class Analysis {
 	}
 }
 
-?>

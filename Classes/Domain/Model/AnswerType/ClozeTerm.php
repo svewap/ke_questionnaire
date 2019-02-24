@@ -65,17 +65,20 @@ class ClozeTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 	 * @return array Array containing the position informations for one specified answer position
 	 */
 	public function getWordPosition($text) {
-		if (!$this->getClozePosition()) $wordPosition = 1;
-		else $wordPosition = $this->getClozePosition();
+		if (!$this->getClozePosition()) {
+            $wordPosition = 1;
+        }
+		else {
+            $wordPosition = $this->getClozePosition();
+        }
 		
-		$positions = array();
+		$positions = [];
 		
 		mb_ereg_search_init($text, "\b".$this->getTitle()."\b");
 		while ($position = mb_ereg_search_pos()) {
 			$positions[] = $position;
 		}
 		
-		return $positions[($wordPosition - 1)];
+		return $positions[$wordPosition - 1];
 	}
 }
-?>

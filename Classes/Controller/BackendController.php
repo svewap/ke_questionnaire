@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Controller;
+
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,7 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\AbstractController {
+class BackendController extends AbstractController {
 	/**
 	 * The current view, as resolved by resolveView()
 	 *
@@ -184,7 +186,7 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
             //check if extension is installed
             if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('tt_address')) {
                 $res = $GLOBALS['TYPO3_DB']->sql_query("SELECT * from tt_address WHERE hidden=0 and deleted=0");
-                $addresses = array();
+                $addresses = [];
                 while ($address = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
                     $addresses[] = $address;
                 }
@@ -201,8 +203,8 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 
 		
 		//create the preview with the plugin or standard-texts
-		$preview = array();
-		$this->view->assign('authCode',array('authCode'=>'AUTHCODE'));
+		$preview = [];
+		$this->view->assign('authCode', ['authCode'=>'AUTHCODE']);
 		$preview['subject'] = ($this->plugin['ffdata']['settings']['email']['invite']['subject']?$this->plugin['ffdata']['settings']['email']['invite']['subject']:\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.subject', $this->extensionName));
 		$text['before'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['before']?$this->plugin['ffdata']['settings']['email']['invite']['text']['before']:\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.before', $this->extensionName)));
 		$text['after'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['after']?$this->plugin['ffdata']['settings']['email']['invite']['text']['after']:\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.after', $this->extensionName)));
@@ -343,7 +345,7 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 	 * @return array
 	 */
 	private function getMailsFromFeGroups($fe_groups){
-		$mails = array();
+		$mails = [];
 		
 		foreach ($fe_groups as $uid){
 			$group = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('fe_groups',$uid);
@@ -368,7 +370,7 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 	 * @return array
 	 */
 	public function countParticipations(){
-		$counter = array();
+		$counter = [];
 		
 		$counter['all'] =  $this->resultRepository->countAllForPid($this->storagePid);
 		$counter['finished'] = $this->resultRepository->countFinishedForPid($this->storagePid);
@@ -385,10 +387,10 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 	 * @return array
 	 */
 	private function parseFFData($data){
-		$ff = array();
+		$ff = [];
 		
 		foreach ($data['data'] as $element => $more){
-			$ff[$element] = array();
+			$ff[$element] = [];
 			foreach ($more['lDEF'] as $key => $vDef){
 				$ff[$element][$key] = $vDef['vDEF'];
 			}
@@ -409,7 +411,7 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 		
 		$this->view->assign('plugin',$this->plugin);
                 //SignalSlot for Action
-                $this->signalSlotDispatcher->dispatch(__CLASS__, 'authCodesRemindAction', array($this,$this->storagePid,$this->extensionName));
+                $this->signalSlotDispatcher->dispatch(__CLASS__, 'authCodesRemindAction', [$this,$this->storagePid,$this->extensionName]);
 	}
         
         /**
@@ -418,10 +420,9 @@ class BackendController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 	public function remindAndMailAuthCodesAction() {
             $this->view->assign('plugin',$this->plugin);
 		//SignalSlot for Action
-                $this->signalSlotDispatcher->dispatch(__CLASS__, 'remindAndMailAuthCodesAction', array($this,$this->request,$this->extensionName));
+                $this->signalSlotDispatcher->dispatch(__CLASS__, 'remindAndMailAuthCodesAction', [$this,$this->request,$this->extensionName]);
                 
 		//forward to standard-action
 		$this->forward('authCodes');
 	}
 }
-?>

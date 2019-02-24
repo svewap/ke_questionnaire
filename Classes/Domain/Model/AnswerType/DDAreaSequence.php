@@ -34,4 +34,3 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 class DDAreaSequence extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage{
 	
 }
-?>

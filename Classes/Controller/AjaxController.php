@@ -41,7 +41,7 @@ class AjaxController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @ignorevalidaton $arguments
 	 * @return string In most cases JSON
 	 */
-	public function ajaxAction($type, $arguments = array()) {
+	public function ajaxAction($type, $arguments = []) {
 		$requestedClassName = 'Kennziffer\\KeQuestionnaire\\Ajax\\' . $type;
 		if (class_exists($requestedClassName)) {
 			$object = $this->objectManager->get($requestedClassName);
@@ -50,4 +50,3 @@ class AjaxController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		} else return '';
 	}
 }
-?>

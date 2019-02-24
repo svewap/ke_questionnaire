@@ -31,7 +31,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Validator;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class arrayValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator  {
+class ArrayValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator  {
 	
 	/**
 	* validate
@@ -44,4 +44,3 @@ class arrayValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVal
 		return TRUE;
 	}
 }
-?>

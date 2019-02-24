@@ -1,5 +1,6 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +32,7 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ExportController extends  \Kennziffer\KeQuestionnaire\Controller\BackendController {
+class ExportController extends BackendController {
 	
 	/**
 	 * @var \Kennziffer\KeQuestionnaire\Utility\CsvExport
@@ -245,7 +246,7 @@ class ExportController extends  \Kennziffer\KeQuestionnaire\Controller\BackendCo
 	 */
 	public function csvCheckIntervalAction($pluginUid, $interval) {
 		session_start();
-		if (!isset($_SESSION['progval']) OR $_SESSION['progval'] == 0) {
+		if (!isset($_SESSION['progval']) || $_SESSION['progval'] == 0) {
 			$_SESSION['progval'] = 0;
 		}
 		session_write_close ();
@@ -633,4 +634,3 @@ class ExportController extends  \Kennziffer\KeQuestionnaire\Controller\BackendCo
 		return $questions;
 	}
 }
-?>

@@ -523,8 +523,12 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             return (boolean) $this->getIsDependant();
 	}
         public function getIsDependant() {
-            if (count($this->dependancies) > 0) return (boolean) true;
-            else return (boolean) false;
+            if (count($this->dependancies) > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
 	}
     
     /**
@@ -571,7 +575,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return boolean
 	 */
 	public function fullfillsDependancies(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result){
-		if ($this->isDependant()){
+		if ($this->IsDependant()){
 			$full = false;
 			$fullcount = 0;
 			//check all dependancies
@@ -589,8 +593,12 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 								case 'none': $full = true;
 									break;
 								case 'and': 
-										if ($full AND $fullcount > 1) $full = true;
-										else $full = false;
+										if ($full AND $fullcount > 1) {
+                                            $full = true;
+                                        }
+										else {
+                                            $full = false;
+                                        }
 									break;
 								case 'or':
 										$full = true;
@@ -601,7 +609,8 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 				}
 			}
 			return $full;
-		} else return true;
+		} else {
+            return true;
+        }
 	}
 }
-?>

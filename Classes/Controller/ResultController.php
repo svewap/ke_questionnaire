@@ -123,7 +123,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 		
 		//SignalSlot for newAction
         $this->signalResult = $newResult;
-		$this->signalSlotDispatcher->dispatch(__CLASS__, 'newAction', array($this));
+		$this->signalSlotDispatcher->dispatch(__CLASS__, 'newAction', [$this]);
         $newResult = $this->signalResult;
 
         if(  $this->signalResult->getCrdate() == 0 ) {
@@ -173,7 +173,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 		//the temp_result stores the current newResult-data
 		$this->temp_result = $this->request->getArgument('newResult');
 		//SignalSlot for this action
-                $this->signalSlotDispatcher->dispatch(__CLASS__, 'initializeCreateAction', array($this, $this->arguments));
+                $this->signalSlotDispatcher->dispatch(__CLASS__, 'initializeCreateAction', [$this, $this->arguments]);
 		//check for autoSave
 		//Premium function needs to be checked here anyway. The autosave Action is part of the premium
         if ($this->settings['ajaxAutoSave'] == 1 AND $GLOBALS['TSFE']->fe_user->user['uid'] > 0){
@@ -260,7 +260,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 				$this->view->assign('result', $newResult);
 				$this->view->assign('questionnaire', $this->questionnaire);
 				$temp = false;
-				$this->signalSlotDispatcher->dispatch(__CLASS__, 'endAction', array($newResult, $this, &$temp));
+				$this->signalSlotDispatcher->dispatch(__CLASS__, 'endAction', [$newResult, $this, &$temp]);
 				if ($temp) $this->redirectToUri ($temp);
 			}
 		//if not last page, set all stuff for questionnaire-page
@@ -286,7 +286,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 
             //signalSlot for this action
 
-			$this->signalSlotDispatcher->dispatch(__CLASS__, 'createAction', array($this));
+			$this->signalSlotDispatcher->dispatch(__CLASS__, 'createAction', [$this]);
 
 			$this->view->assign('questions', $this->questionnaire->getQuestionsForPage($requestedPage));
 			$this->view->assign('questionnaire', $this->questionnaire);
@@ -354,10 +354,10 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 	 */
 	public function moveToAction($action = 'new', \Kennziffer\KeQuestionnaire\Domain\Model\Result $result, $page = 1, $flashMessage = '') {
 		if(!empty($flashMessage)) $this->addNewFlashMessage($flashMessage);
-		$this->forward($action, NULL, NULL, array(
+		$this->forward($action, NULL, NULL, [
 			'newResult' => $result,
 			'requestedPage' => $page
-		));
+        ]);
 	}
 
 	/**
@@ -375,7 +375,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 		} else {
 			$result = $this->updateResult($newResult);			
 		}
-		$this->signalSlotDispatcher->dispatch(__CLASS__, 'getSavedAndMergedResult', array($result, $this));
+		$this->signalSlotDispatcher->dispatch(__CLASS__, 'getSavedAndMergedResult', [$result, $this]);
 		return $result;
 	}
 
@@ -433,7 +433,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 		if ($this->questionnaire AND $this->questionnaire->getIsFinished()) {
 			$result->setFinished(time());
 		}
-		$this->signalSlotDispatcher->dispatch(__CLASS__, 'modifyResultBeforeSave', array($result, $this));
+		$this->signalSlotDispatcher->dispatch(__CLASS__, 'modifyResultBeforeSave', [$result, $this]);
 
 		return $result;
 	}
@@ -481,7 +481,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      * checkes the dependancy of the Questionnaire
      */
     public function checkDependancy() {
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'checkDependancy', array($this));
+        $this->signalSlotDispatcher->dispatch(__CLASS__, 'checkDependancy', [$this]);
     }
 	
 	/**
@@ -608,7 +608,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 		
 		$this->view->assign('result', $result);
 		$this->view->assign('questionnaire', $questionnaire);
-		$this->signalSlotDispatcher->dispatch(__CLASS__, 'endAction', array($result, $this));
+		$this->signalSlotDispatcher->dispatch(__CLASS__, 'endAction', [$result, $this]);
 	}
 
 
@@ -620,7 +620,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
         $questions = $this->questionnaire->getQuestions() ;
         if($questions->count()) {
             $page = 1;
-            $pages = array() ;
+            $pages = [];
             // seperate all questions for each page
             foreach($questions as $question) {
                 if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak) {
@@ -655,4 +655,3 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
 
     }
 }
-?>

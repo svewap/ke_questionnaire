@@ -53,13 +53,13 @@ class AddActivatorsToDependancy {
 	 */
 	public function addItems($config) {
         // allowed answer-Types
-        $allowedTypes = array('Checkbox','Radiobutton');
+        $allowedTypes = ['Checkbox','Radiobutton'];
         // get data
-        $data = array();
+        $data = [];
         $questions = $this->getQuestions($config['row']['pid']);
         
         foreach ($questions as $question){
-            $item = array();
+            $item = [];
             $item['title'] = $question->getTitle();
             foreach ($question->getAnswers() as $answer){
                 if (in_array($answer->getShortType(), $allowedTypes)){
@@ -71,13 +71,13 @@ class AddActivatorsToDependancy {
         }
             
         // create option list
-        $optionList = array();
+        $optionList = [];
        
         foreach($data as $item){   
             $label = '[' . $item['uid'] .'] ' . $item['title'] .' - ' . $item['subtitle'];
             $value = $item['uid'];
                
-            $optionList[] = array(0 => $label, 1 => $value);
+            $optionList[] = [0 => $label, 1 => $value];
         }
        
         // return config
@@ -101,4 +101,3 @@ class AddActivatorsToDependancy {
 	}
 
 }
-?>

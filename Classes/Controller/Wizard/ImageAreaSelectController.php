@@ -129,7 +129,7 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
         $this->imageError = '';
 		$this->getAreaImage();
         
-		$update = array();
+		$update = [];
         if ($this->areFieldChangeFunctionsValid()) {
             // Setting field-change functions:
             $fieldChangeFuncArr = unserialize($this->fieldChangeFunc);
@@ -165,10 +165,14 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
 		$this->answer = BackendUtility::getRecord($this->wizardParameters['table'], $this->wizardParameters['uid']);
 		$this->areaImage = $this->answer['image'];		
 	}
-    
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return mixed
+     */
     public function main(ServerRequestInterface $request)
     {		
-		$baseurl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+		$baseurl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
         if ($this->doClose) {
             return $this->closeWindow;
         } else {    

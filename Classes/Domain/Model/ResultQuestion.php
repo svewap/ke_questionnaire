@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -127,7 +129,9 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 					$found = false;
 					foreach ($this->getAnswers() as $answer){
 						if ($answer->getAnswer() === $checkAnswer->getAnswer() 
-								AND $answer->getCol() == $checkAnswer->getCol()) $found = true;
+								AND $answer->getCol() == $checkAnswer->getCol()) {
+                            $found = true;
+                        }
 					}
 					if (!$found){
 						$this->addAnswer($checkAnswer);
@@ -225,7 +229,7 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$rAnswer->setClone(0);
 			$rAnswer->setCloneTitle('');
 		}
-		$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
+		$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PersistenceManager::class);
 		$persistenceManager->persistAll();
 	}
     
@@ -235,7 +239,7 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return array $answers
 	 */
 	public function getClonedAnswers() {
-		$cloned = array();
+		$cloned = [];
         foreach ($this->answers as $answer){
             if ($answer->getClone() > 0) {
                 $cloned[$answer->getClone()]['title'] = $answer->getCloneTitle();
@@ -353,8 +357,9 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			}
 			return true;
 		}
-		else
-			return false;
+		else {
+            return false;
+        }
 
 	}
 	
@@ -372,11 +377,11 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 						$canBe = true;
 					}
 				}
-			} else
-				$canBe = true;
+			} else {
+                $canBe = true;
+            }
 		}
 
         return $canBe;
     }
 }
-?>

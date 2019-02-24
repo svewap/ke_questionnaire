@@ -5,5 +5,5 @@ $MCONF['name']='wizard_imageAreaSelect';
 $MCONF['script']='_DISPATCH';
 $MCONF['extKey']='ke_questionnaire';
 
-?>
+
 

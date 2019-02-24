@@ -31,7 +31,7 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AutoSave extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
+class AutoSave extends AbstractAjax {
 	
     /**
 	 * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
@@ -55,10 +55,9 @@ class AutoSave extends \Kennziffer\KeQuestionnaire\Ajax\AbstractAjax {
 	 * @return string In most cases JSON
 	 */
 	public function processAjaxRequest(array $arguments) {
-		$this->info = array();
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'ajaxAutoSave', array($this->convertAjaxFormArray($arguments), $this));
+		$this->info = [];
+        $this->signalSlotDispatcher->dispatch(__CLASS__, 'ajaxAutoSave', [$this->convertAjaxFormArray($arguments), $this]);
 		$json = $this->convertValueToJson($this->info['resultUid']);
 		return trim($json);
 	}
 }
-?>

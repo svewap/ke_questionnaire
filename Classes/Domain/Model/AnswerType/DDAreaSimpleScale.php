@@ -34,4 +34,3 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 class DDAreaSimpleScale extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage{
 	
 }
-?>

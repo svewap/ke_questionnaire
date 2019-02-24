@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,63 +33,37 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class MultiInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput {
-
-	/**
-	 * Width
-	 *
-	 * @var integer
-	 */
-	protected $width;
-
-	/**
-	 * Height
-	 *
-	 * @var integer
-	 */
-	protected $height;
+class MultiInput extends SingleInput
+{
 
 
+    /**
+     * Height
+     *
+     * @var integer
+     */
+    protected $height;
 
 
+    /**
+     * Returns the height
+     *
+     * @return integer $height
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
 
-	/**
-	 * Returns the width
-	 *
-	 * @return integer $width
-	 */
-	public function getWidth() {
-		return $this->width;
-	}
-
-	/**
-	 * Sets the width
-	 *
-	 * @param integer $width
-	 * @return void
-	 */
-	public function setWidth($width) {
-		$this->width = $width;
-	}
-
-	/**
-	 * Returns the height
-	 *
-	 * @return integer $height
-	 */
-	public function getHeight() {
-		return $this->height;
-	}
-
-	/**
-	 * Sets the height
-	 *
-	 * @param integer $height
-	 * @return void
-	 */
-	public function setHeight($height) {
-		$this->height = $height;
-	}
+    /**
+     * Sets the height
+     *
+     * @param integer $height
+     * @return void
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
 
 }
-?>

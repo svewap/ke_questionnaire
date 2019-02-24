@@ -72,10 +72,12 @@ class SingleSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 	* @return array $selectValues
 	*/
 	public function getSelectValuesArray() {
-		$values = array();
+		$values = [];
 		foreach (explode("\n",$this->selectValues) as $line){
 			$temp = explode(':',$line);
-			if ($temp[1] == '') $temp[1] = $temp[0];
+			if ($temp[1] == '') {
+                $temp[1] = $temp[0];
+            }
 			$values[trim($temp[0])] = trim($temp[1]);
 		}
 		
@@ -107,10 +109,12 @@ class SingleSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 	 * @return array
 	 */
 	public function getComparisonTextArray() {
-		$values = array();
+		$values = [];
 		foreach (explode("\n",$this->comparisonText) as $line){
 			$temp = explode(':',$line);
-			if ($temp[1] == '') $temp[1] = $temp[0];
+			if ($temp[1] == '') {
+                $temp[1] = $temp[0];
+            }
 			$values[trim($temp[0])] = trim($temp[1]);
 		}
 
@@ -131,8 +135,11 @@ class SingleSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 			if ($validator instanceof \Kennziffer\KeQuestionnaire\Validation\AbstractValidation) {
 				/* @var $validator \Kennziffer\KeQuestionnaire\Validation\AbstractValidation */
 				return $validator->isValid($value, $this);
-			} else return false;
-		} else return false;
+			} else {
+                return false;
+            }
+		} else {
+            return false;
+        }
 	}
 }
-?>

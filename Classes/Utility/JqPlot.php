@@ -61,7 +61,7 @@ class JqPlot {
 	 * @param array $dataArray
 	 */
 	public function createLineChart($divId, $dataArray){
-		$lines = array();
+		$lines = [];
 		$line_names = '';
 		foreach ($dataArray as $type => $values){
 			$line_names .= 'line_'.$type.',';
@@ -253,4 +253,3 @@ class JqPlot {
     }
 }
 
-?>

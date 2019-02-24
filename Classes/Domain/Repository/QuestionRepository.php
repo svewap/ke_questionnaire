@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -36,15 +38,15 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * @var array
 	 */
-	protected $defaultOrderings = array(
+	protected $defaultOrderings = [
 		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-	);
+    ];
 	
 	/**
 	 * find all questions for pid
 	 * 
 	 * @param integer $pid
-	 * @return Query Result
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findAllForPid($pid) {
 		$query = $this->createQuery();
@@ -52,39 +54,41 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$query->matching($query->equals('pid', $pid));
 		return $query->execute();
 	}
-    
+
     /**
 	 * find one question without check the pid
-	 * 
-	 * @param integer $pid
-	 * @return Query Result
+	 *
+	 * @param int $uid
+	 * @return Question Result
 	 */
 	public function findByUidFree($uid) {
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
 		$query->matching($query->equals('uid', $uid));
         $result = $query->execute();
-        return ($result[0]);
+        return $result[0];
 	}
-	
-	/**
-	 * find questions for ids
-	 * 
-	 * @param array $ids
-	 * @return Query Result
-	 */
+
+    /**
+     * find questions for ids
+     *
+     * @param array $ids
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
 	public function findByUids($ids) {
 		$query = $this->createQuery();
 		$query->matching($query->in('uid', $ids));
         return $query->execute();
 	}
-	
-	/**
-	* find questions for uids
-	* 
-	* @params string $uids
-	* @return questions
-	*/
+
+    /**
+     * find questions for uids
+     *
+     * @params string $uids
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
    public function findForUids($uids) {
 		$uids = explode(',',$uids);
 		$query = $this->createQuery();
@@ -97,7 +101,7 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	* find question for uid
 	* 
 	* @params integer $uid
-	* @return questionnaire
+	* @return Question
 	*/
    public function findForUid($uid) {
 	   $query = $this->createQuery();
@@ -107,9 +111,6 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	   $query->matching($constraint);
 	   $questions = $query->execute();
-	   $question = $questions[0];
-
-	   return $question;
+	   return $questions[0];
    }
 }
-?>

@@ -78,9 +78,11 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return Query Result
 	 */
 	public function findAllForPidInterval($pid, $interval, $position) {	
-		$interval = intval($interval);
-		$position = intval($position);
-		if ($interval == 0) $interval = 1;
+		$interval = (int)$interval;
+		$position = (int)$position;
+		if ($interval == 0) {
+            $interval = 1;
+        }
 		
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
@@ -94,13 +96,11 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * find all results for pid
 	 * 
 	 * @param integer $pid
-	 * @return Query Result
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findAllForPidRaw($pid) {
 		$query = $this->createQuery();
-		
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		
 		$query->matching($query->equals('pid', $pid));
 		
 		return $query->execute(true);
@@ -112,12 +112,14 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param integer $pid
 	 * @param integer $interval
 	 * @param integer $position
-	 * @return Query Result
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findAllForPidIntervalRaw($pid, $interval, $position) {	
-		$interval = intval($interval);
-		$position = intval($position);
-		if ($interval == 0) $interval = 1;
+		$interval = (int)$interval;
+		$position = (int)$position;
+		if ($interval === 0) {
+            $interval = 1;
+        }
 		
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
@@ -182,9 +184,11 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
 	 */
 	public function findFinishedForPidInterval($pid, $interval, $position) {
-		$interval = intval($interval);
-		$position = intval($position);
-		if ($interval == 0) $interval = 1;
+		$interval = (int)$interval;
+		$position = (int)$position;
+		if ($interval == 0) {
+            $interval = 1;
+        }
 		//\TYPO3\CMS\Core\Utility\GeneralUtility::devlog('arguments','keq',2,array($pid, $interval, $position));
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
@@ -206,9 +210,11 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
 	 */
 	public function findFinishedForPidIntervalRaw($pid, $interval, $position) {
-		$interval = intval($interval);
-		$position = intval($position);
-		if ($interval == 0) $interval = 1;
+		$interval = (int)$interval;
+		$position = (int)$position;
+		if ($interval == 0) {
+            $interval = 1;
+        }
 		//\TYPO3\CMS\Core\Utility\GeneralUtility::devlog('arguments','keq',2,array($pid, $interval, $position));
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(FALSE);
@@ -322,4 +328,3 @@ tx_kequestionnaire_domain_model_resultquestion.result ='.$resultId);
 		return $query->execute(true);
 	}
 }
-?>

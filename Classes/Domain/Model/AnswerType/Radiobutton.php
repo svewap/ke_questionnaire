@@ -64,7 +64,7 @@ class Radiobutton extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 	 * @param array $options
 	 * @return string
 	 */
-	public function getCsvValue(\Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer, $options = array()){
+	public function getCsvValue(\Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer, $options = []){
 		if ($rAnswer->getValue() == $this->getUid()) {// OR $rAnswer->getCol() == $this->getUid()){
 			return $options['marker'];
 		} else {
@@ -78,7 +78,7 @@ class Radiobutton extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 	 * @param array $options
 	 * @return string
 	 */
-	public function getCsvValueRaw(array $rAnswer, $options = array()){
+	public function getCsvValueRaw(array $rAnswer, $options = []){
         if ($rAnswer['value'] == $this->getUid()) {// OR $rAnswer->getCol() == $this->getUid()){
 			return $options['marker'];
 		} else {
@@ -95,4 +95,3 @@ class Radiobutton extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 		return 'replaceAnswer';
 	}
 }
-?>

@@ -120,8 +120,12 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
 	 */
 	public function getStepLabelsArray() {
 		$labels = explode(',',$this->stepLabels);
-		if ($labels[0] == '') return false;
-		else return $labels;
+		if ($labels[0] == '') {
+            return false;
+        }
+		else {
+            return $labels;
+        }
 	}
     
     /**
@@ -132,12 +136,16 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
 	public function getStepLabelsValuesArray() {
 		$base = explode(',',$this->stepLabels);
         $steps = $this->getSteps();
-        $labels = array();
+        $labels = [];
         foreach ($steps as $nr => $value){
             $labels[$value] = $base[$nr];
         }
-		if (count($labels) == 0) return false;
-		else return $labels;
+		if (count($labels) == 0) {
+            return false;
+        }
+		else {
+            return $labels;
+        }
 	}
 	
 	/**
@@ -146,7 +154,7 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
 	 * @return array steps
 	 */
 	public function getSteps() {
-		$steps = array();
+		$steps = [];
 		for ($i = $this->minValue; $i <= $this->maxValue; $i += $this->sliderIncrement){
 			$steps[] = $i;
 		}
@@ -220,8 +228,12 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
 			foreach ($steps as $step){
 				$counter ++;
 				if ($step == $resultAnswer->getValue()){
-					if ($counter > 1) $points = $this->getPointsStart() + (($counter - 1) * $this->getPointsIncrease());
-					else $points = $this->getPointsStart ();
+					if ($counter > 1) {
+                        $points = $this->getPointsStart() + (($counter - 1) * $this->getPointsIncrease());
+                    }
+					else {
+                        $points = $this->getPointsStart();
+                    }
 				}
 			}
 		}
@@ -239,4 +251,3 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
 	}
 
 }
-?>

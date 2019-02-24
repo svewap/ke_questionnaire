@@ -45,7 +45,7 @@ class TCAAnswerType {
 		// 0 => question, 1=>new answer
 		//matrix header will show
 		// 0 => question, 1=> header, 2=> new answer
-		$uids = array();
+		$uids = [];
 		if (is_array($conf->cachedTSconfig)){
 			foreach ($conf->cachedTSconfig as $key => $cache){
 				$data = explode(':',$key);
@@ -72,19 +72,19 @@ class TCAAnswerType {
 				// - SingleInput
 				// - SingleSelect
 				case 'MatrixHeader':
-					$params['items'] = array(
-						array(1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Radiobutton', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.Radiobutton', 'ke_questionnaire')),
-						array(1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Checkbox', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.Checkbox', 'ke_questionnaire')),
-						array(1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.SingleInput', 'ke_questionnaire')),
-						array(1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleSelect', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.SingleSelect', 'ke_questionnaire'))
-					);
+					$params['items'] = [
+						[1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Radiobutton', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.Radiobutton', 'ke_questionnaire')],
+						[1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Checkbox', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.Checkbox', 'ke_questionnaire')],
+						[1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.SingleInput', 'ke_questionnaire')],
+						[1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleSelect', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.SingleSelect', 'ke_questionnaire')]
+                    ];
 					break;
 				//ExtendendMatrixHeader can only show
 				// - MatrixHeader
 				case 'ExtendedMatrixHeader':
-						$params['items'] = array(
-                            array(1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.MatrixHeader', 'ke_questionnaire')),
-						);
+						$params['items'] = [
+                            [1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader', 0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.MatrixHeader', 'ke_questionnaire')],
+                        ];
                         $params['default'] = 'Kennziffer\\KeQuestionnaire\\Domain\\Model\\AnswerType\\MatrixHeader';
 					break;
 		};
@@ -93,4 +93,3 @@ class TCAAnswerType {
 	}
 }
 
-?>

@@ -63,4 +63,3 @@ class MailingController extends  \Kennziffer\KeQuestionnaire\Controller\Abstract
 		$this->nextStep($result);
 	}
 }
-?>

@@ -194,14 +194,17 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 			$matched = 0;
 			if ($answer->getAnswer()->getShortType() == 'DDImage'){
 				$counter ++;
-				if ($answer->getValue() == $answer->getAnswer()->getAreaIndex()) $matched ++;				
+				if ($answer->getValue() == $answer->getAnswer()->getAreaIndex()) {
+                    $matched++;
+                }
 			}
-			if ($counter > 0 AND $counter == $matched) return true;
+			if ($counter > 0 AND $counter == $matched) {
+                return true;
+            }
 		}
-		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(array(
+		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([
 			$counter, $matched
-		), 'result');
+        ], 'result');
 		return false;
 	}
 }
-?>

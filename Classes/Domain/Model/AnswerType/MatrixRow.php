@@ -110,4 +110,3 @@ class MatrixRow extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 		return 'matrix';
 	}
 }
-?>

@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Domain\Validator;
+use Kennziffer\KeQuestionnaire\Domain\Model\AuthCode;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -37,11 +39,10 @@ class AuthCodeValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Abstract
 	* validate
 	*/
 	public function isValid($result) {
-		if (!$result instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AuthCode) {
+		if (!$result instanceof AuthCode) {
 			$this->addError('The given Object is not a KeQ-AuthCode.', 1262341470);
 			return FALSE;
 		}
 		return TRUE;
 	}
 }
-?>

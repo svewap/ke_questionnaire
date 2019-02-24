@@ -34,4 +34,3 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 class RankingSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput{
 	
 }
-?>
