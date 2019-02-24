@@ -55,4 +55,3 @@ class GetCloneableMatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
         return $answer->getCloneableRow($question);
 	}
 }
-?>

@@ -78,4 +78,3 @@ class ClozeTextViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 		return $content;
 	}	
 }
-?>

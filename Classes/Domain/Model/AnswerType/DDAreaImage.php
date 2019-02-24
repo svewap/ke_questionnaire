@@ -198,7 +198,7 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
                     $matched++;
                 }
 			}
-			if ($counter > 0 AND $counter == $matched) {
+			if ($counter > 0 && $counter == $matched) {
                 return true;
             }
 		}

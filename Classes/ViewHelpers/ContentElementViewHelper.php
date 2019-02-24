@@ -60,11 +60,11 @@ class ContentElementViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
      * @return 	string		Parsed Content Element
      */
     public function render($uid) {
-		$conf = array( // config
+		$conf = [ // config
 			'tables' => 'tt_content',
 			'source' => $uid,
 			'dontCheckPid' => 1
-		);
+        ];
 		$conf_test = htmlspecialchars($conf);
 		if (count($conf_test) > 0) {
             $conf = $conf_test;
@@ -84,4 +84,3 @@ class ContentElementViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 		$this->cObj = $this->configurationManager->getContentObject();
 	}
 }
-?>

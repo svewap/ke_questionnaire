@@ -65,4 +65,3 @@ class GetClonedResultAnswersViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\
         return NULL;
 	}
 }
-?>

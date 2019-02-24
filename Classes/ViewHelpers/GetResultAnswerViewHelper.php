@@ -69,4 +69,3 @@ class GetResultAnswerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
 		return NULL;
 	}
 }
-?>

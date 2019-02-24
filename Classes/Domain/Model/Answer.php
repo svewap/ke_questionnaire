@@ -286,7 +286,7 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                         //exit;
 			if ($rAnswer) {
 				$aL[] = $this->getCsvValueRaw($rAnswer,$options);
-				if ($rAnswer AND $rAnswer['additionalValue']){
+				if ($rAnswer && $rAnswer['additionalValue']){
 					$addL[count($aL)-1] = $rAnswer['additionalValue'];
 					$hasAddL = true;
 				}

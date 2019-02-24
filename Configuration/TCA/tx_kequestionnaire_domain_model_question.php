@@ -3,9 +3,8 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-
-return array(
-    'ctrl' => array(
+return [
+    'ctrl' => [
         'title'	=> 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question',
         'label' => 'title',
         'tstamp' => 'tstamp',
@@ -21,202 +20,202 @@ return array(
         'transOrigPointerField' => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
         'delete' => 'deleted',
-        'enablecolumns' => array(
+        'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
             'endtime' => 'endtime',
-        ),
+        ],
         'searchFields' => 'title,show_title,text,help_text,image,image_position,is_mandatory,must_be_correct,answers,',
         'iconfile' => 'EXT:ke_questionnaire/Resources/Public/Icons/question.svg'
-    ),
-    'interface' => array(
+    ],
+    'interface' => [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, show_title, text, help_text, image, image_position, is_mandatory, must_be_correct, answers, dependancies, to_page, direct_jump, javascript, only_js',
-    ),
-    'types' => array(
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, show_title, text;;4;richtext[], image;;3, is_mandatory;;2,template,--div--;LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.answers,answers,random_answers,column_count,max_answers,min_answers,--div--;LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.dependancies,dependancies,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Html' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, content_id'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScript' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScriptPath' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, dependancies, to_page, direct_jump, javascript, only_js,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'),
-        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PlausiCheck' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text, dependancies,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'),
-    ),
-    'palettes' => array(
-        '1' => array('showitem' => ''),
-    ),
-    'columns' => array(
-        'sys_language_uid' => array(
+    ],
+    'types' => [
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, show_title, text;;4;richtext[], image;;3, is_mandatory;;2,template,--div--;LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.answers,answers,random_answers,column_count,max_answers,min_answers,--div--;LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.dependancies,dependancies,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Html' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, content_id'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScript' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScriptPath' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, dependancies, to_page, direct_jump, javascript, only_js,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'],
+        'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PlausiCheck' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, type, title, text, dependancies,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'],
+    ],
+    'palettes' => [
+        '1' => ['showitem' => ''],
+    ],
+    'columns' => [
+        'sys_language_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
-                'items' => array(
-                    array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages', -1),
-                    array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.default_value', 0)
-                ),
-            ),
-        ),
-        'l10n_parent' => array(
+                'items' => [
+                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages', -1],
+                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.default_value', 0]
+                ],
+            ],
+        ],
+        'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => array(
-                    array('', 0),
-                ),
+                'items' => [
+                    ['', 0],
+                ],
                 'foreign_table' => 'tx_kequestionnaire_domain_model_question',
                 'foreign_table_where' => 'AND tx_kequestionnaire_domain_model_question.pid=###CURRENT_PID### AND tx_kequestionnaire_domain_model_question.sys_language_uid IN (-1,0)',
-            ),
-        ),
-        'l10n_diffsource' => array(
-            'config' => array(
+            ],
+        ],
+        'l10n_diffsource' => [
+            'config' => [
                 'type' => 'passthrough',
-            ),
-        ),
-        't3ver_label' => array(
+            ],
+        ],
+        't3ver_label' => [
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'max' => 255,
-            )
-        ),
-        'hidden' => array(
+            ]
+        ],
+        'hidden' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
-            ),
-        ),
-        'starttime' => array(
+            ],
+        ],
+        'starttime' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 13,
                 'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
-                'behaviour' => array(
+                'behaviour' => [
                     'allowLanguageSynchronization' => true ,
-                ) ,
-            ),
-        ),
-        'endtime' => array(
+                ],
+            ],
+        ],
+        'endtime' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 13,
                 'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
-                'behaviour' => array(
+                'behaviour' => [
                     'allowLanguageSynchronization' => true ,
-                ) ,
-            ),
-        ),
-        'type' => array(
+                ],
+            ],
+        ],
+        'type' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => array(
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Question', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.PageBreak', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.ConditionalJump', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.PlausiCheck', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PlausiCheck'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Group', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Html', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Html'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Text', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Typo3Content', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.TypoScript', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScript'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.TypoScriptPath', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScriptPath'),
-                ),
+                'items' => [
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Question', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.PageBreak', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.ConditionalJump', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.PlausiCheck', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PlausiCheck'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Group', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Html', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Html'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Text', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.Typo3Content', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.TypoScript', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScript'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.TypoScriptPath', 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\TypoScriptPath'],
+                ],
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => '',
                 'default' => 'Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question',
-            ),
-        ),
-        'title' => array(
+            ],
+        ],
+        'title' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.title',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
-                'wizards' => array(
-                    'title_picker' => array(
+                'wizards' => [
+                    'title_picker' => [
                         'type' => 'select',
                         'mode' => '',
-                        'items' => array(
-                            array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.2', 'Pagebreak'),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-        'show_title' => array(
+                        'items' => [
+                            ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.type.I.2', 'Pagebreak'],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'show_title' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.show_title',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
-            ),
-        ),
-        'text' => array(
+            ],
+        ],
+        'text' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.text',
-            'config' => array(
+            'config' => [
                 'type' => 'text',
                 'cols' => 80,
                 'rows' => 15,
                 'eval' => 'trim',
-                'wizards' => array(
-                    't3editorHtml' => array(
+                'wizards' => [
+                    't3editorHtml' => [
                         'enableByTypeConfig' => 1,
                         'type' => 'userFunc',
                         'userFunc' => 'TYPO3\\CMS\\T3Editor\\FormWizard->main',
-                        'params' => array(
+                        'params' => [
                             'format' => 'html',
-                        ),
-                    ),
-                    't3editorTypoScript' => array(
+                        ],
+                    ],
+                    't3editorTypoScript' => [
                         'enableByTypeConfig' => 1,
                         'type' => 'userFunc',
                         'userFunc' => 'TYPO3\\CMS\\T3Editor\\FormWizard->main',
-                        'params' => array(
+                        'params' => [
                             'format' => 'ts',
-                        ),
-                    ),
-                ),
-            ),
-        ),
-        'help_text' => array(
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'help_text' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.help_text',
-            'config' => array(
+            'config' => [
                 'type' => 'text',
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim'
-            ),
-        ),
-        'image' => array(
+            ],
+        ],
+        'image' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
                 'uploadfolder' => 'uploads/tx_kequestionnaire',
@@ -224,51 +223,51 @@ return array(
                 'size' => 5,
                 'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
                 'disallowed' => '',
-            ),
-        ),
-        'image_position' => array(
+            ],
+        ],
+        'image_position' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
-                'items' => array(
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.1', 'top'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.2', 'right'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.3', 'left'),
-                    array('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.4', 'bottom')
-                ),
+                'items' => [
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.1', 'top'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.2', 'right'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.3', 'left'],
+                    ['LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.image_position.I.4', 'bottom']
+                ],
                 'size' => 1,
                 'maxitems' => 1,
                 'default' => 'top',
                 'renderType' => 'selectSingle',
-            ),
-        ),
-        'is_mandatory' => array(
+            ],
+        ],
+        'is_mandatory' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.is_mandatory',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            ),
-        ),
-        'must_be_correct' => array(
+            ],
+        ],
+        'must_be_correct' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.must_be_correct',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            ),
-        ),
-        'answers' => array(
+            ],
+        ],
+        'answers' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.answers',
-            'config' => array(
+            'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_kequestionnaire_domain_model_answer',
                 'foreign_field' => 'question',
                 'foreign_sortby' => 'sorting',
                 'maxitems'      => 9999,
-                'appearance' => array(
+                'appearance' => [
                     'collapseAll' => TRUE,
                     'expandSingle' => TRUE,
                     'levelLinksPosition' => 'both',
@@ -276,70 +275,70 @@ return array(
                     'showPossibleLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1,
                     'useSortable' => 1
-                ),
-            ),
-        ),
-        'random_answers' => array(
+                ],
+            ],
+        ],
+        'random_answers' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.random_answers',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            ),
-        ),
-        'column_count' => array(
+            ],
+        ],
+        'column_count' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.column_count',
-            'config' => array(
+            'config' => [
                 'type'	 => 'input',
                 'size'	 => '4',
                 'max'	 => '4',
                 'eval'	 => 'int',
                 'default'=> 1
-            ),
-        ),
-        'max_answers' => array(
+            ],
+        ],
+        'max_answers' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.max_answers',
-            'config' => Array (
+            'config' => [
                 'type'	 => 'input',
                 'size'	 => '4',
                 'max'	  => '4',
                 'eval'	 => 'int',
                 'default' => 0
-            )
-        ),
-        'min_answers' => array(
+            ]
+        ],
+        'min_answers' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.min_answers',
-            'config' => Array (
+            'config' => [
                 'type'	 => 'input',
                 'size'	 => '4',
                 'max'	  => '4',
                 'eval'	 => 'int',
                 'default' => 0
-            )
-        ),
-        'content_id' => array(
+            ]
+        ],
+        'content_id' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.content_id',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'tt_content',
                 'size' => 1,
                 'maxitems' => 1
-            ),
-        ),
-        'dependancies' => array(
+            ],
+        ],
+        'dependancies' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.dependancies',
-            'config' => array(
+            'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_kequestionnaire_domain_model_dependancy',
                 'foreign_field' => 'dquestion',
                 'maxitems'      => 9999,
-                'appearance' => array(
+                'appearance' => [
                     'collapseAll' => TRUE,
                     'expandSingle' => TRUE,
                     'levelLinksPosition' => 'both',
@@ -347,64 +346,64 @@ return array(
                     'showPossibleLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1,
                     'useSortable' => 1
-                ),
-            ),
-        ),
-        'to_page' => array(
+                ],
+            ],
+        ],
+        'to_page' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.to_page',
-            'config' => array(
+            'config' => [
                 'type'	 => 'input',
                 'size'	 => '4',
                 'max'	 => '4',
                 'eval'	 => 'int'
-            ),
-        ),
-        'direct_jump' => array(
+            ],
+        ],
+        'direct_jump' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.direct_jump',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            ),
-        ),
-        'javascript' => array(
+            ],
+        ],
+        'javascript' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.javascript',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
                 'size' => 1,
                 'maxitems' => 1
-            ),
-        ),
-        'only_js' => array(
+            ],
+        ],
+        'only_js' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.only_js',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            ),
-        ),
-        'css' => array(
+            ],
+        ],
+        'css' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.css',
-            'config' => array(
+            'config' => [
                 'type' => 'text',
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim'
-            ),
-        ),
-        'template' => array(
+            ],
+        ],
+        'template' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_question.template',
-            'config' => array(
+            'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
                 'size' => 1,
                 'maxitems' => 1
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];

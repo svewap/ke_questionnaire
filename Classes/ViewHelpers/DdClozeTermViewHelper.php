@@ -65,7 +65,7 @@ class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		}
 		
 		$output = '';
-		$term_array = array();
+		$term_array = [];
 		foreach ($terms as $word => $element) {
 			$term_array[] = $word;
 		}
@@ -74,7 +74,7 @@ class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		}
 		shuffle($term_array);
 		foreach ($term_array as $nr => $element){
-			$temp = array();
+			$temp = [];
 			$temp['counter'] = $nr;
 			$temp['text'] = $element;
 			$templateVariableContainer->add($as, $temp);
@@ -91,7 +91,7 @@ class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 * @return array
 	 */
 	public function getClozeTerms($question){
-		$terms = array();
+		$terms = [];
 		
 		foreach ($question->getAnswers() as $answer){
 			if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm'){
@@ -102,4 +102,3 @@ class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		return $terms;
 	}
 }
-?>

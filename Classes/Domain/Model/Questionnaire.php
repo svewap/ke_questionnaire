@@ -426,7 +426,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 				$question->setPage($page);
 				//check for groups
 				if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group) {
-					if ($this->settings['questionNumbering'] == 'groupedQuestions' OR $this->settings['questionNumbering'] == 'grouped'){
+					if ($this->settings['questionNumbering'] == 'groupedQuestions' || $this->settings['questionNumbering'] == 'grouped'){
 						$questionCounter = 0;
 						$groupCounter ++;
 						$question->setNumbering($groupCounter);

@@ -119,7 +119,7 @@ class CoaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 			$data = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettableProperties($data);
 		} elseif (is_string($data) || is_numeric($data)) {
 			$currentValue = (string) $data;
-			$data = array($data);
+			$data = [$data];
 		}
 
         /* @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObject */
@@ -168,4 +168,3 @@ class CoaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		$GLOBALS['TSFE'] = $this->tsfeBackup;
 	}
 }
-?>

@@ -54,7 +54,7 @@ class RenderPartialViewHelper extends RenderViewHelper {
 	/**
 	 * @var array
 	 */
-	var $oldPaths = array();
+	var $oldPaths = [];
 
 	/**
 	 * Injects the object manager
@@ -73,7 +73,7 @@ class RenderPartialViewHelper extends RenderViewHelper {
 	 * @param array $arguments Arguments to pass to the partial
 	 * @return string
 	 */
-	public function render($partial = NULL, array $arguments = array()) {
+	public function render($partial = NULL, array $arguments = []) {
         if (file_exists($partial)){
             // Overload arguments with own extension local settings (to pass own settings to external partial)
             $arguments = $this->loadSettingsIntoArguments($arguments);
@@ -158,4 +158,3 @@ class RenderPartialViewHelper extends RenderViewHelper {
 		return $partialRootPath;
 	}
 }
-?>

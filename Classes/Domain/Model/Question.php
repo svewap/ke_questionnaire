@@ -593,7 +593,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 								case 'none': $full = true;
 									break;
 								case 'and': 
-										if ($full AND $fullcount > 1) {
+										if ($full && $fullcount > 1) {
                                             $full = true;
                                         }
 										else {

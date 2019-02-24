@@ -73,4 +73,3 @@ class MatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         return $output;
 	}	
 }
-?>

@@ -80,7 +80,7 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 * @return array
 	 */
 	public function getTerms($question, $header, $result){
-		$terms = array();
+		$terms = [];
 		
 		// workaround for pointer in question, so all following answer-objects are rendered.
 		$addIt = false;
@@ -89,7 +89,7 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		$rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
 		$answers = $rep->findByQuestion($question);
 		
-		$ranswers = array();
+		$ranswers = [];
         if ($result){
             /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion> $rquestion */
             foreach ($result->getQuestions() as $rquestion){
@@ -132,7 +132,7 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 				}
 			}
         }
-        $selectItems = array();
+        $selectItems = [];
         for ($i = 0; $i < $counter; $i++){
             $selectItems[$i+1] = $i+1;
         }
@@ -144,4 +144,3 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		return $terms;
 	}
 }
-?>

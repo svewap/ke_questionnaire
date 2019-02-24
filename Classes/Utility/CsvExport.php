@@ -787,7 +787,7 @@ class CsvExport
                                         $oldValues .= $this->getSeparator();
                                     }
                                 }
-                                if ($oldValues != '') {
+                                if ($oldValues !== '') {
                                     $lines .= $oldValues . $mAnswerLine;
                                 } else {
                                     $lines .= $mAnswerLine;
@@ -804,7 +804,7 @@ class CsvExport
                                     $oldValues .= $this->getSeparator();
                                 }
                             }
-                            if ($oldValues != '') {
+                            if ($oldValues !== '') {
                                 $lines .= $oldValues . $answerLine;
                             } else {
                                 $lines .= $answerLine;
@@ -856,12 +856,12 @@ class CsvExport
         $size = strlen($string);
         $columnIndex = 0;
         $rowIndex = 0;
-        $fieldValue = "";
+        $fieldValue = '';
         $isEnclosured = false;
         for ($i = 0; $i < $size; $i++) {
 
             $char = $string{$i};
-            $addChar = "";
+            $addChar = '';
 
             if ($isEnclosured) {
                 if ($char == $enclosureChar) {
@@ -884,13 +884,13 @@ class CsvExport
                     if ($char == $separatorChar) {
 
                         $array[$rowIndex][$columnIndex] = $fieldValue;
-                        $fieldValue = "";
+                        $fieldValue = '';
 
                         $columnIndex++;
                     } elseif ($char == $newlineChar) {
                         echo $char;
                         $array[$rowIndex][$columnIndex] = $fieldValue;
-                        $fieldValue = "";
+                        $fieldValue = '';
                         $columnIndex = 0;
                         $rowIndex++;
                     } else {
@@ -898,7 +898,7 @@ class CsvExport
                     }
                 }
             }
-            if ($addChar != "") {
+            if ($addChar !== '') {
                 $fieldValue .= $addChar;
 
             }

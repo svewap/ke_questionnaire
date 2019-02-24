@@ -164,7 +164,7 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 					foreach ($answers as $ranswer){
 						if ($ranswer->getAnswer() === $resultAnswer->getAnswer()){
 							$mPos = $ranswer->getMatrixPos();
-							if ($resultAnswer->getCol() AND $mPos[$resultAnswer->getCol()]){
+							if ($resultAnswer->getCol() && $mPos[$resultAnswer->getCol()]){
 								$resultAnswer->setValue($mPos[$resultAnswer->getCol()]['value']);								
 							} else {
 								$resultAnswer->setValue($ranswer->getValue());
@@ -303,7 +303,7 @@ class ResultQuestion extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return integer $maxPoints
 	 */
 	public function getMaxPoints() {
-		if ($this->maxPoints == 0 AND $this->getQuestion()->getShortType() == 'Question' AND method_exists($this->getQuestion(), 'getMaxPoints')){
+		if ($this->maxPoints == 0 && $this->getQuestion()->getShortType() == 'Question' && method_exists($this->getQuestion(), 'getMaxPoints')){
 			$this->maxPoints = $this->getQuestion()->getMaxPoints();
 		}
 		return $this->maxPoints;

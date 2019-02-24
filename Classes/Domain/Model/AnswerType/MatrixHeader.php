@@ -192,7 +192,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 
 					foreach ($results as $result){
                                             //TODO: 
-						//if ($column->getShortType() == 'Radiobutton' AND !$options['extended']) $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), 0);
+						//if ($column->getShortType() == 'Radiobutton' && !$options['extended']) $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), 0);
 						//else $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), $column->getUid());
 						$options['row'] = $row;
 						if ($rAnswer) {
@@ -288,7 +288,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 				foreach ($this->getCols() as $column){
 					$aL = [];
 					foreach ($results as $result){
-						if ($column->getShortType() == 'Radiobutton' AND !$options['extended']) {
+						if ($column->getShortType() == 'Radiobutton' && !$options['extended']) {
                             $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), 0);
                         }
 						else {
@@ -339,7 +339,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
 		
 		foreach ($answers as $answer){
 			//Add only after the correct Matrix-Header is found, only following rows will be added.
-			if ((get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader' OR get_class($answer) === 'Kennziffer\KeQuestionnairePremium\Domain\Model\AnswerType\ExtendedMatrixHeader')
+			if ((get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader' || get_class($answer) === 'Kennziffer\KeQuestionnairePremium\Domain\Model\AnswerType\ExtendedMatrixHeader')
 					AND $answer === $this) {
                 $addIt = true;
             }

@@ -63,7 +63,7 @@ class DdImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		shuffle($images);
         $output =  '' ;
         foreach ($images as $nr => $element){
-			$temp = array();
+			$temp = [];
 			$temp['counter'] = $nr+1;
 			$temp['image'] = $element;
 			$templateVariableContainer->add($as, $temp);
@@ -80,7 +80,7 @@ class DdImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	 * @return array
 	 */
 	public function getImages($question, $header){
-		$terms = array();
+		$terms = [];
 		
 		// workaround for pointer in question, so all following answer-objects are rendered.
 		$addIt = false;
@@ -109,4 +109,3 @@ class DdImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		return $terms;
 	}
 }
-?>

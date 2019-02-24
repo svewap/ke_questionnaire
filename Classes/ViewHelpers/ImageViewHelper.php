@@ -65,14 +65,14 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper {
 			throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must either specify a string src or a File object.', 1382284106);
 		}
 		$image = $this->imageService->getImage($src, $image, $treatIdAsReference);
-		$processingInstructions = array(
+		$processingInstructions = [
 			'width' => $width,
 			'height' => $height,
 			'minWidth' => $minWidth,
 			'minHeight' => $minHeight,
 			'maxWidth' => $maxWidth,
 			'maxHeight' => $maxHeight,
-		);
+        ];
 		$processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 		$imageUri = $this->imageService->getImageUri($processedImage);
 
@@ -99,4 +99,3 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper {
 	}
 
 }
-?>

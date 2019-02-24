@@ -56,4 +56,3 @@ class JavaScriptFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 		else  $GLOBALS['TSFE']->additionalHeaderData['ke_questionnaire_'.$key] = '<script type="text/javascript" src="'.$filename."?".filemtime(PATH_site .$filename).'"></script>'; 
 	}	
 }
-?>

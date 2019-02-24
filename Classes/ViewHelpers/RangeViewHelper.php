@@ -117,7 +117,7 @@ class RangeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         }
 
 		
-		$this->signalSlotDispatcher->dispatch(__CLASS__, 'getPremiumRanges', array($this));
+		$this->signalSlotDispatcher->dispatch(__CLASS__, 'getPremiumRanges', [$this]);
 		return $this->ranges;
 	}
 	
@@ -140,4 +140,3 @@ class RangeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		return $ranges;
 	}
 }
-?>

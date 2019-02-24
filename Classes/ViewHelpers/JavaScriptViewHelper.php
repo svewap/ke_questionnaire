@@ -111,4 +111,3 @@ class JavaScriptViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		}
 	}
 }
-?>

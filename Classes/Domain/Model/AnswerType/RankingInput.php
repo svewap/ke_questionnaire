@@ -113,7 +113,7 @@ class RankingInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\D
                     get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' ||
                     get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' ||
                     get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder'
-                ) AND $answer === $this) {
+                ) && $answer === $this) {
                 $addIt = true;
                 $type = get_class($answer);
             } elseif (get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' ||

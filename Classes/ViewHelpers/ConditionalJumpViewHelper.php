@@ -59,7 +59,7 @@ class ConditionalJumpViewHelper  extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 		$output = '';
         
         if ($question->isDependant()){
-            $depJs = array();
+            $depJs = [];
 			$if = '    if (';
 			foreach ($question->getDependancies() as $id => $dependancy){
 				$depJs[$id] = 'jQuery("#keq'.$dependancy->getQuestion()->getUid().'").on( "change", function() {'."\n";				
@@ -98,4 +98,3 @@ class ConditionalJumpViewHelper  extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 	}
 
 }
-?>

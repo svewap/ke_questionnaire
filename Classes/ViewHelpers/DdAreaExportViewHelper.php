@@ -93,7 +93,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 		$width = 0;
         $height = 0;
 		$filename = 'test.png';
-		$main_infos = array();
+		$main_infos = [];
         
 		//get image size of main image
 		$size = getimagesize(PATH_site.'uploads/tx_kequestionnaire/'.$main, $main_infos);
@@ -133,7 +133,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 			if ($resultAnswer->getValue() && $ddImage  ){
 				$x = 0;
 				$y = 0;
-				$area_coords = array();
+				$area_coords = [];
 				foreach ($areas as $aid => $area){
 					if ($area['key'] == $resultAnswer->getValue()){
 						$area['base_key'] = $aid;
@@ -203,7 +203,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 	 * @return array
 	 */
 	public function getImages($question, $header){
-		$terms = array();
+		$terms = [];
 		
 		// workaround for pointer in question, so all following answer-objects are rendered.
 		$addIt = false;
@@ -229,4 +229,3 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 		return $terms;
 	}
 }
-?>
