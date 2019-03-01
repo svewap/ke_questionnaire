@@ -1,4 +1,5 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
 /***************************************************************
@@ -32,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class CheckDependanciesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class CheckDependanciesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -49,51 +51,57 @@ class CheckDependanciesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
      * @var \Kennziffer\KeQuestionnaire\ViewHelpers\JavaScriptViewHelper
      */
 
-    public $jsViewhelper ;
+    public $jsViewhelper;
 
-	/**
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    /**
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
      * @return string
-	 */	 	
-	public function render(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, \Kennziffer\KeQuestionnaire\Domain\Model\Result $result) {
-		/*var $output string*/
-		$output = $this->renderChildren();        
-        
-        if ($question->isDependant()){
-			if ($question->fullfillsDependancies($result)) $dependant = '<div id="depKeq'.$question->getUid().'">';
-			else $dependant = '<div id="depKeq'.$question->getUid().'" style="display: none;">';
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    ) {
+        /*var $output string*/
+        $output = $this->renderChildren();
+
+        if ($question->isDependant()) {
+            if ($question->fullfillsDependancies($result)) {
+                $dependant = '<div id="depKeq' . $question->getUid() . '">';
+            } else {
+                $dependant = '<div id="depKeq' . $question->getUid() . '" style="display: none;">';
+            }
             $dependant .= $output;
             $dependant .= '</div>';
-            
+
             $depJs = [];
-			$if = '    if (';
-			foreach ($question->getDependancies() as $id => $dependancy){
-				$depJs[$id] = 'jQuery("#keq'.$dependancy->getQuestion()->getUid().'").on( "change", function() {'."\n";				
-            	$if .= $dependancy->getRelationJs(count($depJs));             
+            $if = '    if (';
+            foreach ($question->getDependancies() as $id => $dependancy) {
+                $depJs[$id] = 'jQuery("#keq' . $dependancy->getQuestion()->getUid() . '").on( "change", function() {' . "\n";
+                $if .= $dependancy->getRelationJs(count($depJs));
             }
-			
-			$js_inside = '){'."\n";
-			$js_inside .= '        jQuery("#depKeq'.$question->getUid().'").show();'."\n";
-			$js_inside .= '    } else {'."\n";
-			$js_inside .= '        jQuery("#depKeq'.$question->getUid().'").hide();'."\n";
-			//$js_inside .= '        jQuery("input:not([type=hidden])", "#depKeq'.$question->getUid().'").val("");'."\n";
-			//$js_inside .= '        jQuery("input:radio", "#depKeq'.$question->getUid().'").prop("checked",false);'."\n";
-			//$js_inside .= '        jQuery("input:checkbox", "#depKeq'.$question->getUid().'").prop("checked",false);'."\n";
-			$js_inside .= '    };'."\n";
-			$js_inside .= '});'."\n";
-            $js = '' ;
-			foreach ($depJs as $part){
-				$js .= $part;
-				$js .= $if;
-				$js .= $js_inside;
-			}
-			$this->jsViewhelper->cacheJavaScript($js);
-			
+
+            $js_inside = '){' . "\n";
+            $js_inside .= '        jQuery("#depKeq' . $question->getUid() . '").show();' . "\n";
+            $js_inside .= '    } else {' . "\n";
+            $js_inside .= '        jQuery("#depKeq' . $question->getUid() . '").hide();' . "\n";
+            //$js_inside .= '        jQuery("input:not([type=hidden])", "#depKeq'.$question->getUid().'").val("");'."\n";
+            //$js_inside .= '        jQuery("input:radio", "#depKeq'.$question->getUid().'").prop("checked",false);'."\n";
+            //$js_inside .= '        jQuery("input:checkbox", "#depKeq'.$question->getUid().'").prop("checked",false);'."\n";
+            $js_inside .= '    };' . "\n";
+            $js_inside .= '});' . "\n";
+            $js = '';
+            foreach ($depJs as $part) {
+                $js .= $part;
+                $js .= $if;
+                $js .= $js_inside;
+            }
+            $this->jsViewhelper->cacheJavaScript($js);
+
             $output = $dependant;
         }
-        
+
         return $output;
-	}
-	
+    }
+
 }

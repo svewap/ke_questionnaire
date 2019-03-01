@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -24,6 +26,12 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Html;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extensionmanager\Command\ExtensionCommandController;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -46,678 +54,725 @@ use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
-    
+class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
+
     /**
-	 * Questions
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	protected $questions;
+     * Questions
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    protected $questions;
 
-	/**
-	 * QuestionsByPage  JVE: Nov. 2016:
-	 * Jörg velletti changed TYPE from 'protected' to 'public' to be able to overwrite in serviceSlot!!!
-	 *
-	 * @var array
-	 */
-	public $questionsByPage;
+    /**
+     * QuestionsByPage  JVE: Nov. 2016:
+     * Jörg velletti changed TYPE from 'protected' to 'public' to be able to overwrite in serviceSlot!!!
+     *
+     * @var array
+     */
+    public $questionsByPage;
 
-	/**
-	 * page
-	 *
-	 * @var integer
-	 */
-	protected $page;
-	
-	/**
-	 * requested page
-	 *
-	 * @var integer
-	 */
-	protected $requestedPage;
-	
-	/**
-	 * settings
-	 *
-	 * @var array
-	 */
-	var $settings;
-	
-	/**
-    * uid
-    * @var int
-    */
+    /**
+     * page
+     *
+     * @var int
+     */
+    protected $page;
+
+    /**
+     * requested page
+     *
+     * @var int
+     */
+    protected $requestedPage;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    var $settings;
+
+    /**
+     * uid
+     * @var int
+     */
     protected $uid;
     /**
-    * pid
-    * @var int
-    */
+     * pid
+     * @var int
+     */
     protected $pid;
     /**
-    * sorting
-    * @var int
-    */
+     * sorting
+     * @var int
+     */
     protected $sorting;
     /**
-    * header
-    * @var string
-    *
-    */
+     * header
+     * @var string
+     *
+     */
     protected $header;
     /**
-    * headerLink
-    * @var string
-    *
-    */
+     * headerLink
+     * @var string
+     *
+     */
     protected $headerLink;
     /**
-    * bodytext
-    * @var string
-    *
-    */
+     * bodytext
+     * @var string
+     *
+     */
     protected $bodytext;
     /**
-    * image
-    * @var string
-    *
-    */
+     * image
+     * @var string
+     *
+     */
     protected $image;
     /**
-    * imageLink
-    * @var string
-    *
-    */
+     * imageLink
+     * @var string
+     *
+     */
     protected $imageLink;
     /**
-    * colPos
-    * @var int
-    *
-    */
+     * colPos
+     * @var int
+     *
+     */
     protected $colPos;
     /**
-    * piFlexForm
-    * @var string
-    *
-    */
+     * piFlexForm
+     * @var string
+     *
+     */
     protected $piFlexForm;
     /**
-    * pages
-    * @var string
-    *
-    */
+     * pages
+     * @var string
+     *
+     */
     protected $pages;
     /**
-    * storagePid
-    * @var int
-    *
-    */
+     * storagePid
+     * @var int
+     *
+     */
     protected $storagePid;
-	
-	/**
-	 * QuestionsForPage
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	protected $questionsForPage;
-	
-	/**
-	 * compareResult
-	 *
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\Result
-	 */
-	protected $compareResult;
 
+    /**
+     * QuestionsForPage
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    protected $questionsForPage;
 
+    /**
+     * compareResult
+     *
+     * @var \Kennziffer\KeQuestionnaire\Domain\Model\Result
+     */
+    protected $compareResult;
 
 
     /**
-     * @var integer
+     * @var int
      */
-    private $crdate ;
+    private $crdate;
 
     /**
      * @return int
      */
-    public function getCrdate() {
+    public function getCrdate()
+    {
         return $this->crdate;
     }
 
     /**
      * @param int $crdate
      */
-    public function setCrdate($crdate) {
+    public function setCrdate($crdate)
+    {
         $this->crdate = $crdate;
     }
 
 
+    /**
+     * each model needs an constructor:
+     * http://wiki.typo3.org/Exception/v4/1297759968
+     */
+    public function __construct()
+    {
+    }
 
+    /**
+     * get all questions for a given page
+     *
+     * @param int $page
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getQuestionsForPage($page)
+    {
+        if (isset($this->questionsByPage[$page])) {
+            return $this->questionsByPage[$page];
+        }
+        return $this->questionsForPage;
 
-	/**
-	 * each model needs an constructor:
-	 * http://wiki.typo3.org/Exception/v4/1297759968
-	 */
-	public function __construct() {
-	}
+    }
 
-	/**
-	 * get all questions for a given page
-	 *
-	 * @param integer $page
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	public function getQuestionsForPage($page) {
-		if(isset($this->questionsByPage[$page])) {
+    /**
+     * Returns the amount of pages
+     *
+     * @return int $countPages
+     */
+    public function getCountPages()
+    {
+        return count($this->questionsByPage);
+    }
 
-			return $this->questionsByPage[$page];
-		} else {
-			return $this->questionsForPage;
-		}
-	}
+    /**
+     * Returns the amount of results
+     *
+     * @return int $countResults
+     */
+    public function getCountResults()
+    {
+        return $this->countResults(false);
+    }
 
-	/**
-	 * Returns the amount of pages
-	 *
-	 * @return integer $countPages
-	 */
-	public function getCountPages() {
-		return count($this->questionsByPage);
-	}
-	
-	/**
-	 * Returns the amount of results
-	 *
-	 * @return integer $countResults
-	 */
-	public function getCountResults() {
-		return $this->countResults(false);
-	}
-	
-	/**
-	 * Returns the amount of finished Results
-	 *
-	 * @return integer $countFinishedResults
-	 */
-	public function getCountFinishedResults() {
-		return $this->countResults(true);
-	}
-	
-	/**
-	 * Returns the amount of AuthCodes
-	 *
-	 * @return integer $countAuthCodes
-	 */
-	public function getCountAuthCodes() {
-		return $this->countAuthCodes();
-	}
+    /**
+     * Returns the amount of finished Results
+     *
+     * @return int $countFinishedResults
+     */
+    public function getCountFinishedResults()
+    {
+        return $this->countResults(true);
+    }
 
-	/**
-	 * Returns the id of the next page
-	 *
-	 * @return integer $nextPage
-	 */
-	public function getNextPage() {
-		$nextPage = ($this->page + 1);
-		if ($nextPage > count($this->questionsByPage)) {
-			return $this->page;
-		} else {
+    /**
+     * Returns the amount of AuthCodes
+     *
+     * @return int $countAuthCodes
+     */
+    public function getCountAuthCodes()
+    {
+        return $this->countAuthCodes();
+    }
+
+    /**
+     * Returns the id of the next page
+     *
+     * @return int $nextPage
+     */
+    public function getNextPage()
+    {
+        $nextPage = ($this->page + 1);
+        if ($nextPage > count($this->questionsByPage)) {
+            return $this->page;
+        } else {
             return ($this->page + 1);
         }
-	}
+    }
 
-	/**
-	 * Returns the id of the previous page
-	 *
-	 * @return integer $prevPage
-	 */
-	public function getPrevPage() {
-		if($this->page === 1) {
-			return 1;
-		} else {
-			return ($this->page - 1);
-		}
-	}
-
-	/**
-	 * Returns true if first page
-	 *
-	 * @return boolean $isFirstPage
-	 */
-	public function getIsFirstPage() {
-		return ((int)$this->page === 1);
-	}
-
-	/**
-	 * Returns true if last page
-	 *
-	 * @return boolean $isLastPage
-	 */
-	public function getIsLastPage() {
-		return (count($this->questionsByPage) <= $this->page);
-	}
-	
-	/**
-	 * Returns true if the requested Page is equal to the current page
-	 *
-	 * @return boolean $isFinishedPage
-	 */
-	public function getIsFinished() {
-		if ($this->page == $this->requestedPage) {
-            return true;
-        }
-		else {
-            return false;
-        }
-	}
-
-	/**
-	 * Returns the questions
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions
-	 */
-	public function getQuestions() {
-		if (count($this->questions)==0){
-			$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-			$rep = $this->objectManager->get(QuestionRepository::class);
-			$this->setQuestions($rep->findAllForPid($this->getStoragePid()));
-		}
-		return $this->questions;
-	}
-    
     /**
-	 * Returns the questions
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
-	 */
-	public function getSelectQuestions() {
-		$qStorage = GeneralUtility::makeInstance(ObjectStorage::class);
-		foreach ($this->getQuestions() as $question){
-			if($question instanceof Question) {
-				$qStorage->attach($question);
-			}
-		}
-		
-		return $qStorage;
-	}
-	
-	/**
-	 * Returns the questions
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
-	 */
-	public function getNavigationQuestions() {
-		$qStorage = GeneralUtility::makeInstance(ObjectStorage::class);
-		foreach ($this->questions as $question){
-			if($question instanceof Question || $question instanceof Group) {
-				$qStorage->attach($question);
-			}
-		}
-		
-		return $qStorage;
-	}
-    
+     * Returns the id of the previous page
+     *
+     * @return int $prevPage
+     */
+    public function getPrevPage()
+    {
+        if ($this->page === 1) {
+            return 1;
+        } else {
+            return ($this->page - 1);
+        }
+    }
+
     /**
-	 * Returns the questions
-	 *
-	 * @return array $pages
-	 */
-	public function getNavigationPages() {
-		$pages = [];
-        
-        for ($i = 1; $i <= $this->getCountPages(); $i++){
+     * Returns true if first page
+     *
+     * @return boolean $isFirstPage
+     */
+    public function getIsFirstPage()
+    {
+        return ((int)$this->page === 1);
+    }
+
+    /**
+     * Returns true if last page
+     *
+     * @return boolean $isLastPage
+     */
+    public function getIsLastPage()
+    {
+        return (count($this->questionsByPage) <= $this->page);
+    }
+
+    /**
+     * Returns true if the requested Page is equal to the current page
+     *
+     * @return boolean $isFinishedPage
+     */
+    public function getIsFinished()
+    {
+        return $this->requestedPage === $this->page;
+    }
+
+    /**
+     * Returns the questions
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions
+     */
+    public function getQuestions()
+    {
+        if (count($this->questions) === 0) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            /** @var QuestionRepository $rep */
+            $rep = $objectManager->get(QuestionRepository::class);
+            $this->setQuestions($rep->findAllForPid($this->getStoragePid()));
+        }
+        return $this->questions;
+    }
+
+    /**
+     * Returns the questions
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
+     */
+    public function getSelectQuestions()
+    {
+        $qStorage = GeneralUtility::makeInstance(ObjectStorage::class);
+        foreach ($this->getQuestions() as $question) {
+            if ($question instanceof Question) {
+                $qStorage->attach($question);
+            }
+        }
+
+        return $qStorage;
+    }
+
+    /**
+     * Returns the questions
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
+     */
+    public function getNavigationQuestions()
+    {
+        /** @var ObjectStorage $qStorage */
+        $qStorage = GeneralUtility::makeInstance(ObjectStorage::class);
+        foreach ($this->questions as $question) {
+            if ($question instanceof Question || $question instanceof Group) {
+                $qStorage->attach($question);
+            }
+        }
+        return $qStorage;
+    }
+
+    /**
+     * Returns the questions
+     *
+     * @return array $pages
+     */
+    public function getNavigationPages()
+    {
+        $pages = [];
+
+        for ($i = 1; $i <= $this->getCountPages(); $i++) {
             $pages[] = $i;
         }
-        
+
         return $pages;
-	}
+    }
 
-	/**
-	 * Sets the questions
-	 * add seperates all questions by page
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
-	 * @return void
-	 */
-	public function setQuestions(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions) {
-		$questions = $this->checkNumbering($questions);
-		$this->questions = $questions;
-		$this->questionsByPage = [];
+    /**
+     * Sets the questions
+     * add seperates all questions by page
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions
+     * @return void
+     */
+    public function setQuestions(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions)
+    {
+        $questions = $this->checkNumbering($questions);
+        $this->questions = $questions;
+        $this->questionsByPage = [];
 
-		if($questions->count()) {			
-			$page = 1;
-			$pageStorage = GeneralUtility::makeInstance(ObjectStorage::class);
-			
-			// seperate all questions for each page
-			foreach($questions as $question) {
-				if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak) {
-					$pageStorage = GeneralUtility::makeInstance(ObjectStorage::class);
-					$page++;
-					continue;
-				}
-				$pageStorage->attach($question);
-				$this->questionsByPage[$page] = $pageStorage;
-			}
-		}				
-	}
-	
-	/**
-	 * Checks the Numbering of the Questions in the Questionnaire
-	 * 
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
-	 */
-	private function checkNumbering(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions){
-		//create numbering only if there are any questions
-		if ($questions->count()){
-			//pages start with 1 => page 0 would be the intro-page
-			$page = 1;
-			
-			$questionCounter = 0;
-			$groupCounter = 0;
-			$group = NULL;
-			//check through all questions
-			foreach ($questions as $question){
-				//if there is a page-break, start a new page
-				if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak) {
-					$page++;
-					continue;
-				}
-				//set the page
-				$question->setPage($page);
-				//check for groups
-				if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Group) {
-					if ($this->settings['questionNumbering'] == 'groupedQuestions' || $this->settings['questionNumbering'] == 'grouped'){
-						$questionCounter = 0;
-						$groupCounter ++;
-						$question->setNumbering($groupCounter);
-					}
-					$group = $question;
-				}
-				//create numbering for HTML, Question, Text, Typo3Content
-				if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question 
-						OR $question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Html
-						OR $question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text
-						OR $question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content
-				) {
-					//set a group
-					$question->setGroup($group);
-					//check for numbering-type
-					switch ($this->settings['questionNumbering']){
-						case 'none': break;
-						case 'all':
-								$questionCounter++;
-								$question->setNumbering($questionCounter);
-							break;
-						case 'questions':
-								if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question) { 
-									$questionCounter++;
-									$question->setNumbering($questionCounter);
-								}
-							break;
-						case 'grouped':
-								$questionCounter++;
-								$question->setNumbering($groupCounter.'.'.$questionCounter);
-							break;
-						case 'groupedQuestions':
-								if($question instanceof \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question) { 
-									$questionCounter++;
-									$question->setNumbering($groupCounter.'.'.$questionCounter);
-								}
-							break;
-						default: break;
-					}
-				}
-			}
-		}
-		return $questions;
-	}
-    
+        if ($questions->count()) {
+            $page = 1;
+            $pageStorage = GeneralUtility::makeInstance(ObjectStorage::class);
+
+            // seperate all questions for each page
+            foreach ($questions as $question) {
+                if ($question instanceof PageBreak) {
+                    $pageStorage = GeneralUtility::makeInstance(ObjectStorage::class);
+                    $page++;
+                    continue;
+                }
+                $pageStorage->attach($question);
+                $this->questionsByPage[$page] = $pageStorage;
+            }
+        }
+    }
+
+    /**
+     * Checks the Numbering of the Questions in the Questionnaire
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
+     */
+    private function checkNumbering(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions)
+    {
+        //create numbering only if there are any questions
+        if ($questions->count()) {
+            //pages start with 1 => page 0 would be the intro-page
+            $page = 1;
+
+            $questionCounter = 0;
+            $groupCounter = 0;
+            $group = null;
+            //check through all questions
+            foreach ($questions as $question) {
+                //if there is a page-break, start a new page
+                if ($question instanceof PageBreak) {
+                    $page++;
+                    continue;
+                }
+                //set the page
+                $question->setPage($page);
+                //check for groups
+                if ($question instanceof Group) {
+                    if ($this->settings['questionNumbering'] === 'groupedQuestions' || $this->settings['questionNumbering'] === 'grouped') {
+                        $questionCounter = 0;
+                        $groupCounter++;
+                        $question->setNumbering($groupCounter);
+                    }
+                    $group = $question;
+                }
+                //create numbering for HTML, Question, Text, Typo3Content
+                if ($question instanceof Question
+                    || $question instanceof Html
+                    || $question instanceof Text
+                    || $question instanceof Typo3Content
+                ) {
+                    //set a group
+                    $question->setGroup($group);
+                    //check for numbering-type
+                    switch ($this->settings['questionNumbering']) {
+                        case 'none':
+                            break;
+                        case 'all':
+                            $questionCounter++;
+                            $question->setNumbering($questionCounter);
+                            break;
+                        case 'questions':
+                            if ($question instanceof Question) {
+                                $questionCounter++;
+                                $question->setNumbering($questionCounter);
+                            }
+                            break;
+                        case 'grouped':
+                            $questionCounter++;
+                            $question->setNumbering($groupCounter . '.' . $questionCounter);
+                            break;
+                        case 'groupedQuestions':
+                            if ($question instanceof Question) {
+                                $questionCounter++;
+                                $question->setNumbering($groupCounter . '.' . $questionCounter);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        return $questions;
+    }
+
     /**
      * Gets the results of the user and questionnaire
-     * 
-     * @param integer userId
-     * @return results
+     *
+     * @param int userId
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function getUserResults($userId = false){
+    public function getUserResults($userId = false)
+    {
         if (!$userId) {
             $userId = $GLOBALS['TSFE']->fe_user->user['uid'];
         }
-        if ($userId > 0){
-			$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-			$querySettings = $this->objectManager->get(Typo3QuerySettings::class);
-			$querySettings->setRespectStoragePage(FALSE);
-			$resultRepository = $this->objectManager->get(ResultRepository::class);
-			$resultRepository->setDefaultQuerySettings($querySettings);
-			$results = $resultRepository->findByFeUserAndPid($userId,$this->getStoragePid());
+        if ($userId > 0) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            /** @var Typo3QuerySettings $querySettings */
+            $querySettings = $objectManager->get(Typo3QuerySettings::class);
+            $querySettings->setRespectStoragePage(false);
+            /** @var ResultRepository $resultRepository */
+            $resultRepository = $objectManager->get(ResultRepository::class);
+            $resultRepository->setDefaultQuerySettings($querySettings);
+            $results = $resultRepository->findByFeUserAndPid($userId, $this->getStoragePid());
 
-			return $results;
-		}
+            return $results;
+        }
+        return [];
     }
-	
-	/**
+
+    /**
      * Counts the results of the questionnaire
-     * 
+     *
      * @param bool $finished
-     * @return results
+     * @return int
      */
-    public function countResults($finished = true){
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
-        $querySettings->setRespectStoragePage(FALSE);
-        $resultRepository = $this->objectManager->get(ResultRepository::class);
+    public function countResults($finished = true)
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var Typo3QuerySettings $querySettings */
+        $querySettings = $objectManager->get(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(false);
+        /** @var ResultRepository $resultRepository */
+        $resultRepository = $objectManager->get(ResultRepository::class);
         $resultRepository->setDefaultQuerySettings($querySettings);
         if ($finished) {
             $counter = $resultRepository->countFinishedForPid($this->getStoragePid());
-        }
-        else {
+        } else {
             $counter = $resultRepository->countAllForPid($this->getStoragePid());
         }
-
         return $counter;
     }
-	
-	/**
+
+    /**
      * Counts the results of the questionnaire
-     * 
-     * @return integer
+     *
+     * @return int
      */
-    public function countAuthCodes(){
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
-        $querySettings->setRespectStoragePage(FALSE);
-        $resultRepository = $this->objectManager->get(AuthCodeRepository::class);
+    public function countAuthCodes()
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var Typo3QuerySettings $querySettings */
+        $querySettings = $objectManager->get(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(false);
+        /** @var AuthCodeRepository $resultRepository */
+        $resultRepository = $objectManager->get(AuthCodeRepository::class);
         $resultRepository->setDefaultQuerySettings($querySettings);
-        $counter = $resultRepository->countAllForPid($this->getStoragePid());
-
-        return $counter;
+        return $resultRepository->countAllForPid($this->getStoragePid());
     }
-	
 
-	/**
-	 * Returns the page
-	 *
-	 * @return integer $page
-	 */
-	public function getPage() {
-		return $this->page;
-	}
 
-	/**
-	 * Sets the page
-	 *
-	 * @param integer $page
-	 * @return void
-	 */
-	public function setPage($page) {
-		$this->page = $page;
-	}
-	
-	/**
-	 * Returns the requestedPage
-	 *
-	 * @return integer $requestedPage
-	 */
-	public function getRequestedPage() {
-		return $this->requestedPage;
-	}
+    /**
+     * Returns the page
+     *
+     * @return int $page
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
 
-	/**
-	 * Sets the requestedPage
-	 *
-	 * @param integer $requestedPage
-	 * @return void
-	 */
-	public function setRequestedPage($requestedPage) {
-		$this->requestedPage = $requestedPage;
-	}
-	
-	/**
-    * Returns the pid
-    *
-    * @return int $pid
-    */
-    public function getPid() {
+    /**
+     * Sets the page
+     *
+     * @param int $page
+     * @return void
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+    }
+
+    /**
+     * Returns the requestedPage
+     *
+     * @return int $requestedPage
+     */
+    public function getRequestedPage()
+    {
+        return $this->requestedPage;
+    }
+
+    /**
+     * Sets the requestedPage
+     *
+     * @param int $requestedPage
+     * @return void
+     */
+    public function setRequestedPage($requestedPage)
+    {
+        $this->requestedPage = $requestedPage;
+    }
+
+    /**
+     * Returns the pid
+     *
+     * @return int $pid
+     */
+    public function getPid()
+    {
         return $this->pid;
     }
+
     /**
-    * Returns the sorting
-    *
-    * @return int $sorting
-    */
-    public function getSorting() {
+     * Returns the sorting
+     *
+     * @return int $sorting
+     */
+    public function getSorting()
+    {
         return $this->sorting;
     }
+
     /**
-    * Returns the header
-    *
-    * @return string $header
-    */
-    public function getHeader() {
+     * Returns the header
+     *
+     * @return string $header
+     */
+    public function getHeader()
+    {
         return $this->header;
     }
+
     /**
-    * Returns the headerLink
-    *
-    * @return string $headerLink
-    */
-    public function getHeaderLink() {
+     * Returns the headerLink
+     *
+     * @return string $headerLink
+     */
+    public function getHeaderLink()
+    {
         return $this->headerLink;
     }
+
     /**
-    * Returns the bodytext
-    *
-    * @return string $bodytext
-    */
-    public function getBodytext() {
+     * Returns the bodytext
+     *
+     * @return string $bodytext
+     */
+    public function getBodytext()
+    {
         return $this->bodytext;
     }
+
     /**
-    * Returns the image
-    *
-    * @return string $image
-    */
-    public function getImage() {
+     * Returns the image
+     *
+     * @return string $image
+     */
+    public function getImage()
+    {
         return $this->image;
     }
+
     /**
-    * Returns the imageLink
-    *
-    * @return string $imageLink
-    */
-    public function getImageLink() {
+     * Returns the imageLink
+     *
+     * @return string $imageLink
+     */
+    public function getImageLink()
+    {
         return $this->imageLink;
     }
+
     /**
-    * Returns the colPos
-    *
-    * @return int $colPos
-    */
-    public function getColPos() {
+     * Returns the colPos
+     *
+     * @return int $colPos
+     */
+    public function getColPos()
+    {
         return $this->colPos;
     }
-    
+
     /**
      * returns the piFlexForm
-     * 
+     *
      * @return $piFlexForm
      */
-    public function getPiFlexForm() {
+    public function getPiFlexForm()
+    {
         $ffs = GeneralUtility::makeInstance(FlexFormService::class);
         return $ffs->convertFlexFormContentToArray($this->piFlexForm);
         //return $this->piFlexForm;
     }
-    
+
     /**
-    * Returns the storagePid
-    *
-    * @return int $storagePid
-    */
-    public function getStoragePid() {
-        $pids = explode(',',$this->pages);
-        $storagePid = $pids[0];
-        return $storagePid;
-    }
-    
-    /**
-	 * Gets the compare Result of the questionnaire
-	 * this is no actual result but a construct with all the correct / compare answers given in the questions/answers of the questionnaire-storage
-	 * 
-	 * @return \Kennziffer\KeQuestionnaire\Domain\Model\Result
-	 */
-	public function getCompareResult(){
-		$result = GeneralUtility::makeInstance(Result::class);
-		foreach ($this->getQuestions() as $question){
-			$rquestion = GeneralUtility::makeInstance(ResultQuestion::class);
-			$rquestion->setQuestion($question);
-			foreach ($question->getAnswers() as $answer){
-				$ranswer = GeneralUtility::makeInstance(ResultAnswer::class);
-				switch ($answer->getShortType()){
-					case 'SingleInput':
-					case 'MultiInput':
-					case 'SingleSelect':
-							if ($answer->getComparisonText()) {
-								$ranswer->setAnswer($answer);
-								$ranswer->setValue($answer->getComparisonText());
-							}
-						break;
-					case 'Radiobutton':
-							if ($answer->isCorrectAnswer()) {
-                                $ranswer->setAnswer($answer);
-                            }
-						break;
-					case 'Checkbox':
-							if ($answer->isCorrectAnswer()) {
-								$ranswer->setAnswer($answer);
-								$ranswer->setValue($answer->getUid());
-							}
-						break;
-					default :
-						break;
-				}
-				$rquestion->addAnswer($ranswer);
-			}
-			$result->addQuestion($rquestion);
-		}
-		return $result;
-	}
-    
-    /** 
-     * load the full Questionnaire Object
-     * 
-     * @param integer $uid
+     * Returns the storagePid
+     *
+     * @return int $storagePid
      */
-    public function loadFullObject($uid){
-        //$rep = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\QuestionnaireRepository');
-		$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-		$rep = $this->objectManager->get(QuestionnaireRepository::class);
-		return $rep->findForUid($uid);
+    public function getStoragePid()
+    {
+        $pids = explode(',', $this->pages);
+        return $pids[0];
+    }
+
+    /**
+     * Gets the compare Result of the questionnaire
+     * this is no actual result but a construct with all the correct / compare answers given in the questions/answers of the questionnaire-storage
+     *
+     * @return \Kennziffer\KeQuestionnaire\Domain\Model\Result
+     */
+    public function getCompareResult()
+    {
+        /** @var Result $result */
+        $result = GeneralUtility::makeInstance(Result::class);
+        foreach ($this->getQuestions() as $question) {
+            /** @var ResultQuestion $rquestion */
+            $rquestion = GeneralUtility::makeInstance(ResultQuestion::class);
+            $rquestion->setQuestion($question);
+            /** @var Answer $answer */
+            foreach ($question->getAnswers() as $answer) {
+                /** @var ResultAnswer $ranswer */
+                $ranswer = GeneralUtility::makeInstance(ResultAnswer::class);
+                switch ($answer->getShortType()) {
+                    case 'SingleInput':
+                    case 'MultiInput':
+                    case 'SingleSelect':
+                        if ($answer->getComparisonText()) {
+                            $ranswer->setAnswer($answer);
+                            $ranswer->setValue($answer->getComparisonText());
+                        }
+                        break;
+                    case 'Radiobutton':
+                        if ($answer->isCorrectAnswer()) {
+                            $ranswer->setAnswer($answer);
+                        }
+                        break;
+                    case 'Checkbox':
+                        if ($answer->isCorrectAnswer()) {
+                            $ranswer->setAnswer($answer);
+                            $ranswer->setValue($answer->getUid());
+                        }
+                        break;
+                    default :
+                        break;
+                }
+                $rquestion->addAnswer($ranswer);
+            }
+            $result->addQuestion($rquestion);
+        }
+        return $result;
+    }
+
+    /**
+     * load the full Questionnaire Object
+     *
+     * @param int $uid
+     * @return Questionnaire
+     */
+    public function loadFullObject($uid)
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var QuestionnaireRepository $rep */
+        $rep = $objectManager->get(QuestionnaireRepository::class);
+        return $rep->findForUid($uid);
     }
 
     /**
      * @param array $questionsByPage
      */
-    public function setShuffledQuestionsByPage($questionsByPage , $page ) {
-       //  echo "<br>Line: " . __LINE__ . " : " . " File: " . __FILE__ . '<br>$page : ' . var_export($page, TRUE) . "<hr>";
+    public function setShuffledQuestionsByPage($questionsByPage, $page)
+    {
+        //  echo "<br>Line: " . __LINE__ . " : " . " File: " . __FILE__ . '<br>$page : ' . var_export($page, TRUE) . "<hr>";
 
         $this->questionsByPage[$page] = $questionsByPage;
     }

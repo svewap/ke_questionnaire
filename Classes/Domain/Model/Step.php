@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,122 +33,128 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Step extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Step extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * Type
-	 *
-	 * @var string
-	 */
-	protected $type;
+    /**
+     * Type
+     *
+     * @var string
+     */
+    protected $type;
 
-	/**
-	 * Action
-	 *
-	 * @var string
-	 */
-	protected $action;
+    /**
+     * Action
+     *
+     * @var string
+     */
+    protected $action;
 
-	/**
-	 * Controller
-	 *
-	 * @var string
-	 */
-	protected $controller;
+    /**
+     * Controller
+     *
+     * @var string
+     */
+    protected $controller;
 
-	/**
-	 * Extension
-	 *
-	 * @var string
-	 */
-	protected $extension;
-
-
-
+    /**
+     * Extension
+     *
+     * @var string
+     */
+    protected $extension;
 
 
-	/**
-	 * Returns the type
-	 *
-	 * @return string $type
-	 */
-	public function getType() {
-		return $this->type;
-	}
+    /**
+     * Returns the type
+     *
+     * @return string $type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
-	/**
-	 * Sets the type
-	 *
-	 * @param string $type
-	 * @return void
-	 */
-	public function setType($type) {
-		$type = strtolower($type);
-		switch ($type) {
-			case 'forward':
-			case 'redirect':
-				$this->type = $type;
-				break;
-			default:
-				$this->type = 'redirect';
-		}
-	}
+    /**
+     * Sets the type
+     *
+     * @param string $type
+     * @return void
+     */
+    public function setType($type)
+    {
+        $type = strtolower($type);
+        switch ($type) {
+            case 'forward':
+            case 'redirect':
+                $this->type = $type;
+                break;
+            default:
+                $this->type = 'redirect';
+        }
+    }
 
-	/**
-	 * Returns the action
-	 *
-	 * @return string $action
-	 */
-	public function getAction() {
-		return $this->action;
-	}
+    /**
+     * Returns the action
+     *
+     * @return string $action
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
 
-	/**
-	 * Sets the action
-	 *
-	 * @param string $action
-	 * @return void
-	 */
-	public function setAction($action) {
-		$this->action = $action;
-	}
+    /**
+     * Sets the action
+     *
+     * @param string $action
+     * @return void
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    }
 
-	/**
-	 * Returns the controller
-	 *
-	 * @return string $controller
-	 */
-	public function getController() {
-		return $this->controller;
-	}
+    /**
+     * Returns the controller
+     *
+     * @return string $controller
+     */
+    public function getController()
+    {
+        return $this->controller;
+    }
 
-	/**
-	 * Sets the controller
-	 *
-	 * @param string $controller
-	 * @return void
-	 */
-	public function setController($controller) {
-		$this->controller = $controller;
-	}
+    /**
+     * Sets the controller
+     *
+     * @param string $controller
+     * @return void
+     */
+    public function setController($controller)
+    {
+        $this->controller = $controller;
+    }
 
-	/**
-	 * Returns the extension
-	 *
-	 * @return string $extension
-	 */
-	public function getExtension() {
-		return $this->extension;
-	}
+    /**
+     * Returns the extension
+     *
+     * @return string $extension
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
 
-	/**
-	 * Sets the extension
-	 *
-	 * @param string $extension
-	 * @return void
-	 */
-	public function setExtension($extension) {
-		$this->extension = $extension;
-	}
+    /**
+     * Sets the extension
+     *
+     * @param string $extension
+     * @return void
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+    }
 
 }

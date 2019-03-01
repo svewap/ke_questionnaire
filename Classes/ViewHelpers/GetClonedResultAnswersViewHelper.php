@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class GetClonedResultAnswersViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class GetClonedResultAnswersViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -45,23 +48,24 @@ class GetClonedResultAnswersViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\
     protected $escapeOutput = false;
 
 
-	/**
-	 * Returns a requested question from result record
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-	 * @param integer $questionUid
-	 * @param integer $answerUid
-	 * @return
-	 */
-    public function render($result, $questionUid, $answerUid) {
+    /**
+     * Returns a requested question from result record
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param integer $questionUid
+     * @param integer $answerUid
+     * @return
+     */
+    public function render($result, $questionUid, $answerUid)
+    {
         $resultQuestions = $result->getQuestions();
         /* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
-		foreach ($resultQuestions as $resultQuestion) {
+        foreach ($resultQuestions as $resultQuestion) {
             if ($questionUid == $resultQuestion->getQuestion()->getUid()) {
-				/* @var $resultAnswer \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer */
-				return $resultQuestion->getClonedAnswers();
-			}
-		}
-        return NULL;
-	}
+                /* @var $resultAnswer \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer */
+                return $resultQuestion->getClonedAnswers();
+            }
+        }
+        return null;
+    }
 }

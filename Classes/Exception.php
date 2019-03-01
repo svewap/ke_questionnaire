@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,24 +33,28 @@ namespace Kennziffer\KeQuestionnaire;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Exception extends \TYPO3\CMS\Core\Exception {
+class Exception extends \TYPO3\CMS\Core\Exception
+{
 
-	/**
-	 * (PHP 5 &gt;= 5.1.0)<br/>
-	 * Construct the exception
-	 *
-	 * @link http://php.net/manual/en/exception.construct.php
-	 * @param string $key The key from the LOCAL_LANG array for which to return the value.
-	 * @param $code [optional]
-	 * @param array $arguments the arguments of the extension, being passed over to vsprintf
-	 * @param $previous [optional]
-	 */
-	public function __construct ($key = '', $code = 0, $arguments = NULL, $previous = NULL) {
-		$objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager;
-		$localization = $objectManager->get('Kennziffer\KeQuestionnaire\Utility\Localization');
-		/* @var $localization \Kennziffer\KeQuestionnaire\Utility\Localization */
-		$message = $localization->translate($key, 'exception.xml', $arguments);
-		if(empty($message)) $message = $key;
-		parent::__construct($message, $code, $previous);
-	}
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Construct the exception
+     *
+     * @link http://php.net/manual/en/exception.construct.php
+     * @param string $key The key from the LOCAL_LANG array for which to return the value.
+     * @param $code [optional]
+     * @param array $arguments the arguments of the extension, being passed over to vsprintf
+     * @param $previous [optional]
+     */
+    public function __construct($key = '', $code = 0, $arguments = null, $previous = null)
+    {
+        $objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager;
+        $localization = $objectManager->get('Kennziffer\KeQuestionnaire\Utility\Localization');
+        /* @var $localization \Kennziffer\KeQuestionnaire\Utility\Localization */
+        $message = $localization->translate($key, 'exception.xml', $arguments);
+        if (empty($message)) {
+            $message = $key;
+        }
+        parent::__construct($message, $code, $previous);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ClozeTextViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ClozeTextViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -44,37 +47,38 @@ class ClozeTextViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     protected $escapeOutput = false;
 
 
-	/**
-	 * Adds the needed Javascript-File to Additional Header Data
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeText $answer Answer to be rendered
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
-	 * @param string $as The name of the iteration variable
-	 * @return string
-	 */
-	public function render($answer, $question, $as) {
-		$templateVariableContainer = $this->renderingContext->getVariableProvider();
-        if ($question === NULL OR ($answer->getShortType() != 'ClozeText' AND $answer->getShortType() != 'ClozeTextDD')) {
-			return '';
-		}
+    /**
+     * Adds the needed Javascript-File to Additional Header Data
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeText $answer Answer to be rendered
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
+     * @param string $as The name of the iteration variable
+     * @return string
+     */
+    public function render($answer, $question, $as)
+    {
+        $templateVariableContainer = $this->renderingContext->getVariableProvider();
+        if ($question === null || ($answer->getShortType() != 'ClozeText' && $answer->getShortType() != 'ClozeTextDD')) {
+            return '';
+        }
 
-		//$textArray = $this->getClozeTextArray($answer->getText(), $question);
-        $wordPositions = $answer->getWordPositions($question);     
-		$text = $answer->getText();
-		$content = '';
-		$start = 0;
-		if (is_array($wordPositions)){
-			foreach ($wordPositions as $id => $wordPosition) {
-				if ($id){
-					$content .= mb_substr($text, $start, ($wordPosition[0] - $start));
-					$templateVariableContainer->add($as, $wordPosition['answer']);
-					$content .= $this->renderChildren();
-					$templateVariableContainer->remove($as);
-					$start = $wordPosition[0] + $wordPosition[1];
-				}
-			}
-		}
-		$content .= mb_substr($text, $start);
-		return $content;
-	}	
+        //$textArray = $this->getClozeTextArray($answer->getText(), $question);
+        $wordPositions = $answer->getWordPositions($question);
+        $text = $answer->getText();
+        $content = '';
+        $start = 0;
+        if (is_array($wordPositions)) {
+            foreach ($wordPositions as $id => $wordPosition) {
+                if ($id) {
+                    $content .= mb_substr($text, $start, ($wordPosition[0] - $start));
+                    $templateVariableContainer->add($as, $wordPosition['answer']);
+                    $content .= $this->renderChildren();
+                    $templateVariableContainer->remove($as);
+                    $start = $wordPosition[0] + $wordPosition[1];
+                }
+            }
+        }
+        $content .= mb_substr($text, $start);
+        return $content;
+    }
 }

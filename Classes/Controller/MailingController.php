@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,35 +33,38 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class MailingController extends  \Kennziffer\KeQuestionnaire\Controller\AbstractController {
+class MailingController extends \Kennziffer\KeQuestionnaire\Controller\AbstractController
+{
 
-	/**
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\Result
-	 */
-	protected $result;
+    /**
+     * @var \Kennziffer\KeQuestionnaire\Domain\Model\Result
+     */
+    protected $result;
 
-	/**
-	 * @var \Kennziffer\KeQuestionnaire\Utility\Mail
-	 */
-	protected $mail;
+    /**
+     * @var \Kennziffer\KeQuestionnaire\Utility\Mail
+     */
+    protected $mail;
 
-	/**
-	 * inject mail
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Utility\Mail $mail
-	 */
-	public function injectMail(\Kennziffer\KeQuestionnaire\Utility\Mail $mail) {
-		$this->mail = $mail;
-	}
+    /**
+     * inject mail
+     *
+     * @param \Kennziffer\KeQuestionnaire\Utility\Mail $mail
+     */
+    public function injectMail(\Kennziffer\KeQuestionnaire\Utility\Mail $mail)
+    {
+        $this->mail = $mail;
+    }
 
-	/**
-	 * action mail
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $newResult A fresh new result object
-	 * @return void
-	 */
-	public function mailAction(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result) {
-		$this->result = $result;
-		$this->nextStep($result);
-	}
+    /**
+     * action mail
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $newResult A fresh new result object
+     * @return void
+     */
+    public function mailAction(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result)
+    {
+        $this->result = $result;
+        $this->nextStep($result);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class MatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -44,32 +47,33 @@ class MatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     protected $escapeOutput = false;
 
 
+    /**
+     * Adds the needed Javascript-File to Additional Header Data
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow $answer Answer to be rendered
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
+     * @param string $as The name of the iteration variable
+     * @return string
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow $answer,
+        \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
+        $as
+    ) {
+        if (get_class($answer) == 'Kennziffer\\KeQuestionnaire\\Domain\\Model\\AnswerType\\MatrixHeader' || get_class($answer) == 'Kennziffer\\KeQuestionnairePremium\\Domain\\Model\\AnswerType\\ExtendedMatrixHeader') {
+            $rows = $answer->getRows($question);
 
-	/**
-	 * Adds the needed Javascript-File to Additional Header Data
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow $answer Answer to be rendered
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
-	 * @param string $as The name of the iteration variable
-	 * @return string
-	 */
-	public function render(\Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow $answer ,
-                           \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
-                           $as) {
-		if (get_class($answer) == 'Kennziffer\\KeQuestionnaire\\Domain\\Model\\AnswerType\\MatrixHeader' OR get_class($answer) == 'Kennziffer\\KeQuestionnairePremium\\Domain\\Model\\AnswerType\\ExtendedMatrixHeader'){
-		    $rows = $answer->getRows($question);
-			
             $templateVariableContainer = $this->renderingContext->getVariableProvider();
-            if ($question === NULL) {
+            if ($question === null) {
                 return '';
             }
-            $output = '' ;
-            foreach ($rows as $nr => $element){
+            $output = '';
+            foreach ($rows as $nr => $element) {
                 $templateVariableContainer->add($as, $element);
                 $output .= $this->renderChildren();
                 $templateVariableContainer->remove($as);
-            }            
+            }
         }
         return $output;
-	}	
+    }
 }

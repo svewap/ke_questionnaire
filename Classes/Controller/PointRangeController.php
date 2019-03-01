@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,41 +33,44 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class PointRangeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class PointRangeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository
-	 */
-	protected $rangeRepository;
-	
-	/**
-	 * inject range repository
-	 * 
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository $rangeRepository
-	 * @return void
-	 */
-	public function injectRangeRepository(\Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository $rangeRepository) {
-		$this->rangeRepository = $rangeRepository;
-	}
-	
-	/**
-	 * action show text for range
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $newResult A fresh new result object
-	 * @return void
-	 */
-	public function showTextAction(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result) {
-		$ranges = $this->rangeRepository->findAll();
-		if ($ranges !== NULL) {
-			/* @var $range \Kennziffer\KeQuestionnaire\Domain\Model\Range */
-			foreach ($ranges as $range) {
-				if ($result->getPoints() >= $range->getPointsFrom() && $result->getPoints() <= $range->getPointsUntil()) {
-					$resultText = $range->getText();
-					break;
-				}
-			}
-		}
-		$this->view->assign('result', $result);
-		$this->view->assign('resultText', $resultText);
-	}
+    /**
+     * @var \Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository
+     */
+    protected $rangeRepository;
+
+    /**
+     * inject range repository
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository $rangeRepository
+     * @return void
+     */
+    public function injectRangeRepository(\Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository $rangeRepository
+    ) {
+        $this->rangeRepository = $rangeRepository;
+    }
+
+    /**
+     * action show text for range
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $newResult A fresh new result object
+     * @return void
+     */
+    public function showTextAction(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result)
+    {
+        $ranges = $this->rangeRepository->findAll();
+        if ($ranges !== null) {
+            /* @var $range \Kennziffer\KeQuestionnaire\Domain\Model\Range */
+            foreach ($ranges as $range) {
+                if ($result->getPoints() >= $range->getPointsFrom() && $result->getPoints() <= $range->getPointsUntil()) {
+                    $resultText = $range->getText();
+                    break;
+                }
+            }
+        }
+        $this->view->assign('result', $result);
+        $this->view->assign('resultText', $resultText);
+    }
 }

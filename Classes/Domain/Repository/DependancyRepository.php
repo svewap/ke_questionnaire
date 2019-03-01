@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,18 +33,20 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DependancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class DependancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * 
-	 * @param integer $pid
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllForPid($pid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('pid', $pid));
-		return $query->execute();
-	}
-	
+    /**
+     *
+     * @param integer $pid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllForPid($pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('pid', $pid));
+        return $query->execute();
+    }
+
 }

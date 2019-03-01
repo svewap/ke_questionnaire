@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class GetResultQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class GetResultQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -45,21 +48,22 @@ class GetResultQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
     protected $escapeOutput = false;
 
 
-	/**
-	 * Returns a requested question from result record
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-	 * @param integer $questionUid
-	 * @return
-	 */
-	public function render($result, $questionUid) {
-		$questions = $result->getQuestions();
-		/* @var $question \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
-		foreach ($questions as $key => $question) {
-			if ($questionUid == $question->getQuestion()->getUid()) {
-				return $question->getQuestion();
-			}
-		}
-		return NULL;
-	}
+    /**
+     * Returns a requested question from result record
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param integer $questionUid
+     * @return
+     */
+    public function render($result, $questionUid)
+    {
+        $questions = $result->getQuestions();
+        /* @var $question \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
+        foreach ($questions as $key => $question) {
+            if ($questionUid == $question->getQuestion()->getUid()) {
+                return $question->getQuestion();
+            }
+        }
+        return null;
+    }
 }

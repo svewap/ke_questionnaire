@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Ajax;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,32 +33,33 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-abstract class AbstractAjax implements AjaxInterface {
+abstract class AbstractAjax implements AjaxInterface
+{
 
-	/**
-	 * return value as JSON
-	 *
-	 * @param mixed $value Value to convert
-	 * @return string JSON converted value
-	 */
-	public function convertValueToJson($value): string
+    /**
+     * return value as JSON
+     *
+     * @param mixed $value Value to convert
+     * @return string JSON converted value
+     */
+    public function convertValueToJson($value): string
     {
-		return json_encode($value);
-	}
-	
-	/**
-	 * convertAjaxFormArray
-	 *
-	 * @param array $values
-	 * @return array $values
-	 */
-	public function convertAjaxFormArray($values): array
+        return json_encode($value);
+    }
+
+    /**
+     * convertAjaxFormArray
+     *
+     * @param array $values
+     * @return array $values
+     */
+    public function convertAjaxFormArray($values): array
     {
-		if ($values['formData']){
-			parse_str($values['formData'],$formData);
-			$values['formData'] = $formData;
-		}
-		return $values;
-	}
+        if ($values['formData']) {
+            parse_str($values['formData'], $formData);
+            $values['formData'] = $formData;
+        }
+        return $values;
+    }
 
 }

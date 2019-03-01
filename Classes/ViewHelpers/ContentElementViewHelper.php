@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ContentElementViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ContentElementViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -43,44 +46,47 @@ class ContentElementViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
      */
     protected $escapeOutput = false;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-	 */
-	protected $configurationManager;
+    /**
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     */
+    protected $configurationManager;
 
-	/**
-	 * @var Content Object
-	 */
-	protected $cObj;
+    /**
+     * @var Content Object
+     */
+    protected $cObj;
 
     /**
      * Parse a content element
      *
-	 * @param	int			UID of any content element
-     * @return 	string		Parsed Content Element
+     * @param    int            UID of any content element
+     * @return    string        Parsed Content Element
      */
-    public function render($uid) {
-		$conf = [ // config
-			'tables' => 'tt_content',
-			'source' => $uid,
-			'dontCheckPid' => 1
+    public function render($uid)
+    {
+        $conf = [ // config
+            'tables' => 'tt_content',
+            'source' => $uid,
+            'dontCheckPid' => 1
         ];
-		$conf_test = htmlspecialchars($conf);
-		if (count($conf_test) > 0) {
+        $conf_test = htmlspecialchars($conf);
+        if (count($conf_test) > 0) {
             $conf = $conf_test;
         }
         // ToDo J.V. Rebuild this
-		return $this->cObj->RECORDS($conf);
+        return $this->cObj->RECORDS($conf);
     }
 
-	/**
-	 * Injects the Configuration Manager
-	 *
-	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-	 * @return void
-	*/
-	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-		$this->cObj = $this->configurationManager->getContentObject();
-	}
+    /**
+     * Injects the Configuration Manager
+     *
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @return void
+     */
+    public function injectConfigurationManager(
+        \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+    ) {
+        $this->configurationManager = $configurationManager;
+        $this->cObj = $this->configurationManager->getContentObject();
+    }
 }

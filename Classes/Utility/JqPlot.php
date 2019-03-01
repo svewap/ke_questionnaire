@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,59 +33,72 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class JqPlot {
-	/**
-	 * getChart
-	 * 
-	 * @param string $type
-	 * @param array $dataArray
-	 * @param string $divId
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+class JqPlot
+{
+    /**
+     * getChart
+     *
+     * @param string $type
+     * @param array $dataArray
+     * @param string $divId
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
      * @param array $labels
-	 */
-	public function getChart($type, $divId, $dataArray, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question = NULL, $labels = NULL){
-		switch ($type) {
-            case 'lines': return $this->createLineChart($divId, $dataArray);
-				break;
-            case 'barChart': return $this->createSingleBarChart($divId, $dataArray, $question, $labels);
-				break;
-			case 'pieChart': 
-			default: return $this->createPieChart($divId, $dataArray, $question);
-				break;
-			
-		}
-		return false;
-	}
-		
-	/**
-	 * create line
-	 * 
-	 * @param array $dataArray
-	 */
-	public function createLineChart($divId, $dataArray){
-		$lines = [];
-		$line_names = '';
-		foreach ($dataArray as $type => $values){
-			$line_names .= 'line_'.$type.',';
-			$lines[$type]['title'] = $values['title'];
-			if (is_array($values['dates'])){
-				foreach ($values['dates'] as $date => $amount){
-					$lines[$type]['data'] .= "['".$date."',".$amount."],";
-				}
-			}
-			$lines[$type]['data'] = '['.rtrim($lines[$type]['data'],',').']';			
-		}
-		$line_names = '['.rtrim($line_names,',').']';
-				
-		//$js = "jQuery(document).ready(function(){\n";
+     */
+    public function getChart(
+        $type,
+        $divId,
+        $dataArray,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question = null,
+        $labels = null
+    ) {
+        switch ($type) {
+            case 'lines':
+                return $this->createLineChart($divId, $dataArray);
+                break;
+            case 'barChart':
+                return $this->createSingleBarChart($divId, $dataArray, $question, $labels);
+                break;
+            case 'pieChart':
+            default:
+                return $this->createPieChart($divId, $dataArray, $question);
+                break;
+
+        }
+        return false;
+    }
+
+    /**
+     * create line
+     *
+     * @param array $dataArray
+     */
+    public function createLineChart($divId, $dataArray)
+    {
+        $lines = [];
+        $line_names = '';
+        foreach ($dataArray as $type => $values) {
+            $line_names .= 'line_' . $type . ',';
+            $lines[$type]['title'] = $values['title'];
+            if (is_array($values['dates'])) {
+                foreach ($values['dates'] as $date => $amount) {
+                    $lines[$type]['data'] .= "['" . $date . "'," . $amount . "],";
+                }
+            }
+            $lines[$type]['data'] = '[' . rtrim($lines[$type]['data'], ',') . ']';
+        }
+        $line_names = '[' . rtrim($line_names, ',') . ']';
+
+        //$js = "jQuery(document).ready(function(){\n";
         $js = '';
-		foreach ($lines as $type => $line){
-			if ($line['data'] == '[]') $line['data'] = "['']";
-			$js .= "			var line_".$type." = ".$line['data'].";\n";
-		}
-		//Evtl verbesserung: bei einer Anzahl von Teilnahmen < 10 => y-axis mit min value/tick interval etc.
-		//Bei < 5 Tagen => x-axis mit tickInterval 1day
-		$js .= "var linePlot = jQuery.jqplot ('".$divId."', ".$line_names.",
+        foreach ($lines as $type => $line) {
+            if ($line['data'] == '[]') {
+                $line['data'] = "['']";
+            }
+            $js .= "			var line_" . $type . " = " . $line['data'] . ";\n";
+        }
+        //Evtl verbesserung: bei einer Anzahl von Teilnahmen < 10 => y-axis mit min value/tick interval etc.
+        //Bei < 5 Tagen => x-axis mit tickInterval 1day
+        $js .= "var linePlot = jQuery.jqplot ('" . $divId . "', " . $line_names . ",
 		          {
 						axesDefaults: {
 							autoscale: true,
@@ -107,16 +122,16 @@ class JqPlot {
 							}
 						},
 						series:[";
-		foreach ($lines as $type => $line){
-			$js .= "				{
-										label: '".$line['title']."',
+        foreach ($lines as $type => $line) {
+            $js .= "				{
+										label: '" . $line['title'] . "',
 										lineWidth: 3, 
 										markerOptions: {style:'square'}
 									},
 					";
-		}
-							
-		$js .= "		],
+        }
+
+        $js .= "		],
 						legend: { 
 							show:true, 
 							location: 'e',
@@ -135,38 +150,48 @@ class JqPlot {
                   }
                 );";
         //   });";
-		return $js;
-	}
-	
-	/**
-	 * create bar
-	 * 
-	 * @param string $type
+        return $js;
+    }
+
+    /**
+     * create bar
+     *
+     * @param string $type
      * @param array $values
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
      * @param array $labels
-	 * @return string $chart
-	 */
-	public function createSingleBarChart($type, $values, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $labels = false){
-		if (is_array($values)){
-			ksort($values);
-			$counter = 0;
-			foreach ($values as $nr => $bar){
-				if ($bar['value'] > $counter ) $counter = $bar['value'];
-				$singleBar .= $bar['value'].',';
-				if ($labels[$nr]) $ticks .= "'".$labels[$nr]."',";
-				else $ticks .= "'".$nr."',";
-				$label_c ++;
-			}	        
-			$singleBar = rtrim($singleBar,',');
-			$ticks = rtrim($ticks,',');
-			$counter += 2;
-			
-			$js = 
-				"
-					var bar = [".$singleBar."];
-					var ticks = [".$ticks."];
-					var plot1 = jQuery.jqplot ('chart_".$type."_".$question->getUid()."', [bar], 
+     * @return string $chart
+     */
+    public function createSingleBarChart(
+        $type,
+        $values,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        $labels = false
+    ) {
+        if (is_array($values)) {
+            ksort($values);
+            $counter = 0;
+            foreach ($values as $nr => $bar) {
+                if ($bar['value'] > $counter) {
+                    $counter = $bar['value'];
+                }
+                $singleBar .= $bar['value'] . ',';
+                if ($labels[$nr]) {
+                    $ticks .= "'" . $labels[$nr] . "',";
+                } else {
+                    $ticks .= "'" . $nr . "',";
+                }
+                $label_c++;
+            }
+            $singleBar = rtrim($singleBar, ',');
+            $ticks = rtrim($ticks, ',');
+            $counter += 2;
+
+            $js =
+                "
+					var bar = [" . $singleBar . "];
+					var ticks = [" . $ticks . "];
+					var plot1 = jQuery.jqplot ('chart_" . $type . "_" . $question->getUid() . "', [bar], 
 						{
 							seriesDefaults: {
 								renderer: jQuery.jqplot.BarRenderer,
@@ -199,34 +224,45 @@ class JqPlot {
 						}
 					);
 				";
-		}
-		return $js;
-	}
-       
+        }
+        return $js;
+    }
+
     /**
      * create pie
-     * 
-	 * @param string $type
+     *
+     * @param string $type
      * @param array $values
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @param boolean $absoulteValues
-	 * @return string $chart
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param boolean $absoulteValues
+     * @return string $chart
      */
-    public function createPieChart($type, $values, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question = NULL, $absoluteValues = false){
-		$data = '[';
-        foreach ($values as $key => $answer){
-            if ($answer['answer']) $data .= "['".$answer["answer"]->getTitle()."', ";
-			else $data .= "['".$key."', ";
-            $data .= $answer["value"]."],";
+    public function createPieChart(
+        $type,
+        $values,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question = null,
+        $absoluteValues = false
+    ) {
+        $data = '[';
+        foreach ($values as $key => $answer) {
+            if ($answer['answer']) {
+                $data .= "['" . $answer["answer"]->getTitle() . "', ";
+            } else {
+                $data .= "['" . $key . "', ";
+            }
+            $data .= $answer["value"] . "],";
         }
-        $data = rtrim($data,',');
+        $data = rtrim($data, ',');
         $data .= ']';
         $js = //"jQuery(document).ready(function(){
-              "
-                var data = ".$data.";";
-		if ($question)	$js .= "var plot1 = jQuery.jqplot ('chart_".$type."_".$question->getUid()."', [data],";
-		else $js .= "var plot1 = jQuery.jqplot ('chart_".$type."', [data],";
-		$js .= "
+            "
+                var data = " . $data . ";";
+        if ($question) {
+            $js .= "var plot1 = jQuery.jqplot ('chart_" . $type . "_" . $question->getUid() . "', [data],";
+        } else {
+            $js .= "var plot1 = jQuery.jqplot ('chart_" . $type . "', [data],";
+        }
+        $js .= "
                   {
                     seriesDefaults: {
                       // Make this a pie chart.
@@ -235,10 +271,10 @@ class JqPlot {
                         // Put data labels on the pie slices.
                         // By default, labels show the percentage of the slice.
                         showDataLabels: true";
-		if ($absoluteValues){
-		$js .= "		, \n dataLabels: 'value'\n";
-		}
-		$js .= "  }
+        if ($absoluteValues) {
+            $js .= "		, \n dataLabels: 'value'\n";
+        }
+        $js .= "  }
                     },
                     legend: { 
 						show:true, 
@@ -248,7 +284,7 @@ class JqPlot {
 					}
                   }
                 );";
-              //});";
+        //});";
         return $js;
     }
 }

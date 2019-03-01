@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Evaluation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,15 +33,16 @@ namespace Kennziffer\KeQuestionnaire\Evaluation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-interface RenderChartInterface {
+interface RenderChartInterface
+{
 
-	/**
-	 * Renders a chart for finished and not finished questionnairs
-	 */
-	const FINISHED = 'finished';
+    /**
+     * Renders a chart for finished and not finished questionnairs
+     */
+    const FINISHED = 'finished';
 
-	/**
-	 * With this chart you can compare your points with average points of all other questionnairs
-	 */
-	const COMPARE_POINTS = 'comparePoints';
+    /**
+     * With this chart you can compare your points with average points of all other questionnairs
+     */
+    const COMPARE_POINTS = 'comparePoints';
 }

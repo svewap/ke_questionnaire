@@ -1,10 +1,12 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Ajax;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
- * 
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,13 +33,14 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-interface AjaxInterface {
+interface AjaxInterface
+{
 
-	/**
-	 * process an ajax request
-	 *
-	 * @param array $arguments If you want, you can add some arguments to your object
-	 * @return string In most cases JSON
-	 */
-	public function processAjaxRequest(array $arguments);
+    /**
+     * process an ajax request
+     *
+     * @param array $arguments If you want, you can add some arguments to your object
+     * @return string In most cases JSON
+     */
+    public function processAjaxRequest(array $arguments);
 }

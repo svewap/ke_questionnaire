@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+
 use Kennziffer\KeQuestionnaire\Domain\Model\Question;
 
 /***************************************************************
@@ -33,41 +35,44 @@ use Kennziffer\KeQuestionnaire\Domain\Model\Question;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-
-	/**
-	 * @var array
-	 */
-	protected $defaultOrderings = [
-		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-    ];
-	
-	/**
-	 * find all questions for pid
-	 * 
-	 * @param integer $pid
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllForPid($pid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('pid', $pid));
-		return $query->execute();
-	}
+class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
     /**
-	 * find one question without check the pid
-	 *
-	 * @param int $uid
-	 * @return Question Result
-	 */
-	public function findByUidFree($uid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('uid', $uid));
+     * @var array
+     */
+    protected $defaultOrderings = [
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+    ];
+
+    /**
+     * find all questions for pid
+     *
+     * @param integer $pid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllForPid($pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('pid', $pid));
+        return $query->execute();
+    }
+
+    /**
+     * find one question without check the pid
+     *
+     * @param int $uid
+     * @return Question Result
+     */
+    public function findByUidFree($uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('uid', $uid));
         $result = $query->execute();
         return $result[0];
-	}
+    }
 
     /**
      * find questions for ids
@@ -76,11 +81,12 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-	public function findByUids($ids) {
-		$query = $this->createQuery();
-		$query->matching($query->in('uid', $ids));
+    public function findByUids($ids)
+    {
+        $query = $this->createQuery();
+        $query->matching($query->in('uid', $ids));
         return $query->execute();
-	}
+    }
 
     /**
      * find questions for uids
@@ -89,28 +95,30 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-   public function findForUids($uids) {
-		$uids = explode(',',$uids);
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->in('uid', $uids));
-		return $query->execute();	   
-   }
-   
-   /**
-	* find question for uid
-	* 
-	* @params integer $uid
-	* @return Question
-	*/
-   public function findForUid($uid) {
-	   $query = $this->createQuery();
-	   $query->getQuerySettings()->setRespectStoragePage(FALSE);
+    public function findForUids($uids)
+    {
+        $uids = explode(',', $uids);
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->in('uid', $uids));
+        return $query->execute();
+    }
 
-	   $constraint = $query->equals('uid',$uid);
+    /**
+     * find question for uid
+     *
+     * @params integer $uid
+     * @return Question
+     */
+    public function findForUid($uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
 
-	   $query->matching($constraint);
-	   $questions = $query->execute();
-	   return $questions[0];
-   }
+        $constraint = $query->equals('uid', $uid);
+
+        $query->matching($constraint);
+        $questions = $query->execute();
+        return $questions[0];
+    }
 }

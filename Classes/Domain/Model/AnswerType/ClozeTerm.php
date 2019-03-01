@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,54 +33,57 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ClozeTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
-	/**
-	 * ClozePosition
-	 *
-	 * @var integer
-	 */
-	protected $clozePosition;
-	
-	/**
-	 * Returns the clozePosition
-	 *
-	 * @return integer $clozePosition
-	 */
-	public function getClozePosition() {
-		return $this->clozePosition;
-	}
+class ClozeTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
+    /**
+     * ClozePosition
+     *
+     * @var integer
+     */
+    protected $clozePosition;
+
+    /**
+     * Returns the clozePosition
+     *
+     * @return integer $clozePosition
+     */
+    public function getClozePosition()
+    {
+        return $this->clozePosition;
+    }
 
 
-	/**
-	 * Sets the clozePosition
-	 *
-	 * @param integer $clozePosition
-	 * @return void
-	 */
-	public function setClozePosition($clozePosition) {
-		$this->clozePosition = $clozePosition;
-	}
-	
-	/**
-	 *
-	 * @param string $text The text to search in
-	 * @return array Array containing the position informations for one specified answer position
-	 */
-	public function getWordPosition($text) {
-		if (!$this->getClozePosition()) {
+    /**
+     * Sets the clozePosition
+     *
+     * @param integer $clozePosition
+     * @return void
+     */
+    public function setClozePosition($clozePosition)
+    {
+        $this->clozePosition = $clozePosition;
+    }
+
+    /**
+     *
+     * @param string $text The text to search in
+     * @return array Array containing the position informations for one specified answer position
+     */
+    public function getWordPosition($text)
+    {
+        if (!$this->getClozePosition()) {
             $wordPosition = 1;
-        }
-		else {
+        } else {
             $wordPosition = $this->getClozePosition();
         }
-		
-		$positions = [];
-		
-		mb_ereg_search_init($text, "\b".$this->getTitle()."\b");
-		while ($position = mb_ereg_search_pos()) {
-			$positions[] = $position;
-		}
-		
-		return $positions[$wordPosition - 1];
-	}
+
+        $positions = [];
+
+        mb_ereg_search_init($text, "\b" . $this->getTitle() . "\b");
+        while ($position = mb_ereg_search_pos()) {
+            $positions[] = $position;
+        }
+
+        return $positions[$wordPosition - 1];
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,5 +33,6 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class PageBreak extends \Kennziffer\KeQuestionnaire\Domain\Model\Question {
+class PageBreak extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
+{
 }

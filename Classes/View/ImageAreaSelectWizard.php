@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\View;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,5 +33,6 @@ namespace Kennziffer\KeQuestionnaire\View;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ImageAreaSelectWizard extends Chart {
+class ImageAreaSelectWizard extends Chart
+{
 }

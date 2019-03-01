@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ArrayValueViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ArrayValueViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -43,18 +46,19 @@ class ArrayValueViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      */
     protected $escapeOutput = false;
 
-	/**
-	 * @param $array array
-	 * @param $key string
+    /**
+     * @param $array array
+     * @param $key string
      * @return mixed
-	 */	 	
-	public function render($array, $key) {
-        if(is_array($array)) {
-			if(array_key_exists($key, $array)) {
-				return $array[$key];
-			}
-		}
-		return NULL;
-	}
+     */
+    public function render($array, $key)
+    {
+        if (is_array($array)) {
+            if (array_key_exists($key, $array)) {
+                return $array[$key];
+            }
+        }
+        return null;
+    }
 
 }

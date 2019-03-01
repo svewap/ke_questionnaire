@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
 /***************************************************************
@@ -33,13 +35,14 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Query;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-	
-	/**
-	 * @var array
-	 */
-	protected $defaultOrderings = [
-		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+
+    /**
+     * @var array
+     */
+    protected $defaultOrderings = [
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     ];
 
     /**
@@ -48,18 +51,19 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
      */
-	public function findByQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectSysLanguage(TRUE);
-		if ($question->getLocalizedUid()){
-			$constraint = $query->equals('question', $question->getLocalizedUid());
-		} else {
-			$constraint = $query->equals('question', $question);
-		}
-		
-		$query->matching($constraint);
-		return $query->execute();
-	}
+    public function findByQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectSysLanguage(true);
+        if ($question->getLocalizedUid()) {
+            $constraint = $query->equals('question', $question->getLocalizedUid());
+        } else {
+            $constraint = $query->equals('question', $question);
+        }
+
+        $query->matching($constraint);
+        return $query->execute();
+    }
 
     /**
      * find all results for pid
@@ -67,25 +71,27 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
      */
-	public function findByQuestionWithoutPid(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-		$query->matching($query->equals('question', $question));
-		return $query->execute();
-	}
-	
-	/**
-	 * find all results for pid
-	 * 
-	 * @param integer $pid
-	 * @return Query Result
-	 */
-	public function findByUidFree($uid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('uid', $uid));
+    public function findByQuestionWithoutPid(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->getQuerySettings()->setRespectSysLanguage(false);
+        $query->matching($query->equals('question', $question));
+        return $query->execute();
+    }
+
+    /**
+     * find all results for pid
+     *
+     * @param integer $pid
+     * @return Query Result
+     */
+    public function findByUidFree($uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('uid', $uid));
         $result = $query->execute();
         return $result[0];
-	}
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,37 +33,40 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ClozeTextDD extends ClozeText {
-	/**
-	 * pdfType
-	 *
-	 * @var string
-	 */
-	protected $pdfType = 'special';
-		
-	/**
-	 * ClozeAddTerms
-	 *
-	 * @var string
-	 */
-	protected $clozeAddTerms;
-	
-	/**
-	 * Returns the clozeAddTerms
-	 *
-	 * @return string $clozeAddTerms
-	 */
-	public function getClozeAddTerms() {
-		return $this->clozeAddTerms;
-	}
+class ClozeTextDD extends ClozeText
+{
+    /**
+     * pdfType
+     *
+     * @var string
+     */
+    protected $pdfType = 'special';
 
-	/**
-	 * Sets the clozeAddTerms
-	 *
-	 * @param string $clozeAddTerms
-	 * @return void
-	 */
-	public function setClozeAddTerms($clozeAddTerms) {
-		$this->clozeAddTerms = $clozeAddTerms;
-	}	
+    /**
+     * ClozeAddTerms
+     *
+     * @var string
+     */
+    protected $clozeAddTerms;
+
+    /**
+     * Returns the clozeAddTerms
+     *
+     * @return string $clozeAddTerms
+     */
+    public function getClozeAddTerms()
+    {
+        return $this->clozeAddTerms;
+    }
+
+    /**
+     * Sets the clozeAddTerms
+     *
+     * @param string $clozeAddTerms
+     * @return void
+     */
+    public function setClozeAddTerms($clozeAddTerms)
+    {
+        $this->clozeAddTerms = $clozeAddTerms;
+    }
 }

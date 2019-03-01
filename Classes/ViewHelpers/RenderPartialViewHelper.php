@@ -1,7 +1,9 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
-use \TYPO3Fluid\Fluid\ViewHelpers\RenderViewHelper ;
+use \TYPO3Fluid\Fluid\ViewHelpers\RenderViewHelper;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -33,7 +35,8 @@ use \TYPO3Fluid\Fluid\ViewHelpers\RenderViewHelper ;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class RenderPartialViewHelper extends RenderViewHelper {
+class RenderPartialViewHelper extends RenderViewHelper
+{
 
     /**
      * @var boolean
@@ -45,51 +48,53 @@ class RenderPartialViewHelper extends RenderViewHelper {
      */
     protected $escapeOutput = false;
 
-	
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-	
-	/**
-	 * @var array
-	 */
-	var $oldPaths = [];
 
-	/**
-	 * Injects the object manager
-	 *
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
-	/**
-	 * Renders the content.
-	 *
-         * @param string $partial The partial to render
-	 * @param array $arguments Arguments to pass to the partial
-	 * @return string
-	 */
-	public function render($partial = NULL, array $arguments = []) {
-        if (file_exists($partial)){
+    /**
+     * @var array
+     */
+    var $oldPaths = [];
+
+    /**
+     * Injects the object manager
+     *
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * Renders the content.
+     *
+     * @param string $partial The partial to render
+     * @param array $arguments Arguments to pass to the partial
+     * @return string
+     */
+    public function render($partial = null, array $arguments = [])
+    {
+        if (file_exists($partial)) {
             // Overload arguments with own extension local settings (to pass own settings to external partial)
             $arguments = $this->loadSettingsIntoArguments($arguments);
-			
+
             $path_parts = pathinfo($partial);
             $path = realpath($path_parts['dirname']);
             $partial = $path_parts['filename'];
-            
+
             $this->setPartialRootPath($path);
-            $content = $this->viewHelperVariableContainer->getView()->renderPartial($partial, NULL, $arguments);
-            $this->resetPartialRootPath();            
+            $content = $this->viewHelperVariableContainer->getView()->renderPartial($partial, null, $arguments);
+            $this->resetPartialRootPath();
         } else {
             $content = 'Fehlschlag';
         }
         return $content;
-	}
+    }
 
     /**
      * Copied and rebuild from TYPO3 FLUID 6.2
@@ -97,64 +102,68 @@ class RenderPartialViewHelper extends RenderViewHelper {
      * @param array $arguments
      * @return array
      */
-    public function loadSettingsIntoArguments($arguments )
+    public function loadSettingsIntoArguments($arguments)
     {
-        $templateVariableContainer = $this->renderingContext->getVariableProvider() ;
+        $templateVariableContainer = $this->renderingContext->getVariableProvider();
         if (!isset($arguments['settings']) && $templateVariableContainer->exists('settings')) {
             $arguments['settings'] = $templateVariableContainer->get('settings');
         }
         return $arguments;
     }
 
-	/**
-	 * Set partial root path by controller context
-	 *
-	 * @param string $path
-	 * @return void
-	 */
-	protected function setPartialRootPath($path) {
-	    // ToDo J.V. 9.9.2018 - Check if this works . looks as needs a rebuild
-		$this->oldPaths = $this->viewHelperVariableContainer->getView()->getKeqPartialRootPaths();
-		$this->viewHelperVariableContainer->getView()->setPartialRootPath(
-			$path
-		);
-	}
-    
-        /**
-	 * Set partial root path by controller context
-	 *
-	 * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
-	 * @return void
-	 */
-	protected function setPartialRootPathFromCC(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext) {
-		$this->viewHelperVariableContainer->getView()->setPartialRootPath(
-			$this->getPartialRootPath($controllerContext)
-		);
-	}
-
-	/**
-	 * Resets the partial root path to original controller context
-	 *
-	 * @return void
-	 */
-	protected function resetPartialRootPath() {
-		$this->setPartialRootPathFromCC($this->controllerContext);
-	}
-    
     /**
-	 * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
-	 * @return mixed
-	 */
-	protected function getPartialRootPath(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext) {
-		if (count($this->oldPaths) > 0){
-			$partialRootPath = $this->oldPaths[0];
-		} else {
-			$partialRootPath = str_replace(
-				'@packageResourcesPath',
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($controllerContext->getRequest()->getControllerExtensionKey()) . 'Resources/',
-				'@packageResourcesPath/Private/Partials'
-			);
-		}
-		return $partialRootPath;
-	}
+     * Set partial root path by controller context
+     *
+     * @param string $path
+     * @return void
+     */
+    protected function setPartialRootPath($path)
+    {
+        // ToDo J.V. 9.9.2018 - Check if this works . looks as needs a rebuild
+        $this->oldPaths = $this->viewHelperVariableContainer->getView()->getKeqPartialRootPaths();
+        $this->viewHelperVariableContainer->getView()->setPartialRootPath(
+            $path
+        );
+    }
+
+    /**
+     * Set partial root path by controller context
+     *
+     * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     * @return void
+     */
+    protected function setPartialRootPathFromCC(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext)
+    {
+        $this->viewHelperVariableContainer->getView()->setPartialRootPath(
+            $this->getPartialRootPath($controllerContext)
+        );
+    }
+
+    /**
+     * Resets the partial root path to original controller context
+     *
+     * @return void
+     */
+    protected function resetPartialRootPath()
+    {
+        $this->setPartialRootPathFromCC($this->controllerContext);
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     * @return mixed
+     */
+    protected function getPartialRootPath(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext)
+    {
+        if (count($this->oldPaths) > 0) {
+            $partialRootPath = $this->oldPaths[0];
+        } else {
+            $partialRootPath = str_replace(
+                '@packageResourcesPath',
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($controllerContext->getRequest()->getControllerExtensionKey()) . 'Resources/',
+                '@packageResourcesPath/Private/Partials'
+            );
+        }
+        return $partialRootPath;
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,19 +33,24 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class PremiumInfo {
-	/**
-	 * @return string show string
-	 */
-	public function showInfo() {
-		return '<i>'.\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('premiuminfo.standard', 'ke_questionnaire').'</i>';
-	}
-	
-	/**
-	 * @param $content
-	 * @return string show string
-	 */
-	public function showText($content) {
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($content['fieldConf']['config']['text'], $content['fieldConf']['config']['extension']);
-	}
+class PremiumInfo
+{
+    /**
+     * @return string show string
+     */
+    public function showInfo()
+    {
+        return '<i>' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('premiuminfo.standard',
+                'ke_questionnaire') . '</i>';
+    }
+
+    /**
+     * @param $content
+     * @return string show string
+     */
+    public function showText($content)
+    {
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($content['fieldConf']['config']['text'],
+            $content['fieldConf']['config']['extension']);
+    }
 }

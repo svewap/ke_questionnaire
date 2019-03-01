@@ -1,5 +1,9 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+
+use Kennziffer\KeQuestionnaire\Domain\Model\Questionnaire;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,86 +35,90 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class QuestionnaireRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-       
-       /**
-        * find all ke_questionnaires
-        * 
-        * @return Query Result
-        */
-       public function findAll() {
-           $query = $this->createQuery();
-           $query->getQuerySettings()->setRespectStoragePage(FALSE);
-           
-           $constraint = $query->logicalAnd(
-                        $query->equals('ctype','list'),
-                        $query->equals('list_type','kequestionnaire_questionnaire')
-                   );
-           $query->matching($constraint);
-           
-           return $query->execute();
-       }
-	
-	   /**
-        * find ke_questionnaires for the storagePid
-        * 
-	    * @param integer $storagePid
-        * @return Query Result
-        */
-       public function findByStoragePid($storagePid) {
-           $query = $this->createQuery();
-           $query->getQuerySettings()->setRespectStoragePage(FALSE);
-           
-           $constraint = $query->logicalOr(
-				   $query->equals('pages',$storagePid),
-				   $query->logicalOr(
-						   $query->like('pages', $storagePid.',%'),
-						   $query->logicalOr(
-								   $query->like('pages', '%,'.$storagePid),
-								   $query->like('pages', '%,'.$storagePid.',%')
-								   )
-						   )
-				   );
-				   
-           $query->matching($constraint);
-           
-           return $query->execute();
-       }
-       
-       /**
-        * find ke_questionnaires for uids
-        * 
-        * @params array $uids
-        * @return questionnaires
-        */
-       public function findForUids($uids) {
-			$uids = explode(',',$uids);
-			$query = $this->createQuery();
-			$query->getQuerySettings()->setRespectStoragePage(FALSE);
-			$query->matching($query->in('uid', $uids));
-			return $query->execute();	   
-       }
-       
-       /**
-        * find ke_questionnaires for uid
-        * 
-        * @params integer $uid
-        * @return questionnaire
-        */
-       public function findForUid($uid) {
-           $query = $this->createQuery();
-           $query->getQuerySettings()->setRespectStoragePage(FALSE);
+class QuestionnaireRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-           $constraint = $query->equals('uid',$uid);
+    /**
+     * find all ke_questionnaires
+     *
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAll()
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
 
-           $query->matching($constraint);
-		   $questionnaires = $query->execute();
+        $constraint = $query->logicalAnd([
+            $query->equals('ctype', 'list'),
+            $query->equals('list_type', 'kequestionnaire_questionnaire')
+        ]);
+        $query->matching($constraint);
 
-		   // jv. $questionnaires ist kein Array! $questionnaires[0] geht deshalb nicht in 7.x
-		   $questionnaire = $questionnaires->getFirst();
-           
-           return $questionnaire;
-       }
-       
-       
+        return $query->execute();
+    }
+
+    /**
+     * find ke_questionnaires for the storagePid
+     *
+     * @param integer $storagePid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function findByStoragePid($storagePid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+
+        $constraint = $query->logicalOr([
+            $query->equals('pages', $storagePid),
+            $query->logicalOr([
+                $query->like('pages', $storagePid . ',%'),
+                $query->logicalOr([
+                    $query->like('pages', '%,' . $storagePid),
+                    $query->like('pages', '%,' . $storagePid . ',%')
+                ])
+            ])
+        ]);
+
+        $query->matching($constraint);
+
+        return $query->execute();
+    }
+
+    /**
+     * find ke_questionnaires for uids
+     *
+     * @params array $uids
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function findForUids($uids)
+    {
+        $uids = explode(',', $uids);
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->in('uid', $uids));
+        return $query->execute();
+    }
+
+    /**
+     * find ke_questionnaires for uid
+     *
+     * @params integer $uid
+     * @return Questionnaire
+     */
+    public function findForUid($uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+
+        $constraint = $query->equals('uid', $uid);
+
+        $query->matching($constraint);
+        $questionnaires = $query->execute();
+
+        return $questionnaires->getFirst();
+    }
+
+
 }

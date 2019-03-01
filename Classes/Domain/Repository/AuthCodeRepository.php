@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
 /***************************************************************
@@ -33,47 +35,51 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Query;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * find authcodes for a pid
-	 * 
-	 * @param integer $pid
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findAllForPid($pid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('pid', $pid));
-		return $query->execute();
-	}
-	
-	/**
-	 * find one for string and pid
-	 * 
-	 * @param string $code
-	 * @param integer $pid
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findByAuthCodeForPid($code, $pid){
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$pid_cond = $query->equals('pid', $pid);
-		$code_cond = $query->equals('auth_code',$code);
-		$query->matching($query->logicalAnd([$pid_cond,$code_cond]));
-		return $query->execute();
-	}
-	
-	/**
-	 * find all results for pid
-	 * 
-	 * @param integer $pid
-	 * @return int
-	 */
-	public function countAllForPid($pid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('pid', $pid));
-		return $query->count();
-	}
+    /**
+     * find authcodes for a pid
+     *
+     * @param integer $pid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllForPid($pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('pid', $pid));
+        return $query->execute();
+    }
+
+    /**
+     * find one for string and pid
+     *
+     * @param string $code
+     * @param integer $pid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByAuthCodeForPid($code, $pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $pid_cond = $query->equals('pid', $pid);
+        $code_cond = $query->equals('auth_code', $code);
+        $query->matching($query->logicalAnd([$pid_cond, $code_cond]));
+        return $query->execute();
+    }
+
+    /**
+     * find all results for pid
+     *
+     * @param integer $pid
+     * @return int
+     */
+    public function countAllForPid($pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('pid', $pid));
+        return $query->count();
+    }
 }

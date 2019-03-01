@@ -1,4 +1,5 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Controller;
 
 /***************************************************************
@@ -32,38 +33,42 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AnalyseController extends  BackendController {
-	
+class AnalyseController extends BackendController
+{
+
     /**
-	 * @var \Kennziffer\KeQuestionnaire\Utility\Analysis
-	 */
-	protected $analysis;
-	
-	/**
-	 * inject analysis
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Utility\Analysis $analysis
-	 */
-	public function injectAnalysis(\Kennziffer\KeQuestionnaire\Utility\Analysis $analysis) {
-		$this->analysis = $analysis;
-	}
-    
+     * @var \Kennziffer\KeQuestionnaire\Utility\Analysis
+     */
+    protected $analysis;
+
     /**
-	 * initialize Action
-	 *
-	 * @return void
-	 */
-	public function initializeAction() {
-		parent::initializeAction();
-		$this->analysis->setSettings($this->settings['analysis']);
-	}
-    
-	/**
-	 * action index
-	 */
-	public function indexAction() {
-		$this->view->assign('questionnaires',$this->questionnaireRepository->findAll());
-	}
+     * inject analysis
+     *
+     * @param \Kennziffer\KeQuestionnaire\Utility\Analysis $analysis
+     */
+    public function injectAnalysis(\Kennziffer\KeQuestionnaire\Utility\Analysis $analysis)
+    {
+        $this->analysis = $analysis;
+    }
+
+    /**
+     * initialize Action
+     *
+     * @return void
+     */
+    public function initializeAction()
+    {
+        parent::initializeAction();
+        $this->analysis->setSettings($this->settings['analysis']);
+    }
+
+    /**
+     * action index
+     */
+    public function indexAction()
+    {
+        $this->view->assign('questionnaires', $this->questionnaireRepository->findAll());
+    }
 
     /**
      * action analyse questions
@@ -73,52 +78,66 @@ class AnalyseController extends  BackendController {
      * @ignorevalidaton $plugin
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
-    public function questionsAction($storage = false, $plugin = false) {
-        if ($storage) $this->storagePid = $storage;
-		if ($plugin) $this->plugin = $plugin;
-		
+    public function questionsAction($storage = false, $plugin = false)
+    {
+        if ($storage) {
+            $this->storagePid = $storage;
+        }
+        if ($plugin) {
+            $this->plugin = $plugin;
+        }
+
         $questionnaire = $this->questionnaireRepository->findByUid($this->plugin['uid']);
         $questions = $this->questionRepository->findAllForPid($questionnaire->getStoragePid());
-		// if a question is selected, create the analysis for this question
-		// else select the first keq-element of type question for analysis
-        if ($this->request->hasArgument('question')){
+        // if a question is selected, create the analysis for this question
+        // else select the first keq-element of type question for analysis
+        if ($this->request->hasArgument('question')) {
             $q_id = $this->request->getArgument('question');
             $question = $this->questionRepository->findByUidFree($q_id);
         } else {
-			foreach ($questions as $q){
-				if ($question == Null){
-					if ($q->getShortType() === 'Question') $question = $q;
-				}
-			}
+            foreach ($questions as $q) {
+                if ($question == null) {
+                    if ($q->getShortType() === 'Question') {
+                        $question = $q;
+                    }
+                }
+            }
         }
-		//fill the questions in the questionnaire
+        //fill the questions in the questionnaire
         $questionnaire->setQuestions($questions);
-		//get the results for this questionnaire
+        //get the results for this questionnaire
         $results = $this->resultRepository->findAllForPid($questionnaire->getStoragePid());
-		//if there is a question create a cart
-		if ($question) $this->view->assign('chart', $this->analysis->createQuestionAnalysis($question, $results));
-        $this->view->assign('question',$question);
-        $this->view->assign('plugin',$questionnaire);
-        $this->view->assign('counter',$this->countParticipations());
+        //if there is a question create a cart
+        if ($question) {
+            $this->view->assign('chart', $this->analysis->createQuestionAnalysis($question, $results));
+        }
+        $this->view->assign('question', $question);
+        $this->view->assign('plugin', $questionnaire);
+        $this->view->assign('counter', $this->countParticipations());
     }
-    
+
     /**
      * Shows the general anlysis: participation amount and date linechart
-     * 
-	 * @param integer $storage
-	 * @param array $plugin
-	 * @ignorevalidaton $plugin
+     *
+     * @param integer $storage
+     * @param array $plugin
+     * @ignorevalidaton $plugin
      */
-    public function generalAction($storage = false, $plugin = false) {
-        if ($storage) $this->storagePid = $storage;
-		if ($plugin) $this->plugin = $plugin;
-		//get the questionnaire//tt_content element with the given uid
-		$questionnaire = $this->questionnaireRepository->findByUid($this->plugin['uid']);
+    public function generalAction($storage = false, $plugin = false)
+    {
+        if ($storage) {
+            $this->storagePid = $storage;
+        }
+        if ($plugin) {
+            $this->plugin = $plugin;
+        }
+        //get the questionnaire//tt_content element with the given uid
+        $questionnaire = $this->questionnaireRepository->findByUid($this->plugin['uid']);
         //get the results for this questionnaire
-		$results = $this->resultRepository->findAllForPidRaw($questionnaire->getStoragePid());
-		//create the general chart
-		$this->view->assign('chart',$this->analysis->createParticipationAnalysis($results, $questionnaire));
-		$this->view->assign('plugin',$questionnaire);
-        $this->view->assign('counter',$this->countParticipations());
+        $results = $this->resultRepository->findAllForPidRaw($questionnaire->getStoragePid());
+        //create the general chart
+        $this->view->assign('chart', $this->analysis->createParticipationAnalysis($results, $questionnaire));
+        $this->view->assign('plugin', $questionnaire);
+        $this->view->assign('counter', $this->countParticipations());
     }
 }

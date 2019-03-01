@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,187 +33,198 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ExtConf implements \TYPO3\CMS\Core\SingletonInterface {
+class ExtConf implements \TYPO3\CMS\Core\SingletonInterface
+{
 
-	/**
-	 * Enable FeUser Marker
-	 *
-	 * @var boolean
-	 */
-	protected $enableFeUserMarker;
+    /**
+     * Enable FeUser Marker
+     *
+     * @var boolean
+     */
+    protected $enableFeUserMarker;
 
-	/**
-	 * EmailAddress
-	 *
-	 * @var string
-	 */
-	protected $emailAddress;
+    /**
+     * EmailAddress
+     *
+     * @var string
+     */
+    protected $emailAddress;
 
-	/**
-	 * EmailSender
-	 *
-	 * @var string
-	 */
-	protected $emailSender;
+    /**
+     * EmailSender
+     *
+     * @var string
+     */
+    protected $emailSender;
 
-	/**
-	 * EmailSubject
-	 *
-	 * @var string
-	 */
-	protected $emailSubject;
+    /**
+     * EmailSubject
+     *
+     * @var string
+     */
+    protected $emailSubject;
 
-	/**
-	 * CsvExportInterval
-	 *
-	 * @var integer
-	 */
-	protected $csvExportInterval;
+    /**
+     * CsvExportInterval
+     *
+     * @var integer
+     */
+    protected $csvExportInterval;
 
 
-        
-        /**
-	 * Premium
-	 *
-	 * @var array
-	 */
-	public $premium;
+    /**
+     * Premium
+     *
+     * @var array
+     */
+    public $premium;
 
 
     /**
      * @var boolean
      */
-    public $enableAuthCode2feUser ;
+    public $enableAuthCode2feUser;
 
 
     /**
      * @var boolean
      */
-    public $enableAuthCode2feGroups ;
+    public $enableAuthCode2feGroups;
 
     /**
      * @var boolean
      */
-    public $enableAuthCode2ttAddress ;
+    public $enableAuthCode2ttAddress;
 
 
-	/**
-	 * Constructor of this class
-	 */
-	public function __construct() {
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ke_questionnaire']);
-		if (is_array($extConf)) {
-			foreach ($extConf as $key => $value) {
-				$methodName = 'set' . ucfirst($key);
-				if (method_exists($this, $methodName)) {
-					$this->$methodName($value);
-				}
-			}
-		} else {
-			throw new \Kennziffer\KeQuestionnaire\Exception('saveExtConf', 1349685793);
-		}
-                if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_questionnaire_premium')) {
-                    $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ke_questionnaire_premium']);
-                    if (is_array($extConf)) {
-                        $this->premium = $extConf;
-                    }
+    /**
+     * Constructor of this class
+     */
+    public function __construct()
+    {
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ke_questionnaire']);
+        if (is_array($extConf)) {
+            foreach ($extConf as $key => $value) {
+                $methodName = 'set' . ucfirst($key);
+                if (method_exists($this, $methodName)) {
+                    $this->$methodName($value);
                 }
-	}
+            }
+        } else {
+            throw new \Kennziffer\KeQuestionnaire\Exception('saveExtConf', 1349685793);
+        }
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_questionnaire_premium')) {
+            $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ke_questionnaire_premium']);
+            if (is_array($extConf)) {
+                $this->premium = $extConf;
+            }
+        }
+    }
 
-	/**
-	 * Returns the emailAddress
-	 *
-	 * @return string $emailAddress
-	 */
-	public function getEmailAddress() {
-		return $this->emailAddress;
-	}
+    /**
+     * Returns the emailAddress
+     *
+     * @return string $emailAddress
+     */
+    public function getEmailAddress()
+    {
+        return $this->emailAddress;
+    }
 
-	/**
-	 * Sets the emailAddress
-	 *
-	 * @param string $emailAddress
-	 * @return void
-	 */
-	public function setEmailAddress($emailAddress) {
-		$this->emailAddress = $emailAddress;
-	}
+    /**
+     * Sets the emailAddress
+     *
+     * @param string $emailAddress
+     * @return void
+     */
+    public function setEmailAddress($emailAddress)
+    {
+        $this->emailAddress = $emailAddress;
+    }
 
-	/**
-	 * Returns the enableFeUserMarker
-	 *
-	 * @return boolean $enableFeUserMarker
-	 */
-	public function getEnableFeUserMarker() {
-		return $this->enableFeUserMarker;
-	}
+    /**
+     * Returns the enableFeUserMarker
+     *
+     * @return boolean $enableFeUserMarker
+     */
+    public function getEnableFeUserMarker()
+    {
+        return $this->enableFeUserMarker;
+    }
 
-	/**
-	 * Sets the enableFeUserMarker
-	 *
-	 * @param string $enableFeUserMarker
-	 * @return void
-	 */
-	public function setEnableFeUserMarker($enableFeUserMarker) {
-		$this->enableFeUserMarker = $enableFeUserMarker;
-	}
+    /**
+     * Sets the enableFeUserMarker
+     *
+     * @param string $enableFeUserMarker
+     * @return void
+     */
+    public function setEnableFeUserMarker($enableFeUserMarker)
+    {
+        $this->enableFeUserMarker = $enableFeUserMarker;
+    }
 
-	/**
-	 * Returns the emailSender
-	 *
-	 * @return string $emailSender
-	 */
-	public function getEmailSender() {
-		return $this->emailSender;
-	}
+    /**
+     * Returns the emailSender
+     *
+     * @return string $emailSender
+     */
+    public function getEmailSender()
+    {
+        return $this->emailSender;
+    }
 
-	/**
-	 * Sets the emailSender
-	 *
-	 * @param string $emailSender
-	 * @return void
-	 */
-	public function setEmailSender($emailSender) {
-		$this->emailSender = $emailSender;
-	}
+    /**
+     * Sets the emailSender
+     *
+     * @param string $emailSender
+     * @return void
+     */
+    public function setEmailSender($emailSender)
+    {
+        $this->emailSender = $emailSender;
+    }
 
-	/**
-	 * Returns the emailSubject
-	 *
-	 * @return string $emailSubject
-	 */
-	public function getEmailSubject() {
-		return $this->emailSubject;
-	}
+    /**
+     * Returns the emailSubject
+     *
+     * @return string $emailSubject
+     */
+    public function getEmailSubject()
+    {
+        return $this->emailSubject;
+    }
 
-	/**
-	 * Sets the emailSubject
-	 *
-	 * @param string $emailSubject
-	 * @return void
-	 */
-	public function setEmailSubject($emailSubject) {
-		$this->emailSubject = $emailSubject;
-	}
-	
-	/**
-	 * Returns the csvExportInterval
-	 *
-	 * @return string $csvExportInterval
-	 */
-	public function getCsvExportInterval() {
-		return $this->csvExportInterval;
-	}
+    /**
+     * Sets the emailSubject
+     *
+     * @param string $emailSubject
+     * @return void
+     */
+    public function setEmailSubject($emailSubject)
+    {
+        $this->emailSubject = $emailSubject;
+    }
 
-	/**
-	 * Sets the csvExportInterval
-	 *
-	 * @param string $csvExportInterval
-	 * @return void
-	 */
-	public function setCsvExportInterval($csvExportInterval) {
-		$this->csvExportInterval = $csvExportInterval;
-	}
+    /**
+     * Returns the csvExportInterval
+     *
+     * @return string $csvExportInterval
+     */
+    public function getCsvExportInterval()
+    {
+        return $this->csvExportInterval;
+    }
+
+    /**
+     * Sets the csvExportInterval
+     *
+     * @param string $csvExportInterval
+     * @return void
+     */
+    public function setCsvExportInterval($csvExportInterval)
+    {
+        $this->csvExportInterval = $csvExportInterval;
+    }
 
     /**
      * @return bool

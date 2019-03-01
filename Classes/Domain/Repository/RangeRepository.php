@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,16 +33,18 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class RangeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-	/**
-	 * 
-	 * @param integer $pid
-	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface|array The query result object or an array if $returnRawQueryResult is TRUE
-	 */
-	public function findForPid($pid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->matching($query->equals('pid', $pid));
-		return $query->execute();
-	}
+class RangeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+    /**
+     *
+     * @param integer $pid
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface|array The query result object or an array if $returnRawQueryResult is TRUE
+     */
+    public function findForPid($pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('pid', $pid));
+        return $query->execute();
+    }
 }

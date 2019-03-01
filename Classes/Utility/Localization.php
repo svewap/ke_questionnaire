@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,77 +33,85 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Localization {
+class Localization
+{
 
-	/**
-	 * @var string
-	 */
-	protected $locallangPath = 'Resources/Private/Language/';
+    /**
+     * @var string
+     */
+    protected $locallangPath = 'Resources/Private/Language/';
 
-	/**
-	 * @var string
-	 */
-	protected $locallangFile = 'locallang.xml';
+    /**
+     * @var string
+     */
+    protected $locallangFile = 'locallang.xml';
 
 
-	/**
-	 * Returns the locallangPath
-	 *
-	 * @return string $locallangPath
-	 */
-	public function getLocallangPath() {
-		return $this->locallangPath;
-	}
+    /**
+     * Returns the locallangPath
+     *
+     * @return string $locallangPath
+     */
+    public function getLocallangPath()
+    {
+        return $this->locallangPath;
+    }
 
-	/**
-	 * Sets the locallangPath
-	 *
-	 * @param string $locallangPath
-	 * @return void
-	 */
-	public function setLocallangPath($locallangPath) {
-		$this->locallangPath = $locallangPath;
-	}
+    /**
+     * Sets the locallangPath
+     *
+     * @param string $locallangPath
+     * @return void
+     */
+    public function setLocallangPath($locallangPath)
+    {
+        $this->locallangPath = $locallangPath;
+    }
 
-	/**
-	 * Returns the locallangFile
-	 *
-	 * @return string $locallangFile
-	 */
-	public function getLocallangFile() {
-		return $this->locallangFile;
-	}
+    /**
+     * Returns the locallangFile
+     *
+     * @return string $locallangFile
+     */
+    public function getLocallangFile()
+    {
+        return $this->locallangFile;
+    }
 
-	/**
-	 * Sets the locallangFile
-	 *
-	 * @param string $locallangFile
-	 * @return void
-	 */
-	public function setLocallangFile($locallangFile) {
-		$this->locallangFile = $locallangFile;
-	}
+    /**
+     * Sets the locallangFile
+     *
+     * @param string $locallangFile
+     * @return void
+     */
+    public function setLocallangFile($locallangFile)
+    {
+        $this->locallangFile = $locallangFile;
+    }
 
-	/**
-	 * translation mapper
-	 * with this method you can access your own xml file while in original class the locallang file is hardcoded
-	 *
-	 * @param string $key The key from the LOCAL_LANG array for which to return the value.
-	 * @param string $locallangFile
-	 * @param array $arguments the arguments of the extension, being passed over to vsprintf
-	 * @return string The localized key
-	 */
-	public function translate($key, $locallangFile = 'locallang.xml', $arguments = NULL) {
-		// set locallang file
-		if (empty($locallangFile)) {
-			$this->setLocallangFile('locallang.xml');
-		} else $this->setLocallangFile ($locallangFile);
+    /**
+     * translation mapper
+     * with this method you can access your own xml file while in original class the locallang file is hardcoded
+     *
+     * @param string $key The key from the LOCAL_LANG array for which to return the value.
+     * @param string $locallangFile
+     * @param array $arguments the arguments of the extension, being passed over to vsprintf
+     * @return string The localized key
+     */
+    public function translate($key, $locallangFile = 'locallang.xml', $arguments = null)
+    {
+        // set locallang file
+        if (empty($locallangFile)) {
+            $this->setLocallangFile('locallang.xml');
+        } else {
+            $this->setLocallangFile($locallangFile);
+        }
 
-		// build path
-		$path = 'LLL:EXT:ke_questionnaire/' . $this->locallangPath . $this->locallangFile;
-		$key = $path . ':' . $key;
+        // build path
+        $path = 'LLL:EXT:ke_questionnaire/' . $this->locallangPath . $this->locallangFile;
+        $key = $path . ':' . $key;
 
-		// get translation
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'keQuestionnaire', $arguments);
-	}
+        // get translation
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'keQuestionnaire', $arguments);
+    }
 }

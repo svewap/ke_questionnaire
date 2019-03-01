@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,224 +33,240 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Slider extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
-	
-	/**
-	 * pdfType
-	 *
-	 * @var string
-	 */
-	protected $pdfType = 'special';
+class Slider extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
 
-	/**
-	 * RightLabel
-	 *
-	 * @var string
-	 */
-	protected $leftLabel;
-	
-	/**
-	 * RightLabel
-	 *
-	 * @var string
-	 */
-	protected $rightLabel;
-	
-	/**
-	 * minValue
-	 *
-	 * @var integer
-	 */
-	protected $minValue;
-	
-	/**
-	 * maxValue
-	 *
-	 * @var integer
-	 */
-	protected $maxValue;
-	
-	/**
-	 * sliderIncrement
-	 *
-	 * @var float
-	 */
-	protected $sliderIncrement;
-	
-	/**
-	 * sliderSteps
-	 *
-	 * @var array
-	 */
-	protected $sliderSteps;
-	
-	/**
-	 * Width
-	 *
-	 * @var integer
-	 */
-	protected $width;
+    /**
+     * pdfType
+     *
+     * @var string
+     */
+    protected $pdfType = 'special';
 
-	/**
-	 * Height
-	 *
-	 * @var integer
-	 */
-	protected $height;
-	
-	/**
-	 * Returns the leftLabel
-	 *
-	 * @return string $leftLabel
-	 */
-	public function getLeftLabel() {
-		return $this->leftLabel;
-	}
+    /**
+     * RightLabel
+     *
+     * @var string
+     */
+    protected $leftLabel;
 
-	/**
-	 * Sets the leftLabel
-	 *
-	 * @param string $leftLabel
-	 * @return void
-	 */
-	public function setLeftLabel($leftLabel) {
-		$this->leftLabel = $leftLabel;
-	}
-	
-	/**
-	 * Returns the rightLabel
-	 *
-	 * @return string $rightLabel
-	 */
-	public function getRightLabel() {
-		return $this->rightLabel;
-	}
+    /**
+     * RightLabel
+     *
+     * @var string
+     */
+    protected $rightLabel;
 
-	/**
-	 * Sets the rightLabel
-	 *
-	 * @param string $rightLabel
-	 * @return void
-	 */
-	public function setRightLabel($rightLabel) {
-		$this->rightLabel = $rightLabel;
-	}
-	
-	/**
-	 * Returns the minValue
-	 *
-	 * @return integer $minValue
-	 */
-	public function getMinValue() {
-		return $this->minValue;
-	}
+    /**
+     * minValue
+     *
+     * @var integer
+     */
+    protected $minValue;
 
-	/**
-	 * Sets the minValue
-	 *
-	 * @param integer $minValue
-	 * @return void
-	 */
-	public function setMinValue($minValue) {
-		$this->minValue = $minValue;
-	}
-	
-	/**
-	 * Returns the maxValue
-	 *
-	 * @return integer $maxValue
-	 */
-	public function getMaxValue() {
-		return $this->maxValue;
-	}
+    /**
+     * maxValue
+     *
+     * @var integer
+     */
+    protected $maxValue;
 
-	/**
-	 * Sets the maxValue
-	 *
-	 * @param integer $maxValue
-	 * @return void
-	 */
-	public function setMaxValue($maxValue) {
-		$this->maxValue = $maxValue;
-	}
-	
-	/**
-	 * Returns the sliderIncrement
-	 *
-	 * @return integer $sliderIncrement
-	 */
-	public function getSliderIncrement() {
-		return $this->sliderIncrement;
-	}
+    /**
+     * sliderIncrement
+     *
+     * @var float
+     */
+    protected $sliderIncrement;
 
-	/**
-	 * Sets the sliderIncrement
-	 *
-	 * @param integer $sliderIncrement
-	 * @return void
-	 */
-	public function setSliderIncrement($sliderIncrement) {
-		$this->sliderIncrement = $sliderIncrement;
-	}
-	
-	/**
-	 * Returns the sliderSteps
-	 *
-	 * @return array $sliderSteps
-	 */
-	public function getSliderSteps() {
-		$base = $this->getMaxValue() - $this->getMinValue();
-		$stepping = round($base / $this->getSliderIncrement());
-		if (!$width = $this->getWidth()) {
+    /**
+     * sliderSteps
+     *
+     * @var array
+     */
+    protected $sliderSteps;
+
+    /**
+     * Width
+     *
+     * @var integer
+     */
+    protected $width;
+
+    /**
+     * Height
+     *
+     * @var integer
+     */
+    protected $height;
+
+    /**
+     * Returns the leftLabel
+     *
+     * @return string $leftLabel
+     */
+    public function getLeftLabel()
+    {
+        return $this->leftLabel;
+    }
+
+    /**
+     * Sets the leftLabel
+     *
+     * @param string $leftLabel
+     * @return void
+     */
+    public function setLeftLabel($leftLabel)
+    {
+        $this->leftLabel = $leftLabel;
+    }
+
+    /**
+     * Returns the rightLabel
+     *
+     * @return string $rightLabel
+     */
+    public function getRightLabel()
+    {
+        return $this->rightLabel;
+    }
+
+    /**
+     * Sets the rightLabel
+     *
+     * @param string $rightLabel
+     * @return void
+     */
+    public function setRightLabel($rightLabel)
+    {
+        $this->rightLabel = $rightLabel;
+    }
+
+    /**
+     * Returns the minValue
+     *
+     * @return integer $minValue
+     */
+    public function getMinValue()
+    {
+        return $this->minValue;
+    }
+
+    /**
+     * Sets the minValue
+     *
+     * @param integer $minValue
+     * @return void
+     */
+    public function setMinValue($minValue)
+    {
+        $this->minValue = $minValue;
+    }
+
+    /**
+     * Returns the maxValue
+     *
+     * @return integer $maxValue
+     */
+    public function getMaxValue()
+    {
+        return $this->maxValue;
+    }
+
+    /**
+     * Sets the maxValue
+     *
+     * @param integer $maxValue
+     * @return void
+     */
+    public function setMaxValue($maxValue)
+    {
+        $this->maxValue = $maxValue;
+    }
+
+    /**
+     * Returns the sliderIncrement
+     *
+     * @return integer $sliderIncrement
+     */
+    public function getSliderIncrement()
+    {
+        return $this->sliderIncrement;
+    }
+
+    /**
+     * Sets the sliderIncrement
+     *
+     * @param integer $sliderIncrement
+     * @return void
+     */
+    public function setSliderIncrement($sliderIncrement)
+    {
+        $this->sliderIncrement = $sliderIncrement;
+    }
+
+    /**
+     * Returns the sliderSteps
+     *
+     * @return array $sliderSteps
+     */
+    public function getSliderSteps()
+    {
+        $base = $this->getMaxValue() - $this->getMinValue();
+        $stepping = round($base / $this->getSliderIncrement());
+        if (!$width = $this->getWidth()) {
             $width = 400;
         }
-		$widthPercent = $width / $stepping;
-		$left = 0;
-		$step = 0;
-		$steps = [];
-		while ($step < $base){
-			$steps[$left] = round($step);
-			$step += $this->getSliderIncrement();
-			$left += $widthPercent;
-		}
-		return $steps;
-	}
-	
-	/**
-	 * Returns the width
-	 *
-	 * @return integer $width
-	 */
-	public function getWidth() {
-		return $this->width;
-	}
+        $widthPercent = $width / $stepping;
+        $left = 0;
+        $step = 0;
+        $steps = [];
+        while ($step < $base) {
+            $steps[$left] = round($step);
+            $step += $this->getSliderIncrement();
+            $left += $widthPercent;
+        }
+        return $steps;
+    }
 
-	/**
-	 * Sets the width
-	 *
-	 * @param integer $width
-	 * @return void
-	 */
-	public function setWidth($width) {
-		$this->width = $width;
-	}
+    /**
+     * Returns the width
+     *
+     * @return integer $width
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
 
-	/**
-	 * Returns the height
-	 *
-	 * @return integer $height
-	 */
-	public function getHeight() {
-		return $this->height;
-	}
+    /**
+     * Sets the width
+     *
+     * @param integer $width
+     * @return void
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
 
-	/**
-	 * Sets the height
-	 *
-	 * @param integer $height
-	 * @return void
-	 */
-	public function setHeight($height) {
-		$this->height = $height;
-	}
+    /**
+     * Returns the height
+     *
+     * @return integer $height
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * Sets the height
+     *
+     * @param integer $height
+     * @return void
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
 }

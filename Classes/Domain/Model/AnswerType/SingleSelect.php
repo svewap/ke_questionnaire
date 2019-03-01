@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,115 +33,123 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class SingleSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
+class SingleSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
 
-	/**
-	* SelectValues
-	*
-	* @var string
-	*/
-	protected $selectValues;
-    
     /**
-	* ComparisonText
-	*
-	* @var string
-	*/
-	protected $comparisonText;
+     * SelectValues
+     *
+     * @var string
+     */
+    protected $selectValues;
 
-	/**
-	* Returns the selectValues
-	*
-	* @return string $selectValues
-	*/
-	public function getSelectValues() {
-		return $this->selectValues;
-	}
+    /**
+     * ComparisonText
+     *
+     * @var string
+     */
+    protected $comparisonText;
 
-	/**
-	* Sets the selectValues
-	*
-	* @param string $selectValues
-	* @return void
-	*/
-	public function setSelectValues($selectValues) {
-		$this->selectValues = $selectValues;
-	}
-	
-	/**
-	* Returns the selectValues as array
-	*
-	* @return array $selectValues
-	*/
-	public function getSelectValuesArray() {
-		$values = [];
-		foreach (explode("\n",$this->selectValues) as $line){
-			$temp = explode(':',$line);
-			if ($temp[1] == '') {
+    /**
+     * Returns the selectValues
+     *
+     * @return string $selectValues
+     */
+    public function getSelectValues()
+    {
+        return $this->selectValues;
+    }
+
+    /**
+     * Sets the selectValues
+     *
+     * @param string $selectValues
+     * @return void
+     */
+    public function setSelectValues($selectValues)
+    {
+        $this->selectValues = $selectValues;
+    }
+
+    /**
+     * Returns the selectValues as array
+     *
+     * @return array $selectValues
+     */
+    public function getSelectValuesArray()
+    {
+        $values = [];
+        foreach (explode("\n", $this->selectValues) as $line) {
+            $temp = explode(':', $line);
+            if ($temp[1] == '') {
                 $temp[1] = $temp[0];
             }
-			$values[trim($temp[0])] = trim($temp[1]);
-		}
-		
-		return $values;
-	}
-    
+            $values[trim($temp[0])] = trim($temp[1]);
+        }
+
+        return $values;
+    }
+
     /**
-	* Returns the comparitionText
-	*
-	* @return string $comparisonText
-	*/
-	public function getComparisonText() {
-		return $this->comparisonText;
-	}
+     * Returns the comparitionText
+     *
+     * @return string $comparisonText
+     */
+    public function getComparisonText()
+    {
+        return $this->comparisonText;
+    }
 
-	/**
-	* Sets the comparisonText
-	*
-	* @param string $comparisonText
-	* @return void
-	*/
-	public function setComparisonText($comparisonText) {
-		$this->comparisonText = $comparisonText;
-	}
+    /**
+     * Sets the comparisonText
+     *
+     * @param string $comparisonText
+     * @return void
+     */
+    public function setComparisonText($comparisonText)
+    {
+        $this->comparisonText = $comparisonText;
+    }
 
-	/**
-	 * Returns the comparisonText as array
-	 *
-	 * @return array
-	 */
-	public function getComparisonTextArray() {
-		$values = [];
-		foreach (explode("\n",$this->comparisonText) as $line){
-			$temp = explode(':',$line);
-			if ($temp[1] == '') {
+    /**
+     * Returns the comparisonText as array
+     *
+     * @return array
+     */
+    public function getComparisonTextArray()
+    {
+        $values = [];
+        foreach (explode("\n", $this->comparisonText) as $line) {
+            $temp = explode(':', $line);
+            if ($temp[1] == '') {
                 $temp[1] = $temp[0];
             }
-			$values[trim($temp[0])] = trim($temp[1]);
-		}
+            $values[trim($temp[0])] = trim($temp[1]);
+        }
 
-		return $values;
-	}
-    
-	/**
-	 * Checks if the value is valid for this answer
-	 *
-	 * @param string $value value
-	 * @return boolean
-	 */
-	public function isValid($value){
-		$class = 'Kennziffer\\KeQuestionnaire\\Validation\\' . ucfirst($this->getValidationType());
-		if (class_exists($class)) {
-			$objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager;
-			$validator = $objectManager->get($class);
-			if ($validator instanceof \Kennziffer\KeQuestionnaire\Validation\AbstractValidation) {
-				/* @var $validator \Kennziffer\KeQuestionnaire\Validation\AbstractValidation */
-				return $validator->isValid($value, $this);
-			} else {
+        return $values;
+    }
+
+    /**
+     * Checks if the value is valid for this answer
+     *
+     * @param string $value value
+     * @return boolean
+     */
+    public function isValid($value)
+    {
+        $class = 'Kennziffer\\KeQuestionnaire\\Validation\\' . ucfirst($this->getValidationType());
+        if (class_exists($class)) {
+            $objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager;
+            $validator = $objectManager->get($class);
+            if ($validator instanceof \Kennziffer\KeQuestionnaire\Validation\AbstractValidation) {
+                /* @var $validator \Kennziffer\KeQuestionnaire\Validation\AbstractValidation */
+                return $validator->isValid($value, $this);
+            } else {
                 return false;
             }
-		} else {
+        } else {
             return false;
         }
-	}
+    }
 }

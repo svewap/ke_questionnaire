@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Ajax;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,33 +33,37 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AutoSave extends AbstractAjax {
-	
+class AutoSave extends AbstractAjax
+{
+
     /**
-	 * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-	 */
-	protected $signalSlotDispatcher;
-    
+     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     */
+    protected $signalSlotDispatcher;
+
     /**
-	 * inject signal slots
-	 *
-	 * @param \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
-	 * @return void
-	 */
-	public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher) {
-			$this->signalSlotDispatcher = $signalSlotDispatcher;
-	}
-    
+     * inject signal slots
+     *
+     * @param \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
+     * @return void
+     */
+    public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher)
+    {
+        $this->signalSlotDispatcher = $signalSlotDispatcher;
+    }
+
     /**
-	 * process an ajax request
-	 *
-	 * @param array $arguments If you want, you can add some arguments to your object
-	 * @return string In most cases JSON
-	 */
-	public function processAjaxRequest(array $arguments) {
-		$this->info = [];
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'ajaxAutoSave', [$this->convertAjaxFormArray($arguments), $this]);
-		$json = $this->convertValueToJson($this->info['resultUid']);
-		return trim($json);
-	}
+     * process an ajax request
+     *
+     * @param array $arguments If you want, you can add some arguments to your object
+     * @return string In most cases JSON
+     */
+    public function processAjaxRequest(array $arguments)
+    {
+        $this->info = [];
+        $this->signalSlotDispatcher->dispatch(__CLASS__, 'ajaxAutoSave',
+            [$this->convertAjaxFormArray($arguments), $this]);
+        $json = $this->convertValueToJson($this->info['resultUid']);
+        return trim($json);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
@@ -35,71 +37,74 @@ use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AddActivatorsToDependancy {
-	
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
+class AddActivatorsToDependancy
+{
 
-	/**
-	 * questionRepository
-	 *
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
-	 */
-	protected $questionRepository;
-    
     /**
-	 * add items to the select box for activating answers
-	 *
-	 * @param mixed $config
-	 * @return array
-	 */
-	public function addItems($config) {
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * questionRepository
+     *
+     * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
+     */
+    protected $questionRepository;
+
+    /**
+     * add items to the select box for activating answers
+     *
+     * @param mixed $config
+     * @return array
+     */
+    public function addItems($config)
+    {
         // allowed answer-Types
-        $allowedTypes = ['Checkbox','Radiobutton'];
+        $allowedTypes = ['Checkbox', 'Radiobutton'];
         // get data
         $data = [];
         $questions = $this->getQuestions($config['row']['pid']);
-        
-        foreach ($questions as $question){
+
+        foreach ($questions as $question) {
             $item = [];
             $item['title'] = $question->getTitle();
             /** @var Answer $answer */
-            foreach ($question->getAnswers() as $answer){
-                if (in_array($answer->getShortType(), $allowedTypes)){
+            foreach ($question->getAnswers() as $answer) {
+                if (in_array($answer->getShortType(), $allowedTypes)) {
                     $item['uid'] = $answer->getUid();
                     $item['subtitle'] = $answer->getTitle();
                     $data[] = $item;
                 }
             }
         }
-            
+
         // create option list
         $optionList = [];
-       
-        foreach($data as $item){   
-            $label = '[' . $item['uid'] .'] ' . $item['title'] .' - ' . $item['subtitle'];
+
+        foreach ($data as $item) {
+            $label = '[' . $item['uid'] . '] ' . $item['title'] . ' - ' . $item['subtitle'];
             $value = $item['uid'];
-               
+
             $optionList[] = [0 => $label, 1 => $value];
         }
-       
+
         // return config
         $config['items'] = array_merge($config['items'], $optionList);
-        return $config;    
-	}
-    
+        return $config;
+    }
+
     /**
-	 * get the Questions for the questionnaire
-	 * 
-	 * @param integer $storagePid
-	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult 
-	 */
-	private function getQuestions($storagePid) {
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-		$this->questionRepository = $this->objectManager->get(QuestionRepository::class);
-		return $this->questionRepository->findAllForPid($storagePid);
-	}
+     * get the Questions for the questionnaire
+     *
+     * @param integer $storagePid
+     * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+     */
+    private function getQuestions($storagePid)
+    {
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $this->questionRepository = $this->objectManager->get(QuestionRepository::class);
+        return $this->questionRepository->findAllForPid($storagePid);
+    }
 
 }

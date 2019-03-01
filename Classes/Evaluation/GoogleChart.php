@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Evaluation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,99 +33,101 @@ namespace Kennziffer\KeQuestionnaire\Evaluation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
+class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
+{
 
-	/**
-	 * this var will be used for template path generation
-	 *
-	 * @var string
-	 */
-	protected $libraryName = 'GoogleChart';
-
-
-
+    /**
+     * this var will be used for template path generation
+     *
+     * @var string
+     */
+    protected $libraryName = 'GoogleChart';
 
 
-	/**
-	 * add js libraries within HEAD-Tag
-	 *
-	 * @return void
-	 */
-	public function getChartLibraryPath() {
-		return 'https://www.google.com/jsapi';
-	}
+    /**
+     * add js libraries within HEAD-Tag
+     *
+     * @return void
+     */
+    public function getChartLibraryPath()
+    {
+        return 'https://www.google.com/jsapi';
+    }
 
-	/**
-	 * get JavaScript Array for Pie Charts
-	 *
-	 * @return string JsonEncoded JavaScript Array
-	 */
-	public function getDataForPie() {
-		switch($this->getRenderChart()) {
-			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
-				$amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
-				$amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
-				$dataChart = [
-					['Title', 'Finished Questionnairs'],
-					['Finished', $amountOfFinishedResults],
-					['Not Finished', $amountOfNotFinishedResults]
+    /**
+     * get JavaScript Array for Pie Charts
+     *
+     * @return string JsonEncoded JavaScript Array
+     */
+    public function getDataForPie()
+    {
+        switch ($this->getRenderChart()) {
+            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
+                $amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
+                $amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
+                $dataChart = [
+                    ['Title', 'Finished Questionnairs'],
+                    ['Finished', $amountOfFinishedResults],
+                    ['Not Finished', $amountOfNotFinishedResults]
                 ];
-				break;
-		}
+                break;
+        }
 
-		return json_encode($dataChart);
-	}
+        return json_encode($dataChart);
+    }
 
-	/**
-	 * get JavaScript Array for Column Charts
-	 *
-	 * @return string JsonEncoded JavaScript Array
-	 */
-	public function getDataForColumn() {
-		switch($this->getRenderChart()) {
-			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
-				$amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
-				$amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
-				$dataChart = [
-					['Title', 'Finished Questionnairs'],
-					['Finished', $amountOfFinishedResults],
-					['Not Finished', $amountOfNotFinishedResults]
+    /**
+     * get JavaScript Array for Column Charts
+     *
+     * @return string JsonEncoded JavaScript Array
+     */
+    public function getDataForColumn()
+    {
+        switch ($this->getRenderChart()) {
+            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
+                $amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
+                $amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
+                $dataChart = [
+                    ['Title', 'Finished Questionnairs'],
+                    ['Finished', $amountOfFinishedResults],
+                    ['Not Finished', $amountOfNotFinishedResults]
                 ];
-				break;
-			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::COMPARE_POINTS:
-				$dataChart[] = [
-					'Title',
-					'Your own points',
-					'Average points of all participations'
+                break;
+            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::COMPARE_POINTS:
+                $dataChart[] = [
+                    'Title',
+                    'Your own points',
+                    'Average points of all participations'
                 ];
-				$results = $this->resultRepository->findAll();
-				/* @var $userResultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
-				foreach($this->result->getQuestions() as $userResultQuestion) {
-					$resultQuestions = $this->resultQuestionRepository->findByQuestion($userResultQuestion->getQuestion());
-					$sumPoints = 0;
-					/* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
-					foreach($resultQuestions as $resultQuestion) {
-						$sumPoints += $resultQuestion->getPoints();
-					}
-					$dataChart[] = [
-						$resultQuestion->getQuestion()->getTitle(),
-						$userResultQuestion->getPoints(),
-						round($sumPoints / $resultQuestions->count())
+                $results = $this->resultRepository->findAll();
+                /* @var $userResultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
+                foreach ($this->result->getQuestions() as $userResultQuestion) {
+                    $resultQuestions = $this->resultQuestionRepository->findByQuestion($userResultQuestion->getQuestion());
+                    $sumPoints = 0;
+                    /* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
+                    foreach ($resultQuestions as $resultQuestion) {
+                        $sumPoints += $resultQuestion->getPoints();
+                    }
+                    $dataChart[] = [
+                        $resultQuestion->getQuestion()->getTitle(),
+                        $userResultQuestion->getPoints(),
+                        round($sumPoints / $resultQuestions->count())
                     ];
-				}
-				break;
-		}
+                }
+                break;
+        }
 
-		return json_encode($dataChart);
-	}
+        return json_encode($dataChart);
+    }
 
-	/**
-	 * returns the HTML-Tag where the chart has to be displayed
-	 *
-	 * @return string
-	 */
-	public function getChartContainer() {
-		return $this->cObj->wrap($this->getContainerId(), '<div id="|"></div>');
-	}
+    /**
+     * returns the HTML-Tag where the chart has to be displayed
+     *
+     * @return string
+     */
+    public function getChartContainer()
+    {
+        return $this->cObj->wrap($this->getContainerId(), '<div id="|"></div>');
+    }
 
 }

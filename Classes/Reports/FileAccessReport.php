@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Reports;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -35,117 +37,122 @@ use TYPO3\CMS\Reports\Status;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface {
-	/**
-	 * @var string
-	 */
-	protected $tmpFileAndPath = '';
+class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface
+{
+    /**
+     * @var string
+     */
+    protected $tmpFileAndPath = '';
 
-	/**
-	 * @var string
-	 */
-        
-	protected $siteUrl = '';
+    /**
+     * @var string
+     */
 
-	/**
-	 * @var array
-	 */
-	protected $staticStateResponseData = [];
+    protected $siteUrl = '';
 
-	/**
-	 * Returns the status of an extension or (sub)system
-	 *
-	 * @return array An array of \TYPO3\CMS\Reports\Status objects
-	 */
-	public function getStatus() {
-		$statusArray = [];
-		$failState = '';
+    /**
+     * @var array
+     */
+    protected $staticStateResponseData = [];
 
-		$this->init();
-		$failState = $this->checkStatus();
+    /**
+     * Returns the status of an extension or (sub)system
+     *
+     * @return array An array of \TYPO3\CMS\Reports\Status objects
+     */
+    public function getStatus()
+    {
+        $statusArray = [];
+        $failState = '';
 
-		list($title, $value, $message, $severity) = $this->staticStateResponseData[$failState];
+        $this->init();
+        $failState = $this->checkStatus();
 
-		/** @var Status $status */
-		$status = GeneralUtility::makeInstance(ObjectManager::class)->get(
-			Status::class,
-			$title,
-			$value,
-			$message,
-			$severity
-		);
+        list($title, $value, $message, $severity) = $this->staticStateResponseData[$failState];
 
-		$statusArray[] = $status;
+        /** @var Status $status */
+        $status = GeneralUtility::makeInstance(ObjectManager::class)->get(
+            Status::class,
+            $title,
+            $value,
+            $message,
+            $severity
+        );
 
-		return $statusArray;
-	}
+        $statusArray[] = $status;
 
-	/**
-	 * Do some initialization for texts of the reports
-	 *
-	 * @return void
-	 */
-	protected function init() {
-		$this->tmpFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/TEST';
-		$this->siteUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+        return $statusArray;
+    }
 
-		$this->staticStateResponseData = [
-			'ok' => [
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.ok'),
-				'',
-				\TYPO3\CMS\Reports\Status::OK
-			],
-			'writeFail' => [
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.details'),
-				\TYPO3\CMS\Reports\Status::WARNING
-			],
-			'tmpFileReadable' => [
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error.explanation'),
-				\TYPO3\CMS\Reports\Status::ERROR
-			],
-			'unknownErrorCheckingTmpFile' => [
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
-				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.unknown'),
-				\TYPO3\CMS\Reports\Status::WARNING
-			]
-		];
-	}
+    /**
+     * Do some initialization for texts of the reports
+     *
+     * @return void
+     */
+    protected function init()
+    {
+        $this->tmpFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/TEST';
+        $this->siteUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
 
-	/**
-	 * checks the status of the temp files
-	 *
-	 * @return string
-	 */
-	protected function checkStatus() {
-		$failState = '';
+        $this->staticStateResponseData = [
+            'ok' => [
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.ok'),
+                '',
+                \TYPO3\CMS\Reports\Status::OK
+            ],
+            'writeFail' => [
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.details'),
+                \TYPO3\CMS\Reports\Status::WARNING
+            ],
+            'tmpFileReadable' => [
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error.explanation'),
+                \TYPO3\CMS\Reports\Status::ERROR
+            ],
+            'unknownErrorCheckingTmpFile' => [
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
+                $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.unknown'),
+                \TYPO3\CMS\Reports\Status::WARNING
+            ]
+        ];
+    }
 
-		$failState = $this->createAndCheckTmpFile();
-		$failState = (!strlen($failState))?$this->checkTmpFileReadable():$failState;
+    /**
+     * checks the status of the temp files
+     *
+     * @return string
+     */
+    protected function checkStatus()
+    {
+        $failState = '';
 
-		if(!strlen(trim($failState))) {
-			$failState = 'ok';
-		}
+        $failState = $this->createAndCheckTmpFile();
+        $failState = (!strlen($failState)) ? $this->checkTmpFileReadable() : $failState;
 
-		return $failState;
-	}
+        if (!strlen(trim($failState))) {
+            $failState = 'ok';
+        }
 
-	/**
-	 * Try to write check file to typo3temp folder
-	 *
-	 * @return string
-	 */
-	protected function createAndCheckTmpFile() {
-		if(!is_dir(PATH_site . 'typo3temp/ke_questionnaire/pdf')) {
-			@mkdir(PATH_site . 'typo3temp/ke_questionnaire/pdf');
-		}
-		//create htaccess file
-		$htaccess = '
+        return $failState;
+    }
+
+    /**
+     * Try to write check file to typo3temp folder
+     *
+     * @return string
+     */
+    protected function createAndCheckTmpFile()
+    {
+        if (!is_dir(PATH_site . 'typo3temp/ke_questionnaire/pdf')) {
+            @mkdir(PATH_site . 'typo3temp/ke_questionnaire/pdf');
+        }
+        //create htaccess file
+        $htaccess = '
 Order Deny,Allow
 Deny from all
 Allow from 127.0.0.1
@@ -154,47 +161,49 @@ Allow from 127.0.0.1
 	Order Allow,Deny
 	Allow from all
 </FilesMatch>';
-		$htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/.htaccess';
-		//$htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/.htaccess';
-		$writeHtaccess = GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
-		if($writeHtaccess !== NULL) {
-			return 'writeFail';
-		}
+        $htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/.htaccess';
+        //$htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/.htaccess';
+        $writeHtaccess = GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
+        if ($writeHtaccess !== null) {
+            return 'writeFail';
+        }
 
-		//write test file
-		$writeResult = GeneralUtility::writeFileToTypo3tempDir($this->tmpFileAndPath, 'TEST');
-		if($writeResult !== NULL) {
-			return 'writeFail';
-		}
+        //write test file
+        $writeResult = GeneralUtility::writeFileToTypo3tempDir($this->tmpFileAndPath, 'TEST');
+        if ($writeResult !== null) {
+            return 'writeFail';
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * Try to check if testfile is "world readable"
-	 *
-	 * @return string
-	 */
-	protected function checkTmpFileReadable() {
-		$responseHeaders = [];
+    /**
+     * Try to check if testfile is "world readable"
+     *
+     * @return string
+     */
+    protected function checkTmpFileReadable()
+    {
+        $responseHeaders = [];
 
-		//try to read test file
-		$readTestFile = GeneralUtility::getUrl($this->siteUrl . 'typo3temp/ke_questionnaire/pdf/TEST', 1, FALSE, $responseHeaders);
-		@unlink($this->tmpFileAndPath);
+        //try to read test file
+        $readTestFile = GeneralUtility::getUrl($this->siteUrl . 'typo3temp/ke_questionnaire/pdf/TEST', 1, false,
+            $responseHeaders);
+        @unlink($this->tmpFileAndPath);
 
-		//if testfile is readable
-		if($responseHeaders['error'] !== 0 && $responseHeaders['error'] !== 22) {
-			$this->staticStateResponseData['unknownErrorCheckingTmpFile'][2] .= '<br /><br />' . $responseHeaders['message'];
+        //if testfile is readable
+        if ($responseHeaders['error'] !== 0 && $responseHeaders['error'] !== 22) {
+            $this->staticStateResponseData['unknownErrorCheckingTmpFile'][2] .= '<br /><br />' . $responseHeaders['message'];
 
-			return 'unknownErrorCheckingTmpFile';
-		}
+            return 'unknownErrorCheckingTmpFile';
+        }
 
-		if(intval($responseHeaders['http_code']) === 200) {
-			return 'tmpFileReadable';
-		}
+        if (intval($responseHeaders['http_code']) === 200) {
+            return 'tmpFileReadable';
+        }
 
-		return '';
-	}
+        return '';
+    }
 }
 
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Ajax;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,76 +33,83 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AnswerValidation extends AbstractAjax {
+class AnswerValidation extends AbstractAjax
+{
 
-	/**
-	 * answerRepository
-	 *
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository
-	 */
-	protected $answerRepository;
+    /**
+     * answerRepository
+     *
+     * @var \Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository
+     */
+    protected $answerRepository;
 
-	/**
-	 * lokalization
-	 *
-	 * @var \Kennziffer\KeQuestionnaire\Utility\Localization
-	 */
-	protected $localization;	
-	
-	
-	/**
-	 * injectAnswerRepository
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Repository\answerRepository $answerRepository
-	 * @return void
-	 */
-	public function injectAnswerRepository(\Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository $answerRepository) {
-		$this->answerRepository = $answerRepository;
-	}
-	
-	/**
-	 * injectAnswerRepository
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Utility\Localization $localization
-	 * @return void
-	 */
-	public function injectLocalization(\Kennziffer\KeQuestionnaire\Utility\Localization $localization) {
-		$this->localization = $localization;
-	}
-		
-	/**
-	 * process an ajax request
-	 *
-	 * @param array $arguments If you want, you can add some arguments to your object
-	 * @return string In most cases JSON
-	 */
-	public function processAjaxRequest(array $arguments) {
-		/* @var $answer \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput */
-		$answer = $this->answerRepository->findByUid($arguments['answerUid']);
-		if($answer === NULL) return '';
-		// the validation Array should contain
-		// error => 0 no error / 1 error
-		// info => textmessage to be displayed
-		$validation = [];
-		
-		//in the typoscript settings you can define the pattern for the validation types
-		//example: 
-		// validation {
-		//		date = d.m.Y                
-		//		numeric = ,
-		//		email = name@domain.end
-		//	}
-        $answer->pattern = $this->settings['answer']['validation'][$answer->getValidationType()];                
-		if ($answer->isValid($arguments['value'])){
-			$validation['error'] = 0;
-			$validation['info'] = '';
-		} else {
-			$validation['error'] = 1;
-			$validation['info'] = $this->localization->translate('answerValidation.' . $answer->getValidationType()).' '.$this->settings['answer']['validation'][$answer->getValidationType()];
-		}
-		
-		$json = $this->convertValueToJson($validation);
-		return trim($json);
-	}
+    /**
+     * lokalization
+     *
+     * @var \Kennziffer\KeQuestionnaire\Utility\Localization
+     */
+    protected $localization;
+
+
+    /**
+     * injectAnswerRepository
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Repository\answerRepository $answerRepository
+     * @return void
+     */
+    public function injectAnswerRepository(
+        \Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository $answerRepository
+    ) {
+        $this->answerRepository = $answerRepository;
+    }
+
+    /**
+     * injectAnswerRepository
+     *
+     * @param \Kennziffer\KeQuestionnaire\Utility\Localization $localization
+     * @return void
+     */
+    public function injectLocalization(\Kennziffer\KeQuestionnaire\Utility\Localization $localization)
+    {
+        $this->localization = $localization;
+    }
+
+    /**
+     * process an ajax request
+     *
+     * @param array $arguments If you want, you can add some arguments to your object
+     * @return string In most cases JSON
+     */
+    public function processAjaxRequest(array $arguments)
+    {
+        /* @var $answer \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput */
+        $answer = $this->answerRepository->findByUid($arguments['answerUid']);
+        if ($answer === null) {
+            return '';
+        }
+        // the validation Array should contain
+        // error => 0 no error / 1 error
+        // info => textmessage to be displayed
+        $validation = [];
+
+        //in the typoscript settings you can define the pattern for the validation types
+        //example:
+        // validation {
+        //		date = d.m.Y
+        //		numeric = ,
+        //		email = name@domain.end
+        //	}
+        $answer->pattern = $this->settings['answer']['validation'][$answer->getValidationType()];
+        if ($answer->isValid($arguments['value'])) {
+            $validation['error'] = 0;
+            $validation['info'] = '';
+        } else {
+            $validation['error'] = 1;
+            $validation['info'] = $this->localization->translate('answerValidation.' . $answer->getValidationType()) . ' ' . $this->settings['answer']['validation'][$answer->getValidationType()];
+        }
+
+        $json = $this->convertValueToJson($validation);
+        return trim($json);
+    }
 
 }

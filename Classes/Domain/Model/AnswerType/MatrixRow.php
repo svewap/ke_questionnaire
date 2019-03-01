@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,82 +33,90 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class MatrixRow extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
-	/**
-	 * shows an Input field after the answer
-	 *
-	 * @var boolean
-	 */
-	protected $showTextfield;
-	
-	/**
-	 * show row as title line
-	 *
-	 * @var boolean
-	 */
-	protected $titleLine;
-	
-	/**
-	 * Returns the showTextfield
-	 *
-	 * @return boolean showTextfield
-	 */
-	public function getShowTextfield() {
-		return $this->showTextfield;
-	}
+class MatrixRow extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
+    /**
+     * shows an Input field after the answer
+     *
+     * @var boolean
+     */
+    protected $showTextfield;
 
-	/**
-	 * Sets the showTextfield
-	 *
-	 * @param boolean $showTextfield
-	 * @return void
-	 */
-	public function setShowTextfield($showTextfield) {
-		$this->showTextfield = $showTextfield;
-	}
-	
-	/**
-	 * Check if this type of answer should be shown in the Csv Export
-	 * @return boolean
-	 */
-	public function exportInCsv() {
-		return false;
-	}
-	
-	/**
-	 * Returns the titleLine
-	 *
-	 * @return boolean titleLine
-	 */
-	public function getTitleLine() {
-		return $this->titleLine;
-	}
-	
-	/**
-	 * Returns the titleLine
-	 *
-	 * @return boolean titleLine
-	 */
-	public function isTitleLine() {
-		return (boolean)$this->titleLine;
-	}
+    /**
+     * show row as title line
+     *
+     * @var boolean
+     */
+    protected $titleLine;
 
-	/**
-	 * Sets the titleLine
-	 *
-	 * @param boolean $titleLine
-	 * @return void
-	 */
-	public function setTitleLine($titleLine) {
-		$this->titleLine = $titleLine;
-	}	
-	
-	/**
-	 * Returns the saveType
-	 *
-	 * @return string $saveTxpe
-	 */
-	public function getSaveType() {
-		return 'matrix';
-	}
+    /**
+     * Returns the showTextfield
+     *
+     * @return boolean showTextfield
+     */
+    public function getShowTextfield()
+    {
+        return $this->showTextfield;
+    }
+
+    /**
+     * Sets the showTextfield
+     *
+     * @param boolean $showTextfield
+     * @return void
+     */
+    public function setShowTextfield($showTextfield)
+    {
+        $this->showTextfield = $showTextfield;
+    }
+
+    /**
+     * Check if this type of answer should be shown in the Csv Export
+     * @return boolean
+     */
+    public function exportInCsv()
+    {
+        return false;
+    }
+
+    /**
+     * Returns the titleLine
+     *
+     * @return boolean titleLine
+     */
+    public function getTitleLine()
+    {
+        return $this->titleLine;
+    }
+
+    /**
+     * Returns the titleLine
+     *
+     * @return boolean titleLine
+     */
+    public function isTitleLine()
+    {
+        return (boolean)$this->titleLine;
+    }
+
+    /**
+     * Sets the titleLine
+     *
+     * @param boolean $titleLine
+     * @return void
+     */
+    public function setTitleLine($titleLine)
+    {
+        $this->titleLine = $titleLine;
+    }
+
+    /**
+     * Returns the saveType
+     *
+     * @return string $saveTxpe
+     */
+    public function getSaveType()
+    {
+        return 'matrix';
+    }
 }

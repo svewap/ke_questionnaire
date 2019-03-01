@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Object;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,166 +33,175 @@ namespace Kennziffer\KeQuestionnaire\Object;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DataMapper {
+class DataMapper
+{
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\Container\Container
-	 */
-	protected $objectContainer;
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\Container\Container
+     */
+    protected $objectContainer;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected $objectManager;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
-	 */
-	protected $reflectionService;
+    /**
+     * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
+     */
+    protected $reflectionService;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Validation\ValidatorResolver
-	 */
-	protected $validatorResolver;
-
-
-
+    /**
+     * @var \TYPO3\CMS\Extbase\Validation\ValidatorResolver
+     */
+    protected $validatorResolver;
 
 
-	/**
-	 * injects the object manager
-	 *
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * injects the object manager
+     *
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
+     * @return void
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * Injects object container
-	 *
-	 * @param \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer
-	 * @return void
-	 */
-	public function injectObjectContainer(\TYPO3\CMS\Extbase\Object\Container\Container $objectContainer) {
-		$this->objectContainer = $objectContainer;
-	}
+    /**
+     * Injects object container
+     *
+     * @param \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer
+     * @return void
+     */
+    public function injectObjectContainer(\TYPO3\CMS\Extbase\Object\Container\Container $objectContainer)
+    {
+        $this->objectContainer = $objectContainer;
+    }
 
-	/**
-	 * Injects the Reflection Service
-	 *
-	 * @param \TYPO3\CMS\Extbase\Reflection\ReflectionService
-	 * @return void
-	 */
-	public function injectReflectionService(\TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService) {
-		$this->reflectionService = $reflectionService;
-	}
+    /**
+     * Injects the Reflection Service
+     *
+     * @param \TYPO3\CMS\Extbase\Reflection\ReflectionService
+     * @return void
+     */
+    public function injectReflectionService(\TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService)
+    {
+        $this->reflectionService = $reflectionService;
+    }
 
-	/**
-	 * Injects validator resolver
-	 *
-	 * @param \TYPO3\CMS\Extbase\Validation\ValidatorResolver
-	 * @return void
-	 */
-	public function injectValidatorResolver(\TYPO3\CMS\Extbase\Validation\ValidatorResolver $validatorResolver) {
-		$this->validatorResolver = $validatorResolver;
-	}
-	
-	/**
-	 * Maps the given rows on objects
-	 *
-	 * @param string $className The name of the class
-	 * @param array $rows An array of arrays with field_name => value pairs
-	 * @return array An array of objects of the given class
-	 */
-	public function map($className, array $rows) {
-		$objectStorage = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
-		foreach ($rows as $row) {
-			/* @var $objectStorage \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-			$objectStorage->attach($this->mapSingleRow($className, $row));
-		}
-		return $objectStorage;
-	}
+    /**
+     * Injects validator resolver
+     *
+     * @param \TYPO3\CMS\Extbase\Validation\ValidatorResolver
+     * @return void
+     */
+    public function injectValidatorResolver(\TYPO3\CMS\Extbase\Validation\ValidatorResolver $validatorResolver)
+    {
+        $this->validatorResolver = $validatorResolver;
+    }
 
-	/**
-	 * Maps a single row on an object of the given class
-	 *
-	 * @param string $className The name of the target class
-	 * @param array $row A single array with field_name => value pairs
-	 * @return object An object of the given class
-	 */
-	public function mapSingleRow($className, array $row) {
-		$object = $this->createEmptyObject($className);
-		$this->mapProperties($object, $row);
-		return $object;
-	}
+    /**
+     * Maps the given rows on objects
+     *
+     * @param string $className The name of the class
+     * @param array $rows An array of arrays with field_name => value pairs
+     * @return array An array of objects of the given class
+     */
+    public function map($className, array $rows)
+    {
+        $objectStorage = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+        foreach ($rows as $row) {
+            /* @var $objectStorage \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+            $objectStorage->attach($this->mapSingleRow($className, $row));
+        }
+        return $objectStorage;
+    }
 
-	/**
-	 * Creates a skeleton of the specified object
-	 *
-	 * @param string $className Name of the class to create a skeleton for
-	 * @return object The object skeleton
-	 */
-	public function createEmptyObject($className) {
-		return $this->objectContainer->getEmptyObject($className);
-	}
+    /**
+     * Maps a single row on an object of the given class
+     *
+     * @param string $className The name of the target class
+     * @param array $row A single array with field_name => value pairs
+     * @return object An object of the given class
+     */
+    public function mapSingleRow($className, array $row)
+    {
+        $object = $this->createEmptyObject($className);
+        $this->mapProperties($object, $row);
+        return $object;
+    }
 
-	/**
-	 * Sets the given properties on the object.
-	 *
-	 * @param $object The object to set properties on
-	 * @param array $row
-	 * @return object
-	 */
-	public function mapProperties($object, array $row) {
-		$className = get_class($object);
-		foreach ($row as $propertyName => $propertyValue) {
-			$method = 'set' . ucfirst($propertyName);
-			if (!method_exists($object, $method)) continue;
-			$propertyData = $this->reflectionService->getClassSchema($className)->getProperty($propertyName);
-			$propertyValue = NULL;
-			if ($row[$propertyName] !== NULL) {
-				switch ($propertyData['type']) {
-					case 'integer':
-						$propertyValue = (int) $row[$propertyName];
-					break;
-					case 'float':
-						$propertyValue = (float) $row[$propertyName];
-					break;
-					case 'boolean':
-						$propertyValue = (boolean) $row[$propertyName];
-					break;
-					case 'string':
-						$propertyValue = (string) $row[$propertyName];
-					break;
-					case 'array':
-						$propertyValue = (array) $row[$propertyName];
-					break;
-					default:
-						$propertyValue = $row[$propertyName];
-					break;
-				}
-			}
+    /**
+     * Creates a skeleton of the specified object
+     *
+     * @param string $className Name of the class to create a skeleton for
+     * @return object The object skeleton
+     */
+    public function createEmptyObject($className)
+    {
+        return $this->objectContainer->getEmptyObject($className);
+    }
 
-			if ($propertyValue !== NULL) {
-				$validators = $this->validatorResolver->buildMethodArgumentsValidatorConjunctions($className, $method);
-				/* @var $validator Tx_Extbase_Validation_Validator_AbstractValidator */
-				foreach ($validators as $validator) {
-					$error = $validator->validate($propertyValue);
-					if ($error->hasErrors()) {
-						$errorMessage = [
-							'className' => $className,
-							'propertyName' => $propertyName,
-							'code' => $error->getFirstError()->getCode(),
-							'message' => $error->getFirstError()->getMessage(),
+    /**
+     * Sets the given properties on the object.
+     *
+     * @param $object The object to set properties on
+     * @param array $row
+     * @return object
+     */
+    public function mapProperties($object, array $row)
+    {
+        $className = get_class($object);
+        foreach ($row as $propertyName => $propertyValue) {
+            $method = 'set' . ucfirst($propertyName);
+            if (!method_exists($object, $method)) {
+                continue;
+            }
+            $propertyData = $this->reflectionService->getClassSchema($className)->getProperty($propertyName);
+            $propertyValue = null;
+            if ($row[$propertyName] !== null) {
+                switch ($propertyData['type']) {
+                    case 'integer':
+                        $propertyValue = (int)$row[$propertyName];
+                        break;
+                    case 'float':
+                        $propertyValue = (float)$row[$propertyName];
+                        break;
+                    case 'boolean':
+                        $propertyValue = (boolean)$row[$propertyName];
+                        break;
+                    case 'string':
+                        $propertyValue = (string)$row[$propertyName];
+                        break;
+                    case 'array':
+                        $propertyValue = (array)$row[$propertyName];
+                        break;
+                    default:
+                        $propertyValue = $row[$propertyName];
+                        break;
+                }
+            }
+
+            if ($propertyValue !== null) {
+                $validators = $this->validatorResolver->buildMethodArgumentsValidatorConjunctions($className, $method);
+                /* @var $validator Tx_Extbase_Validation_Validator_AbstractValidator */
+                foreach ($validators as $validator) {
+                    $error = $validator->validate($propertyValue);
+                    if ($error->hasErrors()) {
+                        $errorMessage = [
+                            'className' => $className,
+                            'propertyName' => $propertyName,
+                            'code' => $error->getFirstError()->getCode(),
+                            'message' => $error->getFirstError()->getMessage(),
                         ];
-						throw new \Kennziffer\KeQuestionnaire\Exception('dataMapperValidation', 1354704589, $errorMessage);
-					}
-				}
-				$object->$method($propertyValue);
-			}
-		}
-		return $object;
-	}
+                        throw new \Kennziffer\KeQuestionnaire\Exception('dataMapperValidation', 1354704589,
+                            $errorMessage);
+                    }
+                }
+                $object->$method($propertyValue);
+            }
+        }
+        return $object;
+    }
 }

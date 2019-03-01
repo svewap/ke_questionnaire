@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Validation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,23 +33,25 @@ namespace Kennziffer\KeQuestionnaire\Validation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Date extends AbstractValidation {
-	
-	/**
-	 * Check if $value is valid.
-	 *
-	 * @param mixed $value The value which has to be valid
-	 * @param object $model the parent model
-	 * @return boolean
-	 */
-	public function isValid($value, $model) {
-		return $this->validateDate($value, $model->pattern);
-	}
-    
+class Date extends AbstractValidation
+{
+
+    /**
+     * Check if $value is valid.
+     *
+     * @param mixed $value The value which has to be valid
+     * @param object $model the parent model
+     * @return boolean
+     */
+    public function isValid($value, $model)
+    {
+        return $this->validateDate($value, $model->pattern);
+    }
+
     function validateDate($date, $format = 'Y-m-d H:i:s')
     {
         $version = explode('.', phpversion());
-        if (((int) $version[0] >= 5 && (int) $version[1] >= 2 && (int) $version[2] > 17)) {
+        if (((int)$version[0] >= 5 && (int)$version[1] >= 2 && (int)$version[2] > 17)) {
             $d = \DateTime::createFromFormat($format, $date);
         } else {
             $d = new \DateTime(date($format, strtotime($date)));

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Validator;
+
 use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
 
 /***************************************************************
@@ -33,16 +35,18 @@ use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ResultAnswerValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator  {
-	
-	/**
-	* validate
-	*/
-	public function isValid($result) {
-		if (!$result instanceof ResultAnswer) {
-			$this->addError('The given Object is not a KeQ-ResultAnswer.', 1262341470);
-			return FALSE;
-		}
-		return TRUE;
-	}
+class ResultAnswerValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
+{
+
+    /**
+     * validate
+     */
+    public function isValid($result)
+    {
+        if (!$result instanceof ResultAnswer) {
+            $this->addError('The given Object is not a KeQ-ResultAnswer.', 1262341470);
+            return false;
+        }
+        return true;
+    }
 }

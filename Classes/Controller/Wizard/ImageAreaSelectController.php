@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Controller\Wizard;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -38,14 +40,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\AbstractWizardController {
+class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\AbstractWizardController
+{
     /**
      * Wizard parameters, coming from FormEngine linking to the wizard.
      *
      * @var array
      */
     public $wizardParameters;
-    
+
     /**
      * Serialized functions for changing the field...
      * Necessary to call when the value is transferred to the FormEngine since the form might
@@ -80,7 +83,7 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
      * @var string
      */
     public $md5ID;
-    
+
     /**
      * @var string
      */
@@ -97,19 +100,19 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
      * @var string
      */
     public $content;
-    
+
     /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
-		$this->getLanguageService()->includeLLFile('EXT:ke_questionnaire/Resources/Private/Language/locallang_mod.xml');
+        $this->getLanguageService()->includeLLFile('EXT:ke_questionnaire/Resources/Private/Language/locallang_mod.xml');
         $GLOBALS['SOBE'] = $this;
 
         $this->init();
     }
-    
+
     /**
      * Initialises the Class
      *
@@ -122,14 +125,14 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
         // Setting GET vars (used in colorpicker script):
         $this->fieldChangeFunc = $this->wizardParameters['fieldChangeFunc'];
         $this->fieldChangeFuncHash = $this->wizardParameters['fieldChangeFuncHash'];
-		$this->fieldName = $this->wizardParameters['field'];
+        $this->fieldName = $this->wizardParameters['field'];
         $this->formName = $this->wizardParameters['formName'];
         $this->md5ID = $this->wizardParameters['md5ID'];
         // Resolving image (checking existence etc.)
         $this->imageError = '';
-		$this->getAreaImage();
-        
-		$update = [];
+        $this->getAreaImage();
+
+        $update = [];
         if ($this->areFieldChangeFunctionsValid()) {
             // Setting field-change functions:
             $fieldChangeFuncArr = unserialize($this->fieldChangeFunc);
@@ -139,11 +142,11 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
             }
         }
         // Initialize document object:
-        $this->doc = GeneralUtility::makeInstance(DocumentTemplate::class);       
+        $this->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
         // Start page:
         $this->content .= $this->doc->startPage($this->getLanguageService()->getLL('colorpicker_title'));
     }
-    
+
     /**
      * Injects the request object for the current request or subrequest
      * As this controller goes only through the main() method, it is rather simple for now
@@ -155,53 +158,60 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
     public function mainAction(ServerRequestInterface $request, ResponseInterface $response)
     {
         //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->wizardParameters, 'c');	
-		$this->main($request);
-		$response->getBody()->write($this->content);
-        return $response;        
+        $this->main($request);
+        $response->getBody()->write($this->content);
+        return $response;
     }
-	
-	public function getAreaImage(){
-		$this->areaImage = '';
-		$this->answer = BackendUtility::getRecord($this->wizardParameters['table'], $this->wizardParameters['uid']);
-		$this->areaImage = $this->answer['image'];		
-	}
+
+    public function getAreaImage()
+    {
+        $this->areaImage = '';
+        $this->answer = BackendUtility::getRecord($this->wizardParameters['table'], $this->wizardParameters['uid']);
+        $this->areaImage = $this->answer['image'];
+    }
 
     /**
      * @param ServerRequestInterface $request
      * @return mixed
      */
     public function main(ServerRequestInterface $request)
-    {		
-		$baseurl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+    {
+        $baseurl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
         if ($this->doClose) {
             return $this->closeWindow;
-        } else {    
-		// Putting together the items into a form:
-			$this->content .= '<link rel="stylesheet" type="text/css" href="'.$baseurl.'typo3conf/ext/ke_questionnaire/Resources/Public/Css/imgareaselect-animated.css" media="all">';
-			$this->content .= '<script src="'.$baseurl.'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-1.11.3.min.js" type="text/javascript"></script>
-								<script src="'.$baseurl.'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
-								<script src="'.$baseurl.'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-migrate-1.2.1.js" type="text/javascript"></script>
-								<script src="'.$baseurl.'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery.imgareaselect.min.js" type="text/javascript"></script>
+        } else {
+            // Putting together the items into a form:
+            $this->content .= '<link rel="stylesheet" type="text/css" href="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Css/imgareaselect-animated.css" media="all">';
+            $this->content .= '<script src="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-1.11.3.min.js" type="text/javascript"></script>
+								<script src="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
+								<script src="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-migrate-1.2.1.js" type="text/javascript"></script>
+								<script src="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery.imgareaselect.min.js" type="text/javascript"></script>
 								';
             $this->content .= '<div class=ke_questionnaire" style="padding: 5px;">';
             $this->content .= '<h2>' . $this->getLanguageService()->getLL('imageAreaSelectHeader', true) . '</h2>';
-			$this->content .= '<p>' . $this->getLanguageService()->getLL('imageAreaSelectInfo', true) . '</p>';            
-			$this->content .= '<hr /><br/>';
-			$this->content .= '<img id="imageAreaSource" src="'.$baseurl.'uploads/tx_kequestionnaire/'.$this->areaImage.'" alt="areaImage" title="areaImage" ';
-			if ($this->answer['width']) $this->content .= ' width="'.$this->answer['width'].'px" ';
-			if ($this->answer['height']) $this->content .= ' width="'.$this->answer['height'].'px" ';
-			$this->content .= '/><br/>';
-			$this->content .= '<input type="hidden" name="x1" value="" />
+            $this->content .= '<p>' . $this->getLanguageService()->getLL('imageAreaSelectInfo', true) . '</p>';
+            $this->content .= '<hr /><br/>';
+            $this->content .= '<img id="imageAreaSource" src="' . $baseurl . 'uploads/tx_kequestionnaire/' . $this->areaImage . '" alt="areaImage" title="areaImage" ';
+            if ($this->answer['width']) {
+                $this->content .= ' width="' . $this->answer['width'] . 'px" ';
+            }
+            if ($this->answer['height']) {
+                $this->content .= ' width="' . $this->answer['height'] . 'px" ';
+            }
+            $this->content .= '/><br/>';
+            $this->content .= '<input type="hidden" name="x1" value="" />
 								<input type="hidden" name="y1" value="" />
 								<input type="hidden" name="x2" value="" />
 								<input type="hidden" name="y2" value="" />';
-			$this->content .= '<hr /><br/>';
-			$this->content .= '<div>
-									<button id="setArea">'.$this->getLanguageService()->getLL('imageAreaSelectSave', true).'</button>
-									<button id="closeWizard" onclick="javascipt:window.close();">'.$this->getLanguageService()->getLL('imageAreaSelectClose', true).'</button>
+            $this->content .= '<hr /><br/>';
+            $this->content .= '<div>
+									<button id="setArea">' . $this->getLanguageService()->getLL('imageAreaSelectSave',
+                    true) . '</button>
+									<button id="closeWizard" onclick="javascipt:window.close();">' . $this->getLanguageService()->getLL('imageAreaSelectClose',
+                    true) . '</button>
 								</div>';
-			$this->content .= '</div>';
-			$this->content .= '<script type="text/javascript">
+            $this->content .= '</div>';
+            $this->content .= '<script type="text/javascript">
 								var formName = \'{P.formName}\';
 								var itemName = \'{P.itemName}\';
 									jQuery(\'#imageAreaSource\').imgAreaSelect({
@@ -217,15 +227,15 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
 										coords = jQuery(\'input[name="x1"]\').val()+\',\'+jQuery(\'input[name="y1"]\').val()+\',\'+jQuery(\'input[name="x2"]\').val()+\',\'+jQuery(\'input[name="y2"]\').val();
 										//alert(coords);
 										parentForm = window.opener.document.editform;
-										val = jQuery(parentForm).find(\'[name="'.$this->wizardParameters['itemName'].'"]\').val();
+										val = jQuery(parentForm).find(\'[name="' . $this->wizardParameters['itemName'] . '"]\').val();
 										if (val.length > 0)	newVal = val+"\n"+coords;
 										else newVal = coords;
-										jQuery(parentForm).find(\'[name="'.$this->wizardParameters['itemName'].'"]\').val(newVal);
+										jQuery(parentForm).find(\'[name="' . $this->wizardParameters['itemName'] . '"]\').val(newVal);
 									});
 							</script>';
-		}
+        }
     }
-    
+
     /**
      * Returns the sourcecode to the browser
      *
@@ -239,7 +249,7 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
         $this->content = $this->doc->insertStylesAndJS($this->content);
         echo $this->content;
     }
-    
+
     /**
      * Determines whether submitted field change functions are valid
      * and are coming from the system and not from an external abuse.
@@ -258,7 +268,7 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
     {
         return GeneralUtility::makeInstance(PageRenderer::class);
     }
-    
+
     /**
      * Printing a little JavaScript to close the open window.
      *

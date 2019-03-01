@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Validation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,19 +33,21 @@ namespace Kennziffer\KeQuestionnaire\Validation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Email extends AbstractValidation {
-	
-	/**
-	 * Check if $value is valid.
-	 *
-	 * @param mixed $value The value which has to be valid
-	 * @param object $model the parent model
-	 * @return boolean
-	 */
-	public function isValid($value, $model) {
-		// the email validator of extbase does not work with german umlauts
-		// that's why we work with \TYPO3\CMS\Core\Utility\GeneralUtility
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($value);
-	}
+class Email extends AbstractValidation
+{
+
+    /**
+     * Check if $value is valid.
+     *
+     * @param mixed $value The value which has to be valid
+     * @param object $model the parent model
+     * @return boolean
+     */
+    public function isValid($value, $model)
+    {
+        // the email validator of extbase does not work with german umlauts
+        // that's why we work with \TYPO3\CMS\Core\Utility\GeneralUtility
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($value);
+    }
 
 }

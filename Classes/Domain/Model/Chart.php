@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,138 +33,149 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Chart extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Chart extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * Title
-	 *
-	 * @var string
-	 */
-	protected $title;
+    /**
+     * Title
+     *
+     * @var string
+     */
+    protected $title;
 
-	/**
-	 * Width
-	 *
-	 * @var integer
-	 */
-	protected $width;
+    /**
+     * Width
+     *
+     * @var integer
+     */
+    protected $width;
 
-	/**
-	 * Height
-	 *
-	 * @var integer
-	 */
-	protected $height;
+    /**
+     * Height
+     *
+     * @var integer
+     */
+    protected $height;
 
-	/**
-	 * Data
-	 *
-	 * @var Array
-	 */
-	protected $data;
+    /**
+     * Data
+     *
+     * @var Array
+     */
+    protected $data;
 
-	/**
-	 * Returns the title
-	 *
-	 * @return string $title
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * Returns the title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Sets the title
-	 *
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * Sets the title
+     *
+     * @param string $title
+     * @return void
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * Returns the width
-	 *
-	 * @return integer $width
-	 */
-	public function getWidth() {
-		return $this->width;
-	}
+    /**
+     * Returns the width
+     *
+     * @return integer $width
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
 
-	/**
-	 * Sets the width
-	 *
-	 * @param integer $width
-	 * @return void
-	 */
-	public function setWidth($width) {
-		$this->width = $width;
-	}
+    /**
+     * Sets the width
+     *
+     * @param integer $width
+     * @return void
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
 
-	/**
-	 * Returns the height
-	 *
-	 * @return integer $height
-	 */
-	public function getHeight() {
-		return $this->height;
-	}
+    /**
+     * Returns the height
+     *
+     * @return integer $height
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
 
-	/**
-	 * Sets the height
-	 *
-	 * @param integer $height
-	 * @return void
-	 */
-	public function setHeight($height) {
-		$this->height = $height;
-	}
+    /**
+     * Sets the height
+     *
+     * @param integer $height
+     * @return void
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
 
-	/**
-	 * Returns the data
-	 *
-	 * @param string $outerWrap
-	 * @param string $innerWrap
-	 * @return string $data
-	 */
-	public function getData($varName = 'chartData', $outerWrap = '[|]', $innerWrap = '[|]') {
-		return $this->data;
-	}
+    /**
+     * Returns the data
+     *
+     * @param string $outerWrap
+     * @param string $innerWrap
+     * @return string $data
+     */
+    public function getData($varName = 'chartData', $outerWrap = '[|]', $innerWrap = '[|]')
+    {
+        return $this->data;
+    }
 
-	/**
-	 * Sets the data
-	 *
-	 * @param array $data
-	 * @return void
-	 */
-	public function setData($data) {
-		$this->data = $data;
-	}
+    /**
+     * Sets the data
+     *
+     * @param array $data
+     * @return void
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
 
-	/**
-	 * Add a data row
-	 * If an array entry exists $value will be added to this entry
-	 * If not $value will be the new value of the array entry
-	 *
-	 * @param string $title
-	 * @param integer $value
-	 * @return void
-	 */
-	public function addData($title, $value = 1) {
-		if(isset($this->data[$key])) {
-			$this->data[$key] += $value;
-		} else {
+    /**
+     * Add a data row
+     * If an array entry exists $value will be added to this entry
+     * If not $value will be the new value of the array entry
+     *
+     * @param string $title
+     * @param integer $value
+     * @return void
+     */
+    public function addData($title, $value = 1)
+    {
+        if (isset($this->data[$key])) {
+            $this->data[$key] += $value;
+        } else {
             $this->data[$key] = $value;
         }
-	}
+    }
 
-	public function getVariables() {
-		return '
+    public function getVariables()
+    {
+        return '
 			var title = ' . $this->title . ';' . chr(10) . '
 			var width = ' . $this->width . ';' . chr(10) . '
 			var height = ' . $this->height . ';' . chr(10) . '
 			var chartData = ' . $this->getData() . ';' . chr(10) . '
 		';
-	}
+    }
 
 }

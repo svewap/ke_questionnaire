@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ConditionalJumpViewHelper  extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ConditionalJumpViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -48,53 +51,56 @@ class ConditionalJumpViewHelper  extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
      * @var \Kennziffer\KeQuestionnaire\ViewHelpers\JavaScriptViewHelper
      */
 
-    public $jsViewhelper ;
+    public $jsViewhelper;
 
-	/**
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump $question
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    /**
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump $question
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
      * @return string
-	 */	 	
-	public function render(\Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump $question, \Kennziffer\KeQuestionnaire\Domain\Model\Result $result) {
-		$output = '';
-        
-        if ($question->isDependant()){
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\ConditionalJump $question,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    ) {
+        $output = '';
+
+        if ($question->isDependant()) {
             $depJs = [];
-			$if = '    if (';
-			foreach ($question->getDependancies() as $id => $dependancy){
-				$depJs[$id] = 'jQuery("#keq'.$dependancy->getQuestion()->getUid().'").on( "change", function() {'."\n";				
-            	$if .= $dependancy->getRelationJs(count($depJs));             
+            $if = '    if (';
+            foreach ($question->getDependancies() as $id => $dependancy) {
+                $depJs[$id] = 'jQuery("#keq' . $dependancy->getQuestion()->getUid() . '").on( "change", function() {' . "\n";
+                $if .= $dependancy->getRelationJs(count($depJs));
             }
-			
-			$inside_js = '){'."\n";
-			$inside_js .= '        jQuery(".requestedPage").val('.$question->getToPage().');'."\n";
-			if ($question->isDirectJump()){
-				$inside_js .= '			submitToPage('.$question->getToPage().');'."\n";
-			}
-			$inside_js .= '    } else {'."\n";
-			$inside_js .= '        jQuery(".requestedPage").val(jQuery(".'.$question->getUid().'_originalRequestedPage").val());'."\n";
-			$inside_js .= '    };'."\n";
-			$inside_js .= '});'."\n";
-			
-			$js = '';
-			foreach ($depJs as $part){
-				$js .= $part;
-				$js .= $if;
-				$js .= $inside_js;
-			}						
-            
-			if (!$question->isOnlyJs()){
+
+            $inside_js = '){' . "\n";
+            $inside_js .= '        jQuery(".requestedPage").val(' . $question->getToPage() . ');' . "\n";
+            if ($question->isDirectJump()) {
+                $inside_js .= '			submitToPage(' . $question->getToPage() . ');' . "\n";
+            }
+            $inside_js .= '    } else {' . "\n";
+            $inside_js .= '        jQuery(".requestedPage").val(jQuery(".' . $question->getUid() . '_originalRequestedPage").val());' . "\n";
+            $inside_js .= '    };' . "\n";
+            $inside_js .= '});' . "\n";
+
+            $js = '';
+            foreach ($depJs as $part) {
+                $js .= $part;
+                $js .= $if;
+                $js .= $inside_js;
+            }
+
+            if (!$question->isOnlyJs()) {
                 $this->jsViewhelper->cacheJavaScript($js);
-			}
-            if ($question->getJavascript() != ''){
+            }
+            if ($question->getJavascript() != '') {
                 //$output = $this->renderChildren();
-				//changed javascript text to file resource
-				//add it to the footerData
-				$GLOBALS['TSFE']->additionalFooterData['ke_questionnaire_jsq'.$question->getUid()] .= '<script type="text/javascript" src="'.$this->renderChildren().'"></script>'; 
+                //changed javascript text to file resource
+                //add it to the footerData
+                $GLOBALS['TSFE']->additionalFooterData['ke_questionnaire_jsq' . $question->getUid()] .= '<script type="text/javascript" src="' . $this->renderChildren() . '"></script>';
             }
         }
-        
+
         return $output;
-	}
+    }
 
 }

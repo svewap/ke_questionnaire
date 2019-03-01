@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,33 +33,37 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class QuestionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class QuestionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * questionRepository
-	 *
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
-	 */
-	protected $questionRepository;
+    /**
+     * questionRepository
+     *
+     * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
+     */
+    protected $questionRepository;
 
-	/**
-	 * injectQuestionRepository
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository
-	 * @return void
-	 */
-	public function injectQuestionRepository(\Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository) {
-		$this->questionRepository = $questionRepository;
-	}
+    /**
+     * injectQuestionRepository
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository
+     * @return void
+     */
+    public function injectQuestionRepository(
+        \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository
+    ) {
+        $this->questionRepository = $questionRepository;
+    }
 
-	/**
-	 * action list
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-		$questions = $this->questionRepository->findAll();
-		$this->view->assign('questions', $questions);
-	}
+    /**
+     * action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        $questions = $this->questionRepository->findAll();
+        $this->view->assign('questions', $questions);
+    }
 
 }

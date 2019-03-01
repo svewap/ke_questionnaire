@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Ajax;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,37 +33,43 @@ namespace Kennziffer\KeQuestionnaire\Ajax;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Validation extends AbstractAjax {
+class Validation extends AbstractAjax
+{
 
-	/**
-	 * questionRepository
-	 *
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
-	 */
-	protected $questionRepository;
+    /**
+     * questionRepository
+     *
+     * @var \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository
+     */
+    protected $questionRepository;
 
-	/**
-	 * injectQuestionRepository
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository
-	 * @return void
-	 */
-	public function injectQuestionRepository(\Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository) {
-		$this->questionRepository = $questionRepository;
-	}
+    /**
+     * injectQuestionRepository
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository
+     * @return void
+     */
+    public function injectQuestionRepository(
+        \Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository $questionRepository
+    ) {
+        $this->questionRepository = $questionRepository;
+    }
 
-	/**
-	 * process an ajax request
-	 *
-	 * @param array $arguments If you want, you can add some arguments to your object
-	 * @return string In most cases JSON
-	 */
-	public function processAjaxRequest(array $arguments) {
-		/* @var $question \Kennziffer\KeQuestionnaire\Domain\Model\Question */
-		$question = $this->questionRepository->findByUid($arguments['questionUid']);
-		if($question === NULL) return '';
-		
-		return $question->getTitle();
-	}
+    /**
+     * process an ajax request
+     *
+     * @param array $arguments If you want, you can add some arguments to your object
+     * @return string In most cases JSON
+     */
+    public function processAjaxRequest(array $arguments)
+    {
+        /* @var $question \Kennziffer\KeQuestionnaire\Domain\Model\Question */
+        $question = $this->questionRepository->findByUid($arguments['questionUid']);
+        if ($question === null) {
+            return '';
+        }
+
+        return $question->getTitle();
+    }
 
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -44,103 +47,110 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
     protected $escapeOutput = false;
 
 
+    /**
+     * Adds the needed Javascript-File to Additional Header Data
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer Answer to be rendered
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
+     * @param string $as The name of the iteration variable
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @return string
+     */
+    public function render($answer, $question, $as, $result = null)
+    {
+        $terms = $this->getTerms($question, $answer, $result);
 
-	/**
-	 * Adds the needed Javascript-File to Additional Header Data
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer Answer to be rendered
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
-	 * @param string $as The name of the iteration variable
+        $templateVariableContainer = $this->renderingContext->getVariableProvider();
+        if ($question === null) {
+            return '';
+        }
+
+        //shuffle($images);
+        $output = '';
+        foreach ($terms as $nr => $element) {
+            $templateVariableContainer->add($as, $element);
+            $output .= $this->renderChildren();
+            $templateVariableContainer->remove($as);
+        }
+        return $output;
+    }
+
+    /**
+     * Gets the Images
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-	 * @return string
-	 */
-	public function render($answer,$question,$as,$result=NULL) {
-		$terms = $this->getTerms($question, $answer, $result);
-		
-		$templateVariableContainer = $this->renderingContext->getVariableProvider();
-		if ($question === NULL) {
-			return '';
-		}
-		
-		//shuffle($images);
-        $output =  '' ;
-		foreach ($terms as $nr => $element){
-			$templateVariableContainer->add($as, $element);
-			$output .= $this->renderChildren();
-			$templateVariableContainer->remove($as);
-		}
-		return $output;
-	}
-	
-	/**
-	 * Gets the Images
-	 * 
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-	 * @return array
-	 */
-	public function getTerms($question, $header, $result){
-		$terms = [];
-		
-		// workaround for pointer in question, so all following answer-objects are rendered.
-		$addIt = false;
+     * @return array
+     */
+    public function getTerms($question, $header, $result)
+    {
+        $terms = [];
+
+        // workaround for pointer in question, so all following answer-objects are rendered.
+        $addIt = false;
         $type = '';
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
-		$answers = $rep->findByQuestion($question);
-		
-		$ranswers = [];
-        if ($result){
-            /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion> $rquestion */
-            foreach ($result->getQuestions() as $rquestion){
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
+        $answers = $rep->findByQuestion($question);
 
-                if ($rquestion->getQuestion()->getUid() == $question->getUid()){
-                    foreach ($rquestion->getAnswers() as $ranswer){
+        $ranswers = [];
+        if ($result) {
+            /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion> $rquestion */
+            foreach ($result->getQuestions() as $rquestion) {
+
+                if ($rquestion->getQuestion()->getUid() == $question->getUid()) {
+                    foreach ($rquestion->getAnswers() as $ranswer) {
                         $ranswers[$ranswer->getAnswer()->getUid()] = $ranswer->getValue();
                     }
                 }
             }
         }
         ksort($ranswers);
-        
+
         $counter = 0;
-		foreach ($answers as $answer){
-			//Add only after the correct Matrix-Header is found, only following rows will be added.
-			if ((
-					get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' OR
-					get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' OR
-					get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder'
-					) AND $answer === $header) {
-                        $addIt = true; 
-                        $type = get_class($answer);                        
+        foreach ($answers as $answer) {
+            //Add only after the correct Matrix-Header is found, only following rows will be added.
+            if ((
+                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' OR
+                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' OR
+                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder'
+                ) && $answer === $header) {
+                $addIt = true;
+                $type = get_class($answer);
             } elseif (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' OR
-					get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' OR
-					get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') $addIt = false;
-			if ($addIt){
-				if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingTerm'){
-                    $counter ++;
-                    if ($answer->getOrder() == 0) $answer->setOrder($counter);
-					if ($type == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') {
-                        if ($ranswers[$answer->getUid()]){
+                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' OR
+                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') {
+                $addIt = false;
+            }
+            if ($addIt) {
+                if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingTerm') {
+                    $counter++;
+                    if ($answer->getOrder() == 0) {
+                        $answer->setOrder($counter);
+                    }
+                    if ($type == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') {
+                        if ($ranswers[$answer->getUid()]) {
                             $answer->setOrder($ranswers[$answer->getUid()]);
                         }
                         $terms[$answer->getOrder()] = $answer;
                     } else {
-                        if ($answer->getOrder() == 0) $answer->setOrder($counter);
+                        if ($answer->getOrder() == 0) {
+                            $answer->setOrder($counter);
+                        }
                         $terms[] = $answer;
                     }
-				}
-			}
+                }
+            }
         }
         $selectItems = [];
-        for ($i = 0; $i < $counter; $i++){
-            $selectItems[$i+1] = $i+1;
+        for ($i = 0; $i < $counter; $i++) {
+            $selectItems[$i + 1] = $i + 1;
         }
-        foreach ($terms as $nr => $term){
+        foreach ($terms as $nr => $term) {
             $terms[$nr]->setSelectItems($selectItems);
         }
         ksort($terms);
-		
-		return $terms;
-	}
+
+        return $terms;
+    }
 }

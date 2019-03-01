@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /***************************************************************
@@ -33,33 +35,36 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class BackendTsfe {
+class BackendTsfe
+{
 
     /**
      * @var int
      */
-    public $pid=1 ;
+    public $pid = 1;
 
 
-	function buildTSFE() {
-	    // j.v. page ID and TypeNum  needed to make the instance of TypoScriptFrontendController
-	    $typeNum = 0 ;
-	    if(  $this->pid < 1 ) {
-            $this->pid = 1 ;
+    function buildTSFE()
+    {
+        // j.v. page ID and TypeNum  needed to make the instance of TypoScriptFrontendController
+        $typeNum = 0;
+        if ($this->pid < 1) {
+            $this->pid = 1;
         }
-		if (!is_object($GLOBALS['TT'])) {
-			$GLOBALS['TT'] = new \TYPO3\CMS\Core\TimeTracker\TimeTracker;
-			$GLOBALS['TT']->start();
-		}
-		/** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $TSFEclassName */
-		$TSFEclassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TypoScriptFrontendController::class,NULL , $this->pid , $typeNum  ,1, '', '', '', '') ;
-		$GLOBALS['TSFE'] = new $TSFEclassName($GLOBALS['TYPO3_CONF_VARS'], $this->pid, $typeNum , 1, '', '', '', '');
-		$GLOBALS['TSFE']->initFEuser();
-		$GLOBALS['TSFE']->fetch_the_id();
-		$GLOBALS['TSFE']->getPageAndRootline();
-		$GLOBALS['TSFE']->initTemplate();
-		$GLOBALS['TSFE']->tmpl->getFileName_backPath = PATH_site;
-		$GLOBALS['TSFE']->forceTemplateParsing = 1;
-		$GLOBALS['TSFE']->getConfigArray();
-	}	
+        if (!is_object($GLOBALS['TT'])) {
+            $GLOBALS['TT'] = new \TYPO3\CMS\Core\TimeTracker\TimeTracker;
+            $GLOBALS['TT']->start();
+        }
+        /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $TSFEclassName */
+        $TSFEclassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TypoScriptFrontendController::class, null,
+            $this->pid, $typeNum, 1, '', '', '', '');
+        $GLOBALS['TSFE'] = new $TSFEclassName($GLOBALS['TYPO3_CONF_VARS'], $this->pid, $typeNum, 1, '', '', '', '');
+        $GLOBALS['TSFE']->initFEuser();
+        $GLOBALS['TSFE']->fetch_the_id();
+        $GLOBALS['TSFE']->getPageAndRootline();
+        $GLOBALS['TSFE']->initTemplate();
+        $GLOBALS['TSFE']->tmpl->getFileName_backPath = PATH_site;
+        $GLOBALS['TSFE']->forceTemplateParsing = 1;
+        $GLOBALS['TSFE']->getConfigArray();
+    }
 }

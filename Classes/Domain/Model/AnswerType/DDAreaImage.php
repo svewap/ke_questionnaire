@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,180 +33,193 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
-	/**
-	 * pdfType
-	 *
-	 * @var string
-	 */
-	protected $pdfType = 'special';
-	
-	/**
-	 * Image
-	 *
-	 * @var string
-	 */
-	protected $image;
+class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
+    /**
+     * pdfType
+     *
+     * @var string
+     */
+    protected $pdfType = 'special';
 
-	/**
-	 * coords
-	 *
-	 * @var string
-	 */
-	protected $coords;
-	
-	/**
-	 * Width
-	 *
-	 * @var integer
-	 */
-	protected $width;
+    /**
+     * Image
+     *
+     * @var string
+     */
+    protected $image;
 
-	/**
-	 * Height
-	 *
-	 * @var integer
-	 */
-	protected $height;
-	
-	/**
-	 * Highlight the areas when mouse over
-	 *
-	 * @var boolean
-	 */
-	protected $areaHighlight;
-	
-	/**
-	 * Returns the areaHighlight
-	 *
-	 * @return boolean areaHighlight
-	 */
-	public function getAreaHighlight() {
-		return $this->areaHighlight;
-	}
+    /**
+     * coords
+     *
+     * @var string
+     */
+    protected $coords;
 
-	/**
-	 * Sets the areaHighlight
-	 *
-	 * @param boolean $areaHighlight
-	 * @return void
-	 */
-	public function setAreaHighlight($areaHighlight) {
-		$this->areaHighlight = $areaHighlight;
-	}
-	
-	/**
-	 * Returns the image
-	 *
-	 * @return string $image
-	 */
-	public function getImage() {
-		return $this->image;
-	}
+    /**
+     * Width
+     *
+     * @var integer
+     */
+    protected $width;
 
-	/**
-	 * Sets the image
-	 *
-	 * @param string $image
-	 * @return void
-	 */
-	public function setImage($image) {
-		$this->image = $image;
-	}
-	
-	/**
-	 * Returns the coords
-	 *
-	 * @return array $coords
-	 */
-	public function getCoords() {
-		$lines = explode("\n", $this->coords);
-		foreach ($lines as $key => $line){
-			$line = explode(',',trim($line));
-			$coords[$key]['key'] = $key+1;
-			$coords[$key]['x1'] = $line[0];
-			$coords[$key]['y1'] = $line[1];
-			$coords[$key]['x2'] = $line[2];
-			$coords[$key]['y2'] = $line[3];
-			$coords[$key]['width'] = $coords[$key]['x2'] - $coords[$key]['x1'];
-			$coords[$key]['height'] = $coords[$key]['y2'] - $coords[$key]['y1'];
-			$coords[$key]['title'] = $line[4];
-		}
-		return $coords;
-	}
+    /**
+     * Height
+     *
+     * @var integer
+     */
+    protected $height;
 
-	/**
-	 * Sets the coords
-	 *
-	 * @param string $coords
-	 * @return void
-	 */
-	public function setCoords($coords) {
-		$this->coords = $coords;
-	}
-	
-	/**
-	 * Returns the width
-	 *
-	 * @return integer $width
-	 */
-	public function getWidth() {
-		return $this->width;
-	}
+    /**
+     * Highlight the areas when mouse over
+     *
+     * @var boolean
+     */
+    protected $areaHighlight;
 
-	/**
-	 * Sets the width
-	 *
-	 * @param integer $width
-	 * @return void
-	 */
-	public function setWidth($width) {
-		$this->width = $width;
-	}
+    /**
+     * Returns the areaHighlight
+     *
+     * @return boolean areaHighlight
+     */
+    public function getAreaHighlight()
+    {
+        return $this->areaHighlight;
+    }
 
-	/**
-	 * Returns the height
-	 *
-	 * @return integer $height
-	 */
-	public function getHeight() {
-		return $this->height;
-	}
+    /**
+     * Sets the areaHighlight
+     *
+     * @param boolean $areaHighlight
+     * @return void
+     */
+    public function setAreaHighlight($areaHighlight)
+    {
+        $this->areaHighlight = $areaHighlight;
+    }
 
-	/**
-	 * Sets the height
-	 *
-	 * @param integer $height
-	 * @return void
-	 */
-	public function setHeight($height) {
-		$this->height = $height;
-	}
-	
-	/**
-	 * check of all pics are in the correct area
-	 * 
-	 * @param array $resultAnswers
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @return boolean
-	 */
-	public function imagesCorrectPlaced($resultAnswers, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question){
-		foreach ($resultAnswers as $answer){
-			$counter = 0;
-			$matched = 0;
-			if ($answer->getAnswer()->getShortType() == 'DDImage'){
-				$counter ++;
-				if ($answer->getValue() == $answer->getAnswer()->getAreaIndex()) {
+    /**
+     * Returns the image
+     *
+     * @return string $image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Sets the image
+     *
+     * @param string $image
+     * @return void
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * Returns the coords
+     *
+     * @return array $coords
+     */
+    public function getCoords()
+    {
+        $lines = explode("\n", $this->coords);
+        foreach ($lines as $key => $line) {
+            $line = explode(',', trim($line));
+            $coords[$key]['key'] = $key + 1;
+            $coords[$key]['x1'] = $line[0];
+            $coords[$key]['y1'] = $line[1];
+            $coords[$key]['x2'] = $line[2];
+            $coords[$key]['y2'] = $line[3];
+            $coords[$key]['width'] = $coords[$key]['x2'] - $coords[$key]['x1'];
+            $coords[$key]['height'] = $coords[$key]['y2'] - $coords[$key]['y1'];
+            $coords[$key]['title'] = $line[4];
+        }
+        return $coords;
+    }
+
+    /**
+     * Sets the coords
+     *
+     * @param string $coords
+     * @return void
+     */
+    public function setCoords($coords)
+    {
+        $this->coords = $coords;
+    }
+
+    /**
+     * Returns the width
+     *
+     * @return integer $width
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Sets the width
+     *
+     * @param integer $width
+     * @return void
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * Returns the height
+     *
+     * @return integer $height
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * Sets the height
+     *
+     * @param integer $height
+     * @return void
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * check of all pics are in the correct area
+     *
+     * @param array $resultAnswers
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @return boolean
+     */
+    public function imagesCorrectPlaced($resultAnswers, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
+    {
+        foreach ($resultAnswers as $answer) {
+            $counter = 0;
+            $matched = 0;
+            if ($answer->getAnswer()->getShortType() == 'DDImage') {
+                $counter++;
+                if ($answer->getValue() == $answer->getAnswer()->getAreaIndex()) {
                     $matched++;
                 }
-			}
-			if ($counter > 0 && $counter == $matched) {
+            }
+            if ($counter > 0 && $counter == $matched) {
                 return true;
             }
-		}
-		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([
-			$counter, $matched
+        }
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([
+            $counter,
+            $matched
         ], 'result');
-		return false;
-	}
+        return false;
+    }
 }

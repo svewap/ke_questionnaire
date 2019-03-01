@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,22 +33,25 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AjaxController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class AjaxController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * action ajax
-	 *
-	 * @param string $type Which Ajax Object has to be called
-	 * @param array $arguments If you want, you can add some arguments to your object
-	 * @ignorevalidaton $arguments
-	 * @return string In most cases JSON
-	 */
-	public function ajaxAction($type, $arguments = []) {
-		$requestedClassName = 'Kennziffer\\KeQuestionnaire\\Ajax\\' . $type;
-		if (class_exists($requestedClassName)) {
-			$object = $this->objectManager->get($requestedClassName);
-			$object->settings = $this->settings;
-			return $object->processAjaxRequest($arguments);
-		} else return '';
-	}
+    /**
+     * action ajax
+     *
+     * @param string $type Which Ajax Object has to be called
+     * @param array $arguments If you want, you can add some arguments to your object
+     * @ignorevalidaton $arguments
+     * @return string In most cases JSON
+     */
+    public function ajaxAction($type, $arguments = [])
+    {
+        $requestedClassName = 'Kennziffer\\KeQuestionnaire\\Ajax\\' . $type;
+        if (class_exists($requestedClassName)) {
+            $object = $this->objectManager->get($requestedClassName);
+            $object->settings = $this->settings;
+            return $object->processAjaxRequest($arguments);
+        }
+        return '';
+    }
 }

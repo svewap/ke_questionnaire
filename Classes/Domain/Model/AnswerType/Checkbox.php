@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,13 +33,15 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Checkbox extends Radiobutton {
-	/**
-	 * Returns the saveType
-	 *
-	 * @return string $saveTxpe
-	 */
-	public function getSaveType() {
-		return 'replaceValue';
-	}
+class Checkbox extends Radiobutton
+{
+    /**
+     * Returns the saveType
+     *
+     * @return string $saveTxpe
+     */
+    public function getSaveType()
+    {
+        return 'replaceValue';
+    }
 }

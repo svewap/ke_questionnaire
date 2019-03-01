@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -45,60 +48,65 @@ class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
     protected $escapeOutput = false;
 
 
-	/**
-	 * Adds the needed Javascript-File to Additional Header Data
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTextDD $answer Answer to be rendered
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
-	 * @param string $as The name of the iteration variable
-	 * @return string
-	 */
-	public function render( \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTextDD $answer,
-                            \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
-                            $as) {
-		$terms = $this->getClozeTerms($question);
-		$additional_terms = explode(',',$answer->getClozeAddTerms());
-		
-		$templateVariableContainer = $this->renderingContext->getVariableProvider();
-		if ($question === NULL) {
-			return '';
-		}
-		
-		$output = '';
-		$term_array = [];
-		foreach ($terms as $word => $element) {
-			$term_array[] = $word;
-		}
-		foreach ($additional_terms as $element){
-			if (trim($element) != '')  $term_array[] = trim($element);
-		}
-		shuffle($term_array);
-		foreach ($term_array as $nr => $element){
-			$temp = [];
-			$temp['counter'] = $nr;
-			$temp['text'] = $element;
-			$templateVariableContainer->add($as, $temp);
-			$output .= $this->renderChildren();
-			$templateVariableContainer->remove($as);
-		}
-		return $output;
-	}
-	
-	/**
-	 * Gets the Terms to be be replaced
-	 * 
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
-	 * @return array
-	 */
-	public function getClozeTerms($question){
-		$terms = [];
-		
-		foreach ($question->getAnswers() as $answer){
-			if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm'){
-				$terms[$answer->getTitle()][$answer->getClozePosition()] = $answer;
-			}
-		}
-		
-		return $terms;
-	}
+    /**
+     * Adds the needed Javascript-File to Additional Header Data
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTextDD $answer Answer to be rendered
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
+     * @param string $as The name of the iteration variable
+     * @return string
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTextDD $answer,
+        \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
+        $as
+    ) {
+        $terms = $this->getClozeTerms($question);
+        $additional_terms = explode(',', $answer->getClozeAddTerms());
+
+        $templateVariableContainer = $this->renderingContext->getVariableProvider();
+        if ($question === null) {
+            return '';
+        }
+
+        $output = '';
+        $term_array = [];
+        foreach ($terms as $word => $element) {
+            $term_array[] = $word;
+        }
+        foreach ($additional_terms as $element) {
+            if (trim($element) != '') {
+                $term_array[] = trim($element);
+            }
+        }
+        shuffle($term_array);
+        foreach ($term_array as $nr => $element) {
+            $temp = [];
+            $temp['counter'] = $nr;
+            $temp['text'] = $element;
+            $templateVariableContainer->add($as, $temp);
+            $output .= $this->renderChildren();
+            $templateVariableContainer->remove($as);
+        }
+        return $output;
+    }
+
+    /**
+     * Gets the Terms to be be replaced
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
+     * @return array
+     */
+    public function getClozeTerms($question)
+    {
+        $terms = [];
+
+        foreach ($question->getAnswers() as $answer) {
+            if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm') {
+                $terms[$answer->getTitle()][$answer->getClozePosition()] = $answer;
+            }
+        }
+
+        return $terms;
+    }
 }

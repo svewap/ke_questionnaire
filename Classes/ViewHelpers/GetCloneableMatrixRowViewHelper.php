@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class GetCloneableMatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class GetCloneableMatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -43,15 +46,17 @@ class GetCloneableMatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
      */
     protected $escapeOutput = false;
 
-	/**
-	 * Adds the needed Javascript-File to Additional Header Data
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader $answer Answer to be rendered
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
-	 * @return \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow
-	 */
-	public function render(\Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader $answer,
-                           \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question) {
+    /**
+     * Adds the needed Javascript-File to Additional Header Data
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader $answer Answer to be rendered
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
+     * @return \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader $answer,
+        \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
+    ) {
         return $answer->getCloneableRow($question);
-	}
+    }
 }

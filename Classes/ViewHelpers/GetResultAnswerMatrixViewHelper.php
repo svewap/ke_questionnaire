@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class GetResultAnswerMatrixViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class GetResultAnswerMatrixViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -45,28 +48,36 @@ class GetResultAnswerMatrixViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
     protected $escapeOutput = false;
 
 
-	/**
-	 * Returns a requested question from result record
-	 *
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-	 * @param integer $questionUid
-	 * @param integer $rowUid
-	 * @param integer $columnUid
-	 * @param string $matrixType
-	 * @param boolean $radio
+    /**
+     * Returns a requested question from result record
+     *
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param integer $questionUid
+     * @param integer $rowUid
+     * @param integer $columnUid
+     * @param string $matrixType
+     * @param boolean $radio
      * @param integer $clone
-	 * @return
-	 */
-	public function render($result, $questionUid, $rowUid, $columnUid, $matrixType = 'normal', $radio = false, $clone = 0) {        
-		if (!$radio){
-			$rAnswer = $result->getAnswer($questionUid, $rowUid, $columnUid);
-			if ($rAnswer) {
-				return $rAnswer;
-			}
-		} else {
-			$rAnswer = $result->getRadioAnswer($questionUid, $rowUid, $columnUid);
-			return $rAnswer;
-		}
-		return NULL;
-	}
+     * @return
+     */
+    public function render(
+        $result,
+        $questionUid,
+        $rowUid,
+        $columnUid,
+        $matrixType = 'normal',
+        $radio = false,
+        $clone = 0
+    ) {
+        if (!$radio) {
+            $rAnswer = $result->getAnswer($questionUid, $rowUid, $columnUid);
+            if ($rAnswer) {
+                return $rAnswer;
+            }
+        } else {
+            $rAnswer = $result->getRadioAnswer($questionUid, $rowUid, $columnUid);
+            return $rAnswer;
+        }
+        return null;
+    }
 }

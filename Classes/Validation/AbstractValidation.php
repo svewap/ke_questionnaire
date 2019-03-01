@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Validation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,32 +33,34 @@ namespace Kennziffer\KeQuestionnaire\Validation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-abstract class AbstractValidation {
-	
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-	
-	
-	/**
-	 * Injects the object manager
-	 *
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
-	
-	
-	/**
-	 * Check if $value is valid.
-	 *
-	 * @param mixed $value The value which has to be valid
-	 * @param object $model the parent model
-	 * @return boolean
-	 */
-	abstract public function isValid($value, $model);
+abstract class AbstractValidation
+{
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
+
+
+    /**
+     * Injects the object manager
+     *
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+
+    /**
+     * Check if $value is valid.
+     *
+     * @param mixed $value The value which has to be valid
+     * @param object $model the parent model
+     * @return boolean
+     */
+    abstract public function isValid($value, $model);
 
 }

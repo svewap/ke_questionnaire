@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,67 +33,73 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Radiobutton extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer {
-	/**
-	 * shows an Input field after the answer
-	 *
-	 * @var boolean
-	 */
-	protected $showTextfield;
-	
-	/**
-	 * Returns the showTextfield
-	 *
-	 * @return boolean showTextfield
-	 */
-	public function getShowTextfield() {
-		return $this->showTextfield;
-	}
+class Radiobutton extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+{
+    /**
+     * shows an Input field after the answer
+     *
+     * @var boolean
+     */
+    protected $showTextfield;
 
-	/**
-	 * Sets the showTextfield
-	 *
-	 * @param boolean $showTextfield
-	 * @return void
-	 */
-	public function setShowTextfield($showTextfield) {
-		$this->showTextfield = $showTextfield;
-	}
-	
-	/**
-	 * return the Value shown in the Csv Export
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer
-	 * @param array $options
-	 * @return string
-	 */
-	public function getCsvValue(\Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer, $options = []){
-		if ($rAnswer->getValue() == $this->getUid()) {// || $rAnswer->getCol() == $this->getUid()){
-			return $options['marker'];
-		} else {
-			return '';
-		}
-	}
-        
-        /**
-	 * return the Value shown in the Csv Export
-	 * @param array $rAnswer
-	 * @param array $options
-	 * @return string
-	 */
-	public function getCsvValueRaw(array $rAnswer, $options = []){
+    /**
+     * Returns the showTextfield
+     *
+     * @return boolean showTextfield
+     */
+    public function getShowTextfield()
+    {
+        return $this->showTextfield;
+    }
+
+    /**
+     * Sets the showTextfield
+     *
+     * @param boolean $showTextfield
+     * @return void
+     */
+    public function setShowTextfield($showTextfield)
+    {
+        $this->showTextfield = $showTextfield;
+    }
+
+    /**
+     * return the Value shown in the Csv Export
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer
+     * @param array $options
+     * @return string
+     */
+    public function getCsvValue(\Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer, $options = [])
+    {
+        if ($rAnswer->getValue() == $this->getUid()) {// || $rAnswer->getCol() == $this->getUid()){
+            return $options['marker'];
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * return the Value shown in the Csv Export
+     * @param array $rAnswer
+     * @param array $options
+     * @return string
+     */
+    public function getCsvValueRaw(array $rAnswer, $options = [])
+    {
         if ($rAnswer['value'] == $this->getUid()) {// || $rAnswer->getCol() == $this->getUid()){
-			return $options['marker'];
-		} else {
-			return '';
-		}
-	}
-	
-	/**
-	 * Returns the saveType
-	 *
-	 * @return string $saveTxpe
-	 */
-	public function getSaveType() {
-		return 'replaceAnswer';
-	}
+            return $options['marker'];
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Returns the saveType
+     *
+     * @return string $saveTxpe
+     */
+    public function getSaveType()
+    {
+        return 'replaceAnswer';
+    }
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Validator;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,16 +33,18 @@ namespace Kennziffer\KeQuestionnaire\Domain\Validator;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ArrayValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator  {
-	
-	/**
-	* validate
-	*/
-	public function isValid($array) {
-		if (!is_array($array)) {
-			$this->addError('The given Object is not an Array.', 1262341470);
-			return FALSE;
-		}
-		return TRUE;
-	}
+class ArrayValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
+{
+
+    /**
+     * validate
+     */
+    public function isValid($array)
+    {
+        if (!is_array($array)) {
+            $this->addError('The given Object is not an Array.', 1262341470);
+            return false;
+        }
+        return true;
+    }
 }

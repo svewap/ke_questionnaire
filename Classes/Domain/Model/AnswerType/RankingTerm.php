@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,64 +33,69 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class RankingTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage{
-	
-	/**
-	 * pdfType
-	 *
-	 * @var string
-	 */
-	protected $pdfType = 'normal';
-	
-	/**
-	 * Order
-	 *
-	 * @var integer
-	 */
-	protected $order;
-    
-    /**
-	 * SelectItems
-	 *
-	 * @var array
-	 */
-	protected $selectItems;
-    
-    /**
-	 * Returns the order
-	 *
-	 * @return integer $order
-	 */
-	public function getOrder() {
-		return $this->order;
-	}
+class RankingTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage
+{
 
-	/**
-	 * Sets the order
-	 *
-	 * @param integer $order
-	 * @return void
-	 */
-	public function setOrder($order) {
-		$this->order = $order;
-	}
-    
-     /**
-	 * Returns the selectItems
-	 *
-	 * @return array $selectItems
-	 */
-	public function getSelectItems() {
-		return $this->selectItems;
-	}
+    /**
+     * pdfType
+     *
+     * @var string
+     */
+    protected $pdfType = 'normal';
 
-	/**
-	 * Sets the selectItems
-	 *
-	 * @param array $selectItems
-	 * @return void
-	 */
-	public function setSelectItems($selectItems) {
-		$this->selectItems = $selectItems;
-	}
+    /**
+     * Order
+     *
+     * @var integer
+     */
+    protected $order;
+
+    /**
+     * SelectItems
+     *
+     * @var array
+     */
+    protected $selectItems;
+
+    /**
+     * Returns the order
+     *
+     * @return integer $order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Sets the order
+     *
+     * @param integer $order
+     * @return void
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
+
+    /**
+     * Returns the selectItems
+     *
+     * @return array $selectItems
+     */
+    public function getSelectItems()
+    {
+        return $this->selectItems;
+    }
+
+    /**
+     * Sets the selectItems
+     *
+     * @param array $selectItems
+     * @return void
+     */
+    public function setSelectItems($selectItems)
+    {
+        $this->selectItems = $selectItems;
+    }
 }

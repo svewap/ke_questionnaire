@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,30 +33,33 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Typo3Content extends \Kennziffer\KeQuestionnaire\Domain\Model\Question {
-	/**
-	 * ContentId
-	 *
-	 * @var integer
-	 */
-	protected $contentId;
-	
-	/**
-	 * Returns the contentId
-	 *
-	 * @return integer $contentId
-	 */
-	public function getContentId() {
-		return $this->contentId;
-	}
+class Typo3Content extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
+{
+    /**
+     * ContentId
+     *
+     * @var integer
+     */
+    protected $contentId;
 
-	/**
-	 * Sets the contentId
-	 *
-	 * @param integer $contentId
-	 * @return void
-	 */
-	public function setContentId($contentId) {
-		$this->contentId = $contentId;
-	}
+    /**
+     * Returns the contentId
+     *
+     * @return integer $contentId
+     */
+    public function getContentId()
+    {
+        return $this->contentId;
+    }
+
+    /**
+     * Sets the contentId
+     *
+     * @param integer $contentId
+     * @return void
+     */
+    public function setContentId($contentId)
+    {
+        $this->contentId = $contentId;
+    }
 }

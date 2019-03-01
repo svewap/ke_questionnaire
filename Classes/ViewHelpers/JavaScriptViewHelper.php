@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class JavaScriptViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class JavaScriptViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -44,70 +47,74 @@ class JavaScriptViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
     protected $escapeOutput = false;
 
 
-	/**
-	 * @var bool
-	 */
-	protected $always;
+    /**
+     * @var bool
+     */
+    protected $always;
 
-	/**
-	 * ViewHelper to bundle the javascript in a single file and include this
-	 * 
-	 * @param string $alwaysreplace
-	 */	 	
-	public function render($alwaysreplace = FALSE) {
-		$this->always = $alwaysreplace;
-		$this->cacheJavaScript($this->renderChildren());	
-	}
-	
-	/**
-	 * write the Javascript in the file
-	 */
-	public function cacheJavaScript ($script){
-		if (trim($script) != ''){
-			$endOfFile = "\n});// end of file";
-			$beginningOfFile = "jQuery(document).ready(function() {\n";
-			
-			//get the stored jsKey
-			$jsKey = $GLOBALS['TSFE']->fe_user->getKey('ses', 'keq_jskey');
-			//get the file
-			$pathName = 'typo3temp/ke_questionnaire';
-			$fileName = $pathName . '/' . $jsKey . '.js';
+    /**
+     * ViewHelper to bundle the javascript in a single file and include this
+     *
+     * @param string $alwaysreplace
+     */
+    public function render($alwaysreplace = false)
+    {
+        $this->always = $alwaysreplace;
+        $this->cacheJavaScript($this->renderChildren());
+    }
 
-			if (!file_exists(PATH_site . $pathName)) {
+    /**
+     * write the Javascript in the file
+     */
+    public function cacheJavaScript($script)
+    {
+        if (trim($script) != '') {
+            $endOfFile = "\n});// end of file";
+            $beginningOfFile = "jQuery(document).ready(function() {\n";
+
+            //get the stored jsKey
+            $jsKey = $GLOBALS['TSFE']->fe_user->getKey('ses', 'keq_jskey');
+            //get the file
+            $pathName = 'typo3temp/ke_questionnaire';
+            $fileName = $pathName . '/' . $jsKey . '.js';
+
+            if (!file_exists(PATH_site . $pathName)) {
                 mkdir(PATH_site . $pathName, 0777);
                 chmod(PATH_site . $pathName, 0777);
             }
-			//get old file content
-			$oldContent = '';
+            //get old file content
+            $oldContent = '';
 
-			if(file_exists(PATH_site . $fileName)) {
-				$oldContent = file_get_contents(PATH_site . $fileName);
-			}
+            if (file_exists(PATH_site . $fileName)) {
+                $oldContent = file_get_contents(PATH_site . $fileName);
+            }
 
-			//check old file content for alwaysreplace_start and _end parameter
-			if ($this->always) {
-				$pattern = '/\/\/' . $this->always . '_start(.*)\/\/' . $this->always . '_end/isU';
-				$oldContent = preg_replace($pattern, '', $oldContent);
-			}
+            //check old file content for alwaysreplace_start and _end parameter
+            if ($this->always) {
+                $pattern = '/\/\/' . $this->always . '_start(.*)\/\/' . $this->always . '_end/isU';
+                $oldContent = preg_replace($pattern, '', $oldContent);
+            }
 
-			if ($oldContent == '') {
-				$content = $beginningOfFile . $script . $endOfFile;
-			} else {
-				if (strpos($oldContent, $script) === FALSE) {
-					$content = str_replace($endOfFile, $script . $endOfFile, $oldContent);
-				} else $content = $oldContent;
-			}
-			//clear the file
+            if ($oldContent == '') {
+                $content = $beginningOfFile . $script . $endOfFile;
+            } else {
+                if (strpos($oldContent, $script) === false) {
+                    $content = str_replace($endOfFile, $script . $endOfFile, $oldContent);
+                } else {
+                    $content = $oldContent;
+                }
+            }
+            //clear the file
             $jsFile = fopen(PATH_site . $fileName, 'w+b');
 
             //write the js
             fwrite($jsFile, $content);
-			fclose($jsFile);
+            fclose($jsFile);
             chmod(PATH_site . $fileName, 0777);
 
-			//add it to the headerData
-			$GLOBALS['TSFE']->additionalFooterData['ke_questionnaire_tempjs'] = '<script type="text/javascript" src="' .
-				$fileName . "?" . filemtime(PATH_site . $fileName) . '"></script>';
-		}
-	}
+            //add it to the headerData
+            $GLOBALS['TSFE']->additionalFooterData['ke_questionnaire_tempjs'] = '<script type="text/javascript" src="' .
+                $fileName . "?" . filemtime(PATH_site . $fileName) . '"></script>';
+        }
+    }
 }

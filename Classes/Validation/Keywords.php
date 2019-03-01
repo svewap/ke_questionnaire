@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Validation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,30 +33,40 @@ namespace Kennziffer\KeQuestionnaire\Validation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Keywords extends AbstractValidation {
-	
-	/**
-	 * Check if $value is valid.
-	 *
-	 * @param mixed $value The value which has to be valid
-	 * @param object $model the parent model
-	 * @return boolean
-	 */
-	public function isValid($value, $model) {
-		/* @var $additionalInformations \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput */
-		$keywords = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $model->getValidationText());
-		$keyword_counter = 0;
-		$to_match = $model->getValidationKeysAmount();
-		if ($to_match > count($keywords)) $to_match = count($keywords);
-		foreach ($keywords as $key){
-			$pos = strpos($value, $key);
-			if (is_integer($pos)) $keyword_counter ++;
-			if ($to_match > 0){
-				if ($keyword_counter >= $to_match) return true;
-			} else {
-				if ($keyword_counter == count($keywords)) return true;
-			}
-		}
-	}
+class Keywords extends AbstractValidation
+{
+
+    /**
+     * Check if $value is valid.
+     *
+     * @param mixed $value The value which has to be valid
+     * @param object $model the parent model
+     * @return boolean
+     */
+    public function isValid($value, $model)
+    {
+        /* @var $additionalInformations \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput */
+        $keywords = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $model->getValidationText());
+        $keyword_counter = 0;
+        $to_match = $model->getValidationKeysAmount();
+        if ($to_match > count($keywords)) {
+            $to_match = count($keywords);
+        }
+        foreach ($keywords as $key) {
+            $pos = strpos($value, $key);
+            if (is_integer($pos)) {
+                $keyword_counter++;
+            }
+            if ($to_match > 0) {
+                if ($keyword_counter >= $to_match) {
+                    return true;
+                }
+            } else {
+                if ($keyword_counter == count($keywords)) {
+                    return true;
+                }
+            }
+        }
+    }
 
 }

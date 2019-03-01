@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Validation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,21 +33,23 @@ namespace Kennziffer\KeQuestionnaire\Validation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Integer extends AbstractValidation {
-	
-	/**
-	 * Check if $value is valid.
-	 *
-	 * @param mixed $value The value which has to be valid
-	 * @param object $model the parent model
-	 * @return boolean
-	 */
-	public function isValid($value, $model) {
-		/* @var $validator \TYPO3\CMS\Extbase\Validation\Validator\IntegerValidator */
-		//$validator = $this->objectManager->get('TYPO3\CMS\Extbase\Validation\Validator\IntegerValidator');
-		//return $validator->isValid($value);
+class Integer extends AbstractValidation
+{
+
+    /**
+     * Check if $value is valid.
+     *
+     * @param mixed $value The value which has to be valid
+     * @param object $model the parent model
+     * @return boolean
+     */
+    public function isValid($value, $model)
+    {
+        /* @var $validator \TYPO3\CMS\Extbase\Validation\Validator\IntegerValidator */
+        //$validator = $this->objectManager->get('TYPO3\CMS\Extbase\Validation\Validator\IntegerValidator');
+        //return $validator->isValid($value);
         $value = filter_var($value, FILTER_VALIDATE_INT);
-        return ($value !== FALSE);
-	}
+        return ($value !== false);
+    }
 
 }

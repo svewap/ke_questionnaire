@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class JavaScriptFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class JavaScriptFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -44,15 +47,19 @@ class JavaScriptFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
     protected $escapeOutput = false;
 
 
-	/**
-	 * ViewHelper to bundle the javascript in a single file and include this
-	 * 
-	 * @param string $key
-	 * @param string $filename
-	 * @param boolean $footer
-	 */	 	
-	public function render($key = '', $filename, $footer = true) {
-		if ($footer) $GLOBALS['TSFE']->additionalFooterData['ke_questionnaire_'.$key] = '<script type="text/javascript" src="'.$filename."?".filemtime(PATH_site .$filename).'"></script>'; 
-		else  $GLOBALS['TSFE']->additionalHeaderData['ke_questionnaire_'.$key] = '<script type="text/javascript" src="'.$filename."?".filemtime(PATH_site .$filename).'"></script>'; 
-	}	
+    /**
+     * ViewHelper to bundle the javascript in a single file and include this
+     *
+     * @param string $key
+     * @param string $filename
+     * @param boolean $footer
+     */
+    public function render($key = '', $filename, $footer = true)
+    {
+        if ($footer) {
+            $GLOBALS['TSFE']->additionalFooterData['ke_questionnaire_' . $key] = '<script type="text/javascript" src="' . $filename . "?" . filemtime(PATH_site . $filename) . '"></script>';
+        } else {
+            $GLOBALS['TSFE']->additionalHeaderData['ke_questionnaire_' . $key] = '<script type="text/javascript" src="' . $filename . "?" . filemtime(PATH_site . $filename) . '"></script>';
+        }
+    }
 }

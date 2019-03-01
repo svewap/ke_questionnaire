@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class CheckAnsweredQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class CheckAnsweredQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
     /**
      * @var boolean
@@ -43,21 +46,26 @@ class CheckAnsweredQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
      */
     protected $escapeOutput = false;
 
-	/**
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    /**
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
      * @return mixed The finally rendered child nodes.
-	 */	 	
-	public function render(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, \Kennziffer\KeQuestionnaire\Domain\Model\Result $result) {
-		//$output = $this->renderChildren();
-		foreach ($result->getQuestions() as $rQuestion){
-			if ($rQuestion->getQuestion() === $question){
-			    /** @var \Kennziffer\KeQuestionnaire\Domain\Model\Answer $rAnswer */
-                foreach ($rQuestion->getAnswers() as $rAnswer){
-					if ($rAnswer->getValue() != '') return $this->renderChildren();					
-				}
-			}
-		}        
-	}
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    ) {
+        //$output = $this->renderChildren();
+        foreach ($result->getQuestions() as $rQuestion) {
+            if ($rQuestion->getQuestion() === $question) {
+                /** @var \Kennziffer\KeQuestionnaire\Domain\Model\Answer $rAnswer */
+                foreach ($rQuestion->getAnswers() as $rAnswer) {
+                    if ($rAnswer->getValue() != '') {
+                        return $this->renderChildren();
+                    }
+                }
+            }
+        }
+    }
 
 }

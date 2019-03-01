@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,31 +33,34 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DDImage extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage{
-	/**
-	 * AreaIndex
-	 *
-	 * @var integer
-	 */
-	protected $areaIndex;
-	
-	/**
-	 * Returns the areaIndex
-	 *
-	 * @return integer $areaIndex
-	 */
-	public function getAreaIndex() {
-		return $this->areaIndex;
-	}
+class DDImage extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage
+{
+    /**
+     * AreaIndex
+     *
+     * @var integer
+     */
+    protected $areaIndex;
+
+    /**
+     * Returns the areaIndex
+     *
+     * @return integer $areaIndex
+     */
+    public function getAreaIndex()
+    {
+        return $this->areaIndex;
+    }
 
 
-	/**
-	 * Sets the areaIndex
-	 *
-	 * @param integer $areaIndex
-	 * @return void
-	 */
-	public function setAreaIndex($areaIndex) {
-		$this->areaIndex = $areaIndex;
-	}
+    /**
+     * Sets the areaIndex
+     *
+     * @param integer $areaIndex
+     * @return void
+     */
+    public function setAreaIndex($areaIndex)
+    {
+        $this->areaIndex = $areaIndex;
+    }
 }

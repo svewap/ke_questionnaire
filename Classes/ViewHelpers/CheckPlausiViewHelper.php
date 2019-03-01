@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,8 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class CheckPlausiViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class CheckPlausiViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 
     /**
@@ -48,44 +51,47 @@ class CheckPlausiViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
      * @var \Kennziffer\KeQuestionnaire\ViewHelpers\JavaScriptViewHelper
      */
 
-    public $jsViewhelper ;
+    public $jsViewhelper;
 
-	/**
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-	 * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    /**
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
      * @return string
-	 */	 	
-	public function render(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, \Kennziffer\KeQuestionnaire\Domain\Model\Result $result) {
-		$output = $this->renderChildren();
-        
-        $dependant = '<div id="keqPlausi'.$question->getUid().'" style="display: none;">';
+     */
+    public function render(
+        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    ) {
+        $output = $this->renderChildren();
+
+        $dependant = '<div id="keqPlausi' . $question->getUid() . '" style="display: none;">';
         $dependant .= $output;
         $dependant .= '</div>';
-            
-        $depJs = [];
-		$if = 'if (';
-		foreach ($question->getDependancies() as $id => $dependancy){
-			$depJs[$id] = 'jQuery("#keq'.$dependancy->getQuestion()->getUid().'").on( "change", function() {'."\n";				
-			$if .= $dependancy->getRelationJs(count($depJs));             
-		}
 
-		$js_inside = '){'."\n";
-		$js_inside .= '        jQuery("#keqPlausi'.$question->getUid().'").show();'."\n";
-		$js_inside .= '    } else {'."\n";
-		$js_inside .= '        jQuery("#keqPlausi'.$question->getUid().'").hide();'."\n";
-		$js_inside .= '    };'."\n";
-		$js_inside .= '});'."\n";
-        $js = '' ;
-		foreach ($depJs as $part){
-			$js .= $part;
-			$js .= $if;
-			$js .= $js_inside;
-		}
+        $depJs = [];
+        $if = 'if (';
+        foreach ($question->getDependancies() as $id => $dependancy) {
+            $depJs[$id] = 'jQuery("#keq' . $dependancy->getQuestion()->getUid() . '").on( "change", function() {' . "\n";
+            $if .= $dependancy->getRelationJs(count($depJs));
+        }
+
+        $js_inside = '){' . "\n";
+        $js_inside .= '        jQuery("#keqPlausi' . $question->getUid() . '").show();' . "\n";
+        $js_inside .= '    } else {' . "\n";
+        $js_inside .= '        jQuery("#keqPlausi' . $question->getUid() . '").hide();' . "\n";
+        $js_inside .= '    };' . "\n";
+        $js_inside .= '});' . "\n";
+        $js = '';
+        foreach ($depJs as $part) {
+            $js .= $part;
+            $js .= $if;
+            $js .= $js_inside;
+        }
         $this->jsViewhelper->cacheJavaScript($js);
 
-		$output = $dependant;
+        $output = $dependant;
 
         return $output;
-	}
+    }
 
 }

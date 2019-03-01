@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /***************************************************************
@@ -26,7 +28,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once ExtensionManagementUtility::extPath('ke_questionnaire').'Resources/Private/PHP/Mpdf/mpdf.php';
+require_once ExtensionManagementUtility::extPath('ke_questionnaire') . 'Resources/Private/PHP/Mpdf/mpdf.php';
 
 /**
  *
@@ -35,29 +37,32 @@ require_once ExtensionManagementUtility::extPath('ke_questionnaire').'Resources/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class PdfExport {
-	/**
+class PdfExport
+{
+    /**
      * Create PDF
-     * 
+     *
      * @param string $html
      * @param string $filename
      */
-    public function createPdfFromHTML($html,$filename = "ke_questionnaire.pdf"){        
+    public function createPdfFromHTML($html, $filename = "ke_questionnaire.pdf")
+    {
         $this->createAndCheckTmpFile();
-        
+
         $pdf = new \mPDF();
-	$pdf->WriteHtml($html);
-	$pdf->Output($filename, 'D');
-	//$pdf->Output();
-	exit;
+        $pdf->WriteHtml($html);
+        $pdf->Output($filename, 'D');
+        //$pdf->Output();
+        exit;
     }
-    
+
     /**
      * Try to write check file to typo3temp folder
      */
-    protected function createAndCheckTmpFile() {
+    protected function createAndCheckTmpFile()
+    {
         $this->tmpFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/TEST';
-        if(!is_dir(PATH_site . 'typo3temp/ke_questionnaire/pdf')) {
+        if (!is_dir(PATH_site . 'typo3temp/ke_questionnaire/pdf')) {
             @mkdir(PATH_site . 'typo3temp/ke_questionnaire/pdf');
         }
         //create htaccess file
@@ -71,9 +76,9 @@ Allow from 127.0.0.1
 	Allow from all
 </FilesMatch>';
         $htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/.htaccess';
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);        
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
         $htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/.htaccess';
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);        
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
     }
 }
 

@@ -273,8 +273,10 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if ($answer->getValue() && $answer->getAnswer()) {
                     $newAnswers->attach($answer);
                 }
-            } else if ($answer->getAnswer()) {
-                $newAnswers->attach($answer);
+            } else {
+                if ($answer->getAnswer()) {
+                    $newAnswers->attach($answer);
+                }
             }
 
             //Work on cloned rows

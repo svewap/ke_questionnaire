@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Evaluation;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,15 +33,16 @@ namespace Kennziffer\KeQuestionnaire\Evaluation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-interface ChartTypeInterface {
+interface ChartTypeInterface
+{
 
-	/**
-	 * Renders the chart as Pie
-	 */
-	const PIE = 'Pie';
+    /**
+     * Renders the chart as Pie
+     */
+    const PIE = 'Pie';
 
-	/**
-	 * Renders the chart as column
-	 */
-	const COLUMN = 'Column';
+    /**
+     * Renders the chart as column
+     */
+    const COLUMN = 'Column';
 }

@@ -1,5 +1,7 @@
 <?php
+
 namespace Kennziffer\KeQuestionnaire\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,31 +33,36 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ArrayUtility {
+class ArrayUtility
+{
 
-	/**
-	 * Remove NULL values from array
-	 *
-	 * @param array $nullArray
-	 * @param boolean $hasObjectsInside
-	 * @return array Array without NULL values
-	 */
-	public static function removeNullValues($nullArray, $hasObjectsInside = false) {
-		if (!is_array($nullArray)) return $nullArray;
-		if ($hasObjectsInside) {
-			return array_filter($nullArray, [__CLASS__, 'isNotNull']);
-		}
-		return array_flip(array_flip($nullArray));
-	}
+    /**
+     * Remove NULL values from array
+     *
+     * @param array $nullArray
+     * @param boolean $hasObjectsInside
+     * @return array Array without NULL values
+     */
+    public static function removeNullValues($nullArray, $hasObjectsInside = false)
+    {
+        if (!is_array($nullArray)) {
+            return $nullArray;
+        }
+        if ($hasObjectsInside) {
+            return array_filter($nullArray, [__CLASS__, 'isNotNull']);
+        }
+        return array_flip(array_flip($nullArray));
+    }
 
-	/**
-	 * helper method for removeNullValues
-	 *
-	 * @param mixed $value
-	 * @return boolean Returns TRUE if value is NOT NULL
-	 */
-	protected static function isNotNull($value) {
-		return ($value !== NULL);
-	}
+    /**
+     * helper method for removeNullValues
+     *
+     * @param mixed $value
+     * @return boolean Returns TRUE if value is NOT NULL
+     */
+    protected static function isNotNull($value)
+    {
+        return ($value !== null);
+    }
 
 }
