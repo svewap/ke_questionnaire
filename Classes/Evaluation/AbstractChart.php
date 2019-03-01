@@ -393,4 +393,3 @@ class AbstractChart implements \Kennziffer\KeQuestionnaire\Evaluation\RenderChar
 	}
 
 }
-?>

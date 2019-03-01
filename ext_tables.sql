@@ -96,7 +96,7 @@ CREATE TABLE tx_kequestionnaire_domain_model_answer
   post_text              varchar(255)        DEFAULT ''       NOT NULL,
   max_chars              int(11)             DEFAULT '0'      NOT NULL,
   validation_type        varchar(255)        DEFAULT ''       NOT NULL,
-  validation_text        text                                 NOT NULL,
+  validation_text        text                                 NULL,
   validation_keys_amount int(11)             DEFAULT '0'      NOT NULL,
   comparison_text        text                                 NOT NULL,
   cloze_position         int(11)             DEFAULT '0'      NOT NULL,

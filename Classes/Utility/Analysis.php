@@ -23,8 +23,11 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultAnswerRepository;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  *
@@ -210,7 +213,6 @@ class Analysis {
 				case 'RankingSelect':
 				case 'RankingOrder':
 				case 'RankingInput':
-				case 'DataPrivacy':
 				case 'SingleInput':
 				case 'MultiInput':				
 				case 'ClozeText':
@@ -305,11 +307,12 @@ class Analysis {
      */
     public function createQuestionDataArray($type, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $results){
 		$answers = [];
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$resultQuestionRepository = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\ResultQuestionRepository');
-		$resultAnswerRepository = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\ResultAnswerRepository');
-		
-		foreach ($question->getAnswers() as $answer){
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+		$resultQuestionRepository = $objectManager->get(ResultQuestionRepository::class);
+		$resultAnswerRepository = $objectManager->get(ResultAnswerRepository::class);
+
+		/** @var Answer $answer */
+        foreach ($question->getAnswers() as $answer){
 			switch ($answer->getShortType()){
 				case 'Radiobutton':
 					if (!$answers[$answer->getShortType()][$answer->getUid()]['answer']) $answers[$answer->getShortType()][$answer->getUid()]['answer'] = $answer;
@@ -318,7 +321,8 @@ class Analysis {
 
 					//Get all additionalValue for answer
 					$rAnswers =  $resultAnswerRepository->getResultAnswersForAnswer($answer);
-					foreach ($rAnswers as $rAnswer) {
+					/** @var Answer $rAnswer */
+                    foreach ($rAnswers as $rAnswer) {
 						if($rAnswer->getAdditionalValue()){
 							$answers[$answer->getShortType()][$answer->getUid()]['additionalValues'][] = $rAnswer->getAdditionalValue();
 						}
@@ -353,6 +357,7 @@ class Analysis {
 					if ($labels){
 						$answers[$answer->getShortType()][$answer->getUid()]['labels'] = $labels;
 					}
+					break;
 				case 'Slider':
 				case 'SingleSelect':
 				case 'DDImage':

@@ -64,13 +64,14 @@ class AnalyseController extends  BackendController {
 	public function indexAction() {
 		$this->view->assign('questionnaires',$this->questionnaireRepository->findAll());
 	}
-	
+
     /**
      * action analyse questions
-     * 
-	 * @param integer $storage
-	 * @param array $plugin
-	 * @ignorevalidaton $plugin
+     *
+     * @param integer $storage
+     * @param array $plugin
+     * @ignorevalidaton $plugin
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     public function questionsAction($storage = false, $plugin = false) {
         if ($storage) $this->storagePid = $storage;

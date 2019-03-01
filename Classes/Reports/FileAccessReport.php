@@ -25,6 +25,8 @@ namespace Kennziffer\KeQuestionnaire\Reports;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Reports\Status;
 
 /**
  *
@@ -48,7 +50,7 @@ class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface {
 	/**
 	 * @var array
 	 */
-	protected $staticStateResponseData = array();
+	protected $staticStateResponseData = [];
 
 	/**
 	 * Returns the status of an extension or (sub)system
@@ -56,7 +58,7 @@ class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface {
 	 * @return array An array of \TYPO3\CMS\Reports\Status objects
 	 */
 	public function getStatus() {
-		$statusArray = array();
+		$statusArray = [];
 		$failState = '';
 
 		$this->init();
@@ -64,8 +66,9 @@ class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface {
 
 		list($title, $value, $message, $severity) = $this->staticStateResponseData[$failState];
 
-		$status = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get(
-			'TYPO3\\CMS\\Reports\\Status',
+		/** @var Status $status */
+		$status = GeneralUtility::makeInstance(ObjectManager::class)->get(
+			Status::class,
 			$title,
 			$value,
 			$message,
@@ -86,32 +89,32 @@ class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface {
 		$this->tmpFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/TEST';
 		$this->siteUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
 
-		$this->staticStateResponseData = array(
-			'ok' => array(
+		$this->staticStateResponseData = [
+			'ok' => [
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.ok'),
 				'',
 				\TYPO3\CMS\Reports\Status::OK
-			),
-			'writeFail' => array(
+			],
+			'writeFail' => [
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.details'),
 				\TYPO3\CMS\Reports\Status::WARNING
-			),
-			'tmpFileReadable' => array(
+			],
+			'tmpFileReadable' => [
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error.explanation'),
 				\TYPO3\CMS\Reports\Status::ERROR
-			),
-			'unknownErrorCheckingTmpFile' => array(
+			],
+			'unknownErrorCheckingTmpFile' => [
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
 				$GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.unknown'),
 				\TYPO3\CMS\Reports\Status::WARNING
-			)
-		);
+			]
+		];
 	}
 
 	/**
@@ -173,7 +176,7 @@ Allow from 127.0.0.1
 	 * @return string
 	 */
 	protected function checkTmpFileReadable() {
-		$responseHeaders = array();
+		$responseHeaders = [];
 
 		//try to read test file
 		$readTestFile = GeneralUtility::getUrl($this->siteUrl . 'typo3temp/ke_questionnaire/pdf/TEST', 1, FALSE, $responseHeaders);
@@ -194,4 +197,4 @@ Allow from 127.0.0.1
 	}
 }
 
-?>
+

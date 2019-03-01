@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Utility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -50,7 +52,7 @@ class BackendTsfe {
 			$GLOBALS['TT']->start();
 		}
 		/** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $TSFEclassName */
-		$TSFEclassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController' ,NULL , $this->pid , $typeNum  ,1, '', '', '', '') ;
+		$TSFEclassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TypoScriptFrontendController::class,NULL , $this->pid , $typeNum  ,1, '', '', '', '') ;
 		$GLOBALS['TSFE'] = new $TSFEclassName($GLOBALS['TYPO3_CONF_VARS'], $this->pid, $typeNum , 1, '', '', '', '');
 		$GLOBALS['TSFE']->initFEuser();
 		$GLOBALS['TSFE']->fetch_the_id();

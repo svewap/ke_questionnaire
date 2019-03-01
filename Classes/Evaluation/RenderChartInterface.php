@@ -43,4 +43,3 @@ interface RenderChartInterface {
 	 */
 	const COMPARE_POINTS = 'comparePoints';
 }
-?>

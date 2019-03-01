@@ -1,4 +1,4 @@
-<?php
+<?php use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /***************************************************************
  *  Copyright notice
@@ -206,7 +206,7 @@ class Tx_KeQuestionnaire_Domain_Model_QuestionTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function getAnswersReturnsInitialValueForObjectStorageContainingTx_KeQuestionnaire_Domain_Model_Answer() { 
-		$newObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$newObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
 		$this->assertEquals(
 			$newObjectStorage,
 			$this->fixture->getAnswers()
@@ -218,7 +218,7 @@ class Tx_KeQuestionnaire_Domain_Model_QuestionTest extends Tx_Extbase_Tests_Unit
 	 */
 	public function setAnswersForObjectStorageContainingTx_KeQuestionnaire_Domain_Model_AnswerSetsAnswers() { 
 		$answer = new Tx_KeQuestionnaire_Domain_Model_Answer();
-		$objectStorageHoldingExactlyOneAnswers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$objectStorageHoldingExactlyOneAnswers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
 		$objectStorageHoldingExactlyOneAnswers->attach($answer);
 		$this->fixture->setAnswers($objectStorageHoldingExactlyOneAnswers);
 
@@ -233,7 +233,7 @@ class Tx_KeQuestionnaire_Domain_Model_QuestionTest extends Tx_Extbase_Tests_Unit
 	 */
 	public function addAnswerToObjectStorageHoldingAnswers() {
 		$answer = new Tx_KeQuestionnaire_Domain_Model_Answer();
-		$objectStorageHoldingExactlyOneAnswer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$objectStorageHoldingExactlyOneAnswer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
 		$objectStorageHoldingExactlyOneAnswer->attach($answer);
 		$this->fixture->addAnswer($answer);
 
@@ -248,7 +248,7 @@ class Tx_KeQuestionnaire_Domain_Model_QuestionTest extends Tx_Extbase_Tests_Unit
 	 */
 	public function removeAnswerFromObjectStorageHoldingAnswers() {
 		$answer = new Tx_KeQuestionnaire_Domain_Model_Answer();
-		$localObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$localObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
 		$localObjectStorage->attach($answer);
 		$localObjectStorage->detach($answer);
 		$this->fixture->addAnswer($answer);
@@ -261,4 +261,3 @@ class Tx_KeQuestionnaire_Domain_Model_QuestionTest extends Tx_Extbase_Tests_Unit
 	}
 	
 }
-?>

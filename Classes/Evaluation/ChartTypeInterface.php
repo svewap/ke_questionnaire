@@ -43,4 +43,3 @@ interface ChartTypeInterface {
 	 */
 	const COLUMN = 'Column';
 }
-?>

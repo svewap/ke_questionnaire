@@ -63,20 +63,20 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
 				$amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
 				$amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
-				$dataChart = array(
-					array(
-						'data' => array(
-							array(0, $amountOfFinishedResults)
-						),
+				$dataChart = [
+					[
+						'data' => [
+							[0, $amountOfFinishedResults]
+                        ],
 						'label' => 'Finished'
-					),
-					array(
-						'data' => array(
-							array(0, $amountOfNotFinishedResults)
-						),
+                    ],
+					[
+						'data' => [
+							[0, $amountOfNotFinishedResults]
+                        ],
 						'label' => 'Not finished'
-					),
-				);
+                    ],
+                ];
 				break;
 		}
 
@@ -93,20 +93,20 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
 				$amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
 				$amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
-				$dataChart = array(
-					array(
-						'data' => array(
-							array(1, $amountOfFinishedResults)
-						),
+				$dataChart = [
+					[
+						'data' => [
+							[1, $amountOfFinishedResults]
+                        ],
 						'label' => 'Finished'
-					),
-					array(
-						'data' => array(
-							array(2, $amountOfNotFinishedResults)
-						),
+                    ],
+					[
+						'data' => [
+							[2, $amountOfNotFinishedResults]
+                        ],
 						'label' => 'Not finished'
-					),
-				);
+                    ],
+                ];
 				break;
 			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::COMPARE_POINTS:
 				$results = $this->resultRepository->findAll();
@@ -119,24 +119,24 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 					foreach($resultQuestions as $resultQuestion) {
 						$sumPoints += $resultQuestion->getPoints();
 					}
-					$col1[] = array(
+					$col1[] = [
 						$counter,
 						$userResultQuestion->getPoints()
-					);
-					$col2[] = array(
+                    ];
+					$col2[] = [
 						$counter + 0.5,
 						round($sumPoints / $resultQuestions->count())
-					);
+                    ];
 					$counter++;
 				}
-				$dataChart[] = array(
+				$dataChart[] = [
 					'data' => $col1,
 					'label' => 'Your own points'
-				);
-				$dataChart[] = array(
+                ];
+				$dataChart[] = [
 					'data' => $col2,
 					'label' => 'Average point of all participations'
-				);
+                ];
 				break;
 		}
 
@@ -152,4 +152,3 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 		return '<div id="' . $this->getContainerId() . '" style="height: 300px; width: 400px;"></div>';
 	}
 }
-?>

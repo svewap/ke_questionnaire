@@ -1,5 +1,7 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Utility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -23,8 +25,8 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-//require_once(PATH_site.'typo3conf/ext/ke_questionnaire/Resources/Private/Tcpdf/tcpdf.php');
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('ke_questionnaire').'Classes/Lib/Mpdf/mpdf.php');
+
+require_once ExtensionManagementUtility::extPath('ke_questionnaire').'Resources/Private/PHP/Mpdf/mpdf.php';
 
 /**
  *

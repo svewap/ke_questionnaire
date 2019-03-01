@@ -82,4 +82,3 @@ class Tx_KeQuestionnaire_Validation_IntegerTest extends Tx_Extbase_Tests_Unit_Ba
 	}
 
 }
-?>

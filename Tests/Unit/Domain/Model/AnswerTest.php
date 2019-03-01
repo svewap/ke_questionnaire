@@ -39,12 +39,12 @@
  */
 class Tx_KeQuestionnaire_Domain_Model_AnswerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
-	 * @var Tx_KeQuestionnaire_Domain_Model_Answer
+	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\Answer
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_KeQuestionnaire_Domain_Model_Answer();
+		$this->fixture = new \Kennziffer\KeQuestionnaire\Domain\Model\Answer();
 	}
 
 	public function tearDown() {
@@ -120,4 +120,3 @@ class Tx_KeQuestionnaire_Domain_Model_AnswerTest extends Tx_Extbase_Tests_Unit_B
 	}
 	
 }
-?>

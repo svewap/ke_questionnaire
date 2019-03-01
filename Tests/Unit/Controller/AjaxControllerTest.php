@@ -77,4 +77,3 @@ class Tx_Ke_questionnaire_Controller_AjaxControllerTest extends Tx_Extbase_Tests
 	}
 
 }
-?>

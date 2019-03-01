@@ -77,4 +77,3 @@ class Tx_KeQuestionnaire_Validation_KeywordsTest extends Tx_Extbase_Tests_Unit_B
 	}
 
 }
-?>

@@ -323,7 +323,7 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView {
 		if (!is_dir($layoutRootPath)) {
 			throw new \TYPO3\CMS\Fluid\View\Exception\InvalidTemplateResourceException('Layout root path "' . $layoutRootPath . '" does not exist.', 1288092521);
 		}
-		$possibleLayoutPaths = array();
+		$possibleLayoutPaths = [];
 		$possibleLayoutPaths[] = \TYPO3\CMS\Core\Utility\GeneralUtility::fixWindowsFilePath($layoutRootPath . '/' . $layoutName . '.' . $this->getRequest()->getFormat());
 		$possibleLayoutPaths[] = \TYPO3\CMS\Core\Utility\GeneralUtility::fixWindowsFilePath($layoutRootPath . '/' . $layoutName);
 		foreach($possibleLayoutPaths as $layoutPathAndFilename) {
@@ -376,7 +376,7 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView {
 		if (!is_dir($partialRootPath)) {
 			throw new \TYPO3\CMS\Fluid\View\Exception\InvalidTemplateResourceException('Partial root path "' . $partialRootPath . '" does not exist.', 1288094648);
 		}
-		$possiblePartialPaths = array();
+		$possiblePartialPaths = [];
 		$possiblePartialPaths[] = \TYPO3\CMS\Core\Utility\GeneralUtility::fixWindowsFilePath($partialRootPath . '/' . $partialName . '.' . $this->getRequest()->getFormat());
 		$possiblePartialPaths[] = \TYPO3\CMS\Core\Utility\GeneralUtility::fixWindowsFilePath($partialRootPath . '/' . $partialName);
 		foreach($possiblePartialPaths as $partialPathAndFilename) {
@@ -404,4 +404,3 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView {
 	}
 
 }
-?>

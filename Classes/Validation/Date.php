@@ -56,4 +56,3 @@ class Date extends AbstractValidation {
     }
 
 }
-?>

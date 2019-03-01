@@ -179,12 +179,12 @@ class DataMapper {
 				foreach ($validators as $validator) {
 					$error = $validator->validate($propertyValue);
 					if ($error->hasErrors()) {
-						$errorMessage = array(
+						$errorMessage = [
 							'className' => $className,
 							'propertyName' => $propertyName,
 							'code' => $error->getFirstError()->getCode(),
 							'message' => $error->getFirstError()->getMessage(),
-						);
+                        ];
 						throw new \Kennziffer\KeQuestionnaire\Exception('dataMapperValidation', 1354704589, $errorMessage);
 					}
 				}
@@ -194,4 +194,3 @@ class DataMapper {
 		return $object;
 	}
 }
-?>

@@ -67,12 +67,12 @@ class Tx_KeQuestionnaire_Object_DataMapperTest extends Tx_Extbase_Tests_Unit_Bas
 	 * @test
 	 */
 	public function mapProperties() {
-		$row = array(
+		$row = [
 			'type' => 'forward',
 			'action' => 'mail',
 			'controller' => 'Mailing',
 			'extension' => 'KeQuestionnaire'
-		);
+        ];
 		$step = $this->dataMapper->createEmptyObject('Tx_KeQuestionnaire_Domain_Model_Step');
 		$object = $this->dataMapper->mapProperties($step, $row);
 		/* @var $object Tx_KeQuestionnaire_Domain_Model_Step */
@@ -87,12 +87,12 @@ class Tx_KeQuestionnaire_Object_DataMapperTest extends Tx_Extbase_Tests_Unit_Bas
 	 * @expectedException Tx_KeQuestionnaire_Exception
 	 */
 	public function mapPropertiesMissingAction() {
-		$row = array(
+		$row = [
 			'type' => 'forward',
 			'action' => '',
 			'controller' => 'Mailing',
 			'extension' => 'KeQuestionnaire'
-		);
+        ];
 		$step = $this->dataMapper->createEmptyObject('Tx_KeQuestionnaire_Domain_Model_Step');
 		$object = $this->dataMapper->mapProperties($step, $row);
 		/* @var $object Tx_KeQuestionnaire_Domain_Model_Step */
@@ -104,12 +104,12 @@ class Tx_KeQuestionnaire_Object_DataMapperTest extends Tx_Extbase_Tests_Unit_Bas
 	 * @expectedException Tx_KeQuestionnaire_Exception
 	 */
 	public function mapPropertiesMissingController() {
-		$row = array(
+		$row = [
 			'type' => 'forward',
 			'action' => 'mail',
 			'controller' => '',
 			'extension' => 'KeQuestionnaire'
-		);
+        ];
 		$step = $this->dataMapper->createEmptyObject('Tx_KeQuestionnaire_Domain_Model_Step');
 		$object = $this->dataMapper->mapProperties($step, $row);
 		/* @var $object Tx_KeQuestionnaire_Domain_Model_Step */
@@ -121,12 +121,12 @@ class Tx_KeQuestionnaire_Object_DataMapperTest extends Tx_Extbase_Tests_Unit_Bas
 	 * @expectedException Tx_KeQuestionnaire_Exception
 	 */
 	public function mapPropertiesMissingExtension() {
-		$row = array(
+		$row = [
 			'type' => 'forward',
 			'action' => 'mail',
 			'controller' => 'Mailing',
 			'extension' => ''
-		);
+        ];
 		$step = $this->dataMapper->createEmptyObject('Tx_KeQuestionnaire_Domain_Model_Step');
 		$object = $this->dataMapper->mapProperties($step, $row);
 		/* @var $object Tx_KeQuestionnaire_Domain_Model_Step */
@@ -134,4 +134,3 @@ class Tx_KeQuestionnaire_Object_DataMapperTest extends Tx_Extbase_Tests_Unit_Bas
 	}
 
 }
-?>

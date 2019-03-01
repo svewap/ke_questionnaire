@@ -62,7 +62,7 @@ class TemplateView extends \TYPO3\CMS\Fluid\View\TemplateView {
 		}
 		/** @var $actionRequest \TYPO3\CMS\Extbase\Mvc\Request */
 		$actionRequest = $this->controllerContext->getRequest();
-		return array(str_replace('@packageResourcesPath', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($actionRequest->getControllerExtensionKey()) . 'Resources/', $this->partialRootPathPattern));
+		return [str_replace('@packageResourcesPath', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($actionRequest->getControllerExtensionKey()) . 'Resources/', $this->partialRootPathPattern)];
 	}
 	
 	/**
@@ -103,9 +103,8 @@ class TemplateView extends \TYPO3\CMS\Fluid\View\TemplateView {
 		}
 		/** @var $actionRequest \TYPO3\CMS\Extbase\Mvc\Request */
 		$actionRequest = $this->controllerContext->getRequest();
-		return array(str_replace('@packageResourcesPath', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($actionRequest->getControllerExtensionKey()) . 'Resources/', $this->partialRootPathPattern));
+		return [str_replace('@packageResourcesPath', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($actionRequest->getControllerExtensionKey()) . 'Resources/', $this->partialRootPathPattern)];
 	}
 	
 	
 }
-?>

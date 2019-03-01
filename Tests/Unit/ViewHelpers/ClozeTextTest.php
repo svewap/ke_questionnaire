@@ -58,10 +58,10 @@ class Tx_KeQuestionnaire_ViewHelpers_ClozeTextTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function validateClozeText() {
-		$expectedResult = array(
+		$expectedResult = [
 			0 => 50,
 			1 => 6,
-		);
+        ];
 		$text = 'Ich esse gerne Äpfel. Ich habe schon immer gerne Äpfel gegessen.';
 		$word = 'Äpfel';
 		$wordPosition = 2;
@@ -71,4 +71,3 @@ class Tx_KeQuestionnaire_ViewHelpers_ClozeTextTest extends Tx_Extbase_Tests_Unit
 	}
 
 }
-?>

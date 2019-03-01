@@ -79,4 +79,3 @@ class Tx_KeQuestionnaire_Validation_EmailTest extends Tx_Extbase_Tests_Unit_Base
 	}
 
 }
-?>

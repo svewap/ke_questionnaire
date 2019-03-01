@@ -62,4 +62,3 @@ class Tx_KeQuestionnaire_Domain_Model_ResultAnswerTest extends Tx_Extbase_Tests_
 	public function setAnswerForTx_KeQuestionnaire_Domain_Model_AnswerSetsAnswer() { }
 
 }
-?>

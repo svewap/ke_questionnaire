@@ -58,4 +58,3 @@ class Tx_Ke_questionnaire_Controller_QuestionControllerTest extends Tx_Extbase_T
 	}
 
 }
-?>

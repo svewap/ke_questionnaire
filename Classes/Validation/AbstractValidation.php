@@ -60,4 +60,3 @@ abstract class AbstractValidation {
 	abstract public function isValid($value, $model);
 
 }
-?>

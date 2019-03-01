@@ -60,4 +60,3 @@ class Numeric extends AbstractValidation {
 	}
 
 }
-?>

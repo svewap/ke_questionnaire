@@ -63,11 +63,11 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
 				$amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
 				$amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
-				$dataChart = array(
-					array('Title', 'Finished Questionnairs'),
-					array('Finished', $amountOfFinishedResults),
-					array('Not Finished', $amountOfNotFinishedResults)
-				);
+				$dataChart = [
+					['Title', 'Finished Questionnairs'],
+					['Finished', $amountOfFinishedResults],
+					['Not Finished', $amountOfNotFinishedResults]
+                ];
 				break;
 		}
 
@@ -84,18 +84,18 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
 				$amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
 				$amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
-				$dataChart = array(
-					array('Title', 'Finished Questionnairs'),
-					array('Finished', $amountOfFinishedResults),
-					array('Not Finished', $amountOfNotFinishedResults)
-				);
+				$dataChart = [
+					['Title', 'Finished Questionnairs'],
+					['Finished', $amountOfFinishedResults],
+					['Not Finished', $amountOfNotFinishedResults]
+                ];
 				break;
 			case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::COMPARE_POINTS:
-				$dataChart[] = array(
+				$dataChart[] = [
 					'Title',
 					'Your own points',
 					'Average points of all participations'
-				);
+                ];
 				$results = $this->resultRepository->findAll();
 				/* @var $userResultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
 				foreach($this->result->getQuestions() as $userResultQuestion) {
@@ -105,11 +105,11 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 					foreach($resultQuestions as $resultQuestion) {
 						$sumPoints += $resultQuestion->getPoints();
 					}
-					$dataChart[] = array(
+					$dataChart[] = [
 						$resultQuestion->getQuestion()->getTitle(),
 						$userResultQuestion->getPoints(),
 						round($sumPoints / $resultQuestions->count())
-					);
+                    ];
 				}
 				break;
 		}
@@ -127,4 +127,3 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart {
 	}
 
 }
-?>

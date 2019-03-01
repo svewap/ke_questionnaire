@@ -82,4 +82,3 @@ class Tx_KeQuestionnaire_Validation_NumericTest extends Tx_Extbase_Tests_Unit_Ba
 	}
 
 }
-?>

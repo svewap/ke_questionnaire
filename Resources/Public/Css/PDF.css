@@ -28,11 +28,11 @@ div.csc-textpic .csc-textpic-imagewrap figure, div.csc-textpic figure.csc-textpi
 }
 
 #keqViewResult .keqPdfAvatarImageParts {
-	clear: after;
+	clear: right;
 }
 
 #keqViewResult .keqPdfAvatarImageParts {
-	clear: after;
+	clear: right;
 }
 
 #keqViewResult .compareQuestion {

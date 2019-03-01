@@ -1,5 +1,9 @@
 <?php
 
+use Kennziffer\KeQuestionnaire\Ajax\AnswerValidation;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use Kennziffer\KeQuestionnaire\Utility\Localization;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -43,7 +47,7 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 	
 	
 	public function setUp() {
-		$this->answerValidation = $this->objectManager->get('Kennziffer\KeQuestionnaire\Ajax\AnswerValidation');
+		$this->answerValidation = $this->objectManager->get(AnswerValidation::class);
 	}
 
 	public function tearDown() {
@@ -57,7 +61,7 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function testProcessAjaxRequestTrue() {
-		$answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', array('getValidationType', 'isValid'), array(), '', FALSE);
+		$answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', ['getValidationType', 'isValid'], [], '', FALSE);
 		$answer
 			->expects($this->any())
 			->method('getValidationType')
@@ -67,7 +71,7 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 			->method('isValid')
 			->will($this->returnValue(TRUE));
 
-		$answerRepository = $this->getMock('\Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository', array('findByUid'), array(), '', FALSE);
+		$answerRepository = $this->getMock(AnswerRepository::class, ['findByUid'], [], '', FALSE);
 		$answerRepository
 			->expects($this->any())
 			->method('findByUid')
@@ -75,10 +79,10 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 		
 		$this->answerValidation->injectAnswerRepository($answerRepository);
 		
-		$arguments = array(
+		$arguments = [
 			'answerUid' => 123,
 			'value' => 'Hello world'
-		);
+        ];
 		
 		$json = $this->answerValidation->processAjaxRequest($arguments);
 		$this->assertEquals('{"error":0,"info":""}', $json);
@@ -88,7 +92,7 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function testProcessAjaxRequestFalseNumeric() {
-		$answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', array('getValidationType', 'isValid'), array(), '', FALSE);
+		$answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', ['getValidationType', 'isValid'], [], '', FALSE);
 		$answer
 			->expects($this->any())
 			->method('getValidationType')
@@ -98,12 +102,12 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 			->method('isValid')
 			->will($this->returnValue(FALSE));
 
-		$answerRepository = $this->getMock('\Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository', array('findByUid'), array(), '', FALSE);
+		$answerRepository = $this->getMock(AnswerRepository::class, ['findByUid'], [], '', FALSE);
 		$answerRepository
 			->expects($this->any())
 			->method('findByUid')
 			->will($this->returnValue($answer));
-		$localization = $this->getMock('\Kennziffer\KeQuestionnaire\Utility\Localization', array('translate'));
+		$localization = $this->getMock(Localization::class, ['translate']);
 		$localization
 			->expects($this->any())
 			->method('translate')
@@ -112,14 +116,13 @@ class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit
 		$this->answerValidation->injectAnswerRepository($answerRepository);
 		$this->answerValidation->injectLocalization($localization);
 		
-		$arguments = array(
+		$arguments = [
 			'answerUid' => 123,
 			'value' => 'Hello world'
-		);
+        ];
 		
 		$json = $this->answerValidation->processAjaxRequest($arguments);
 		$this->assertEquals('{"error":1,"info":"Only numeric allowed"}', $json);
 	}
 
 }
-?>

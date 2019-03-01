@@ -68,7 +68,7 @@ class Tx_KeQuestionnaire_Validation_CompareTextTest extends Tx_Extbase_Tests_Uni
 		$result = $this->validator->isValid(123456, $model);
 		$this->assertEquals(false, $result);
 
-		$result = $this->validator->isValid(array('text' => 'Hello everybody. I\'m fine...and you?'), $model);
+		$result = $this->validator->isValid(['text' => 'Hello everybody. I\'m fine...and you?'], $model);
 		$this->assertEquals(false, $result);
 
 		$result = $this->validator->isValid('Hello everybody. I\'m fine...and you?', $model);
@@ -76,4 +76,3 @@ class Tx_KeQuestionnaire_Validation_CompareTextTest extends Tx_Extbase_Tests_Uni
 	}
 
 }
-?>

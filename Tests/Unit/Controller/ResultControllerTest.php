@@ -1,4 +1,4 @@
-<?php
+<?php use Kennziffer\KeQuestionnaire\Controller\ResultController;
 
 /***************************************************************
  *  Copyright notice
@@ -61,7 +61,7 @@ class Tx_Ke_questionnaire_Controller_ResultControllerTest extends Tx_Extbase_Tes
 
 
 	public function setUp() {
-		$this->resultController = $this->getAccessibleMock('\Kennziffer\KeQuestionnaire\Controller\ResultController');
+		$this->resultController = $this->getAccessibleMock(ResultController::class);
 
 		// set up some answers
 		$answer1 = new Tx_KeQuestionnaire_Domain_Model_Answer();
@@ -136,4 +136,3 @@ class Tx_Ke_questionnaire_Controller_ResultControllerTest extends Tx_Extbase_Tes
 	}
 
 }
-?>

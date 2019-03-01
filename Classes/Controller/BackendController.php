@@ -34,13 +34,7 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  *
  */
 class BackendController extends AbstractController {
-	/**
-	 * The current view, as resolved by resolveView()
-	 *
-	 * @var ViewInterface
-	 * @api
-	 */
-	var $view = NULL;
+
         
 	/**
 	 * @var integer

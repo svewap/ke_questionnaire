@@ -33,4 +33,3 @@ namespace Kennziffer\KeQuestionnaire\View;
  */
 class ImageAreaSelectWizard extends Chart {
 }
-?>

@@ -52,4 +52,3 @@ class Exception extends \TYPO3\CMS\Core\Exception {
 		parent::__construct($message, $code, $previous);
 	}
 }
-?>

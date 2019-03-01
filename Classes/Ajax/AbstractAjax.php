@@ -39,7 +39,8 @@ abstract class AbstractAjax implements AjaxInterface {
 	 * @param mixed $value Value to convert
 	 * @return string JSON converted value
 	 */
-	public function convertValueToJson($value) {
+	public function convertValueToJson($value): string
+    {
 		return json_encode($value);
 	}
 	
@@ -49,7 +50,8 @@ abstract class AbstractAjax implements AjaxInterface {
 	 * @param array $values
 	 * @return array $values
 	 */
-	public function convertAjaxFormArray($values) {
+	public function convertAjaxFormArray($values): array
+    {
 		if ($values['formData']){
 			parse_str($values['formData'],$formData);
 			$values['formData'] = $formData;

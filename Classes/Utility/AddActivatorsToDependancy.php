@@ -1,5 +1,9 @@
 <?php
 namespace Kennziffer\KeQuestionnaire\Utility;
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -61,6 +65,7 @@ class AddActivatorsToDependancy {
         foreach ($questions as $question){
             $item = [];
             $item['title'] = $question->getTitle();
+            /** @var Answer $answer */
             foreach ($question->getAnswers() as $answer){
                 if (in_array($answer->getShortType(), $allowedTypes)){
                     $item['uid'] = $answer->getUid();
@@ -92,12 +97,9 @@ class AddActivatorsToDependancy {
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult 
 	 */
 	private function getQuestions($storagePid) {
-        //$this->questionRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\QuestionRepository');
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->questionRepository = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\QuestionRepository');
-		$questions = $this->questionRepository->findAllForPid($storagePid);
-		
-		return $questions;
+		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+		$this->questionRepository = $this->objectManager->get(QuestionRepository::class);
+		return $this->questionRepository->findAllForPid($storagePid);
 	}
 
 }

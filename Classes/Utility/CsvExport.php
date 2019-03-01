@@ -3,6 +3,7 @@
 namespace Kennziffer\KeQuestionnaire\Utility;
 
 use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
 
 /***************************************************************
  *  Copyright notice
@@ -922,8 +923,9 @@ class CsvExport
         $lines = '';
         $questions = $this->getQuestions($plugin);
         $answerCount = 0;
+        /** @var Question $question */
         foreach ($questions as $question) {
-            if ($question->getShortType() == 'Question') {
+            if ($question->getShortType() === 'Question') {
                 $qL = [];
                 $qL[] = $question->getUid();
                 $qL[] = $this->text . $question->getTitle() . $this->text;

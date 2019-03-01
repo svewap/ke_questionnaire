@@ -44,9 +44,8 @@ class ArrayUtility {
 		if (!is_array($nullArray)) return $nullArray;
 		if ($hasObjectsInside) {
 			return array_filter($nullArray, [__CLASS__, 'isNotNull']);
-		} else {
-			return array_flip(array_flip($nullArray));
 		}
+		return array_flip(array_flip($nullArray));
 	}
 
 	/**

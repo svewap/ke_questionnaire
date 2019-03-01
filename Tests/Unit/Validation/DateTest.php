@@ -85,4 +85,3 @@ class Tx_KeQuestionnaire_Validation_DateTest extends Tx_Extbase_Tests_Unit_BaseT
 	}
 
 }
-?>
