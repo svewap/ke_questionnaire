@@ -2,10 +2,14 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -36,8 +40,8 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
 class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
     /**
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Question $question
+     * @param Result $result
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
      */
     public function findByQuestionAndResult($question, $result)
@@ -46,10 +50,10 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->getQuerySettings()->setRespectStoragePage(false);
 
         $constraint = $query->equals('result', $result);
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->equals('question', $question),
             $constraint
-        );
+        ]);
         $query->matching($constraint);
         return $query->execute();
     }
@@ -65,10 +69,10 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->getQuerySettings()->setRespectStoragePage(false);
 
         $constraint = $query->equals('result', $resultId);
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->equals('question', $question),
             $constraint
-        );
+        ]);
         $query->matching($constraint);
         return $query->execute();
     }
@@ -83,17 +87,17 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $constraint = $query->equals('result', $result);
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->equals('question', $question),
             $constraint
-        );
+        ]);
         $query->matching($constraint);
         return $query->execute(true);
     }
 
     /**
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
-     * @param int $result
+     * @param Question $question
+     * @param int $resultId
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
      */
     public function findByQuestionAndResultIdRaw($question, $resultId)
@@ -101,17 +105,17 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $constraint = $query->equals('result', $resultId);
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->equals('question', $question),
             $constraint
-        );
+        ]);
         $query->matching($constraint);
         return $query->execute(true);
     }
 
     /**
      * @param int $question
-     * @param int $result
+     * @param int $resultId
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
      */
     public function findByQuestionIdAndResultIdRaw($question, $resultId)
@@ -119,10 +123,10 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $constraint = $query->equals('result', $resultId);
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->equals('question', $question),
             $constraint
-        );
+        ]);
         $query->matching($constraint);
         return $query->execute(true);
     }

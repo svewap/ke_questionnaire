@@ -4,7 +4,8 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
- *  			
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,86 +38,101 @@
  * @author Stefan froemken <froemken@kennziffer.com>
  * @author Fabian Friedrich <friedrich@kennziffer.com>
  */
-class Tx_KeQuestionnaire_Domain_Model_AnswerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
-	/**
-	 * @var \Kennziffer\KeQuestionnaire\Domain\Model\Answer
-	 */
-	protected $fixture;
+class Tx_KeQuestionnaire_Domain_Model_AnswerTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
+    /**
+     * @var \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = new \Kennziffer\KeQuestionnaire\Domain\Model\Answer();
-	}
+    public function setUp()
+    {
+        $this->fixture = new \Kennziffer\KeQuestionnaire\Domain\Model\Answer();
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getTitleReturnsInitialValueForString() { }
+    /**
+     * @test
+     */
+    public function getTitleReturnsInitialValueForString()
+    {
+    }
 
-	/**
-	 * @test
-	 */
-	public function setTitleForStringSetsTitle() { 
-		$this->fixture->setTitle('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function setTitleForStringSetsTitle()
+    {
+        $this->fixture->setTitle('Conceived at T3CON10');
 
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getTitle()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getValueReturnsInitialValueForString() { }
+        $this->assertSame(
+            'Conceived at T3CON10',
+            $this->fixture->getTitle()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setValueForStringSetsValue() { 
-		$this->fixture->setValue('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function getValueReturnsInitialValueForString()
+    {
+    }
 
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getValue()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getTextReturnsInitialValueForString() { }
+    /**
+     * @test
+     */
+    public function setValueForStringSetsValue()
+    {
+        $this->fixture->setValue('Conceived at T3CON10');
 
-	/**
-	 * @test
-	 */
-	public function setTextForStringSetsText() { 
-		$this->fixture->setText('Conceived at T3CON10');
+        $this->assertSame(
+            'Conceived at T3CON10',
+            $this->fixture->getValue()
+        );
+    }
 
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getText()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getIsCorrectAnswerReturnsInitialValueForString() { }
+    /**
+     * @test
+     */
+    public function getTextReturnsInitialValueForString()
+    {
+    }
 
-	/**
-	 * @test
-	 */
-	public function setIsCorrectAnswerForStringSetsIsCorrectAnswer() { 
-		$this->fixture->setIsCorrectAnswer('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function setTextForStringSetsText()
+    {
+        $this->fixture->setText('Conceived at T3CON10');
 
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getIsCorrectAnswer()
-		);
-	}
-	
+        $this->assertSame(
+            'Conceived at T3CON10',
+            $this->fixture->getText()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getIsCorrectAnswerReturnsInitialValueForString()
+    {
+    }
+
+    /**
+     * @test
+     */
+    public function setIsCorrectAnswerForStringSetsIsCorrectAnswer()
+    {
+        $this->fixture->setIsCorrectAnswer('Conceived at T3CON10');
+
+        $this->assertSame(
+            'Conceived at T3CON10',
+            $this->fixture->getIsCorrectAnswer()
+        );
+    }
+
 }

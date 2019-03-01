@@ -2,18 +2,20 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
 use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
-use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -41,7 +43,7 @@ use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+class ClozeText extends Answer
 {
 
     /**
@@ -73,7 +75,7 @@ class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
      *
      * @param Question $question
      * @param boolean $useRepository
-     * @return array Array containing the word positions
+     * @return ObjectStorage Array containing the word positions
      */
     public function getTerms(
         Question $question,
@@ -81,10 +83,12 @@ class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     ) {
         $this->terms = GeneralUtility::makeInstance(ObjectStorage::class);
         if ($useRepository) {
-            //Aus dem Repository holen, nicht aus der Frage, da sonst zuordnungen verschwinden
-            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $rep = $this->objectManager->get(AnswerRepository::class);
-            $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+            // Aus dem Repository holen, nicht aus der Frage, da sonst zuordnungen verschwinden
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            /** @var AnswerRepository $rep */
+            $rep = $objectManager->get(AnswerRepository::class);
+            /** @var Typo3QuerySettings $querySettings */
+            $querySettings = $objectManager->get(Typo3QuerySettings::class);
             $querySettings->setRespectStoragePage(false);
             $querySettings->setRespectSysLanguage(false);
             $rep->setDefaultQuerySettings($querySettings);
@@ -92,6 +96,7 @@ class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
         } else {
             $answers = $question->getAnswers();
         }
+        /** @var Answer $answer */
         foreach ($answers as $answer) {
             if ($answer instanceof ClozeTerm) {
                 $this->terms->attach($answer);
@@ -139,14 +144,15 @@ class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
         $text = $this->getText();
         $terms = $this->getTerms($question, true);
         $wordPositions = $this->getWordPositions($question);
+
         foreach ($terms as $term) {
             foreach ($resultAnswers as $temp_ranswer) {
                 if (is_object($temp_ranswer)) {
-                    if ($temp_ranswer->getAnswer()->getUid() == $term->getUid()) {
+                    if ($temp_ranswer->getAnswer()->getUid() === $term->getUid()) {
                         $rterms[] = $temp_ranswer;
                     }
                 } else {
-                    if ($temp_ranswer['answer'] == $term->getUid()) {
+                    if ((int)$temp_ranswer['answer'] === $term->getUid()) {
                         $rterms[] = $temp_ranswer;
                     }
                 }
@@ -158,7 +164,7 @@ class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
         foreach ($wordPositions as $wordPosition) {
             foreach ($rterms as $nr => $rterm) {
                 if (is_object($rterm)) {
-                    if ($rterm->getAnswer()->getUid() == $wordPosition['answer']->getUid()) {
+                    if ($rterm->getAnswer()->getUid() === $wordPosition['answer']->getUid()) {
                         $line .= mb_substr($text, $start, $wordPosition[0] - $start);
                         if ($withHTML) {
                             $line .= '<b>' . $rterm->getValue() . '</b>';
@@ -197,9 +203,11 @@ class ClozeText extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
         \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
         $options = []
     ) {
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $rep = $this->objectManager->get(ResultQuestionRepository::class);
-        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var ResultQuestionRepository $rep */
+        $rep = $objectManager->get(ResultQuestionRepository::class);
+        /** @var Typo3QuerySettings $querySettings */
+        $querySettings = $objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $rep->setDefaultQuerySettings($querySettings);
 

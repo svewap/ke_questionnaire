@@ -2,10 +2,13 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -55,12 +58,12 @@ class CheckAnsweredQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
         \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
         \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
     ) {
-        //$output = $this->renderChildren();
+        /** @var ResultQuestion $rQuestion */
         foreach ($result->getQuestions() as $rQuestion) {
             if ($rQuestion->getQuestion() === $question) {
-                /** @var \Kennziffer\KeQuestionnaire\Domain\Model\Answer $rAnswer */
+                /** @var \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer */
                 foreach ($rQuestion->getAnswers() as $rAnswer) {
-                    if ($rAnswer->getValue() != '') {
+                    if ($rAnswer->getValue() !== '') {
                         return $this->renderChildren();
                     }
                 }

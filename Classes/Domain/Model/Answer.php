@@ -2,14 +2,18 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model;
 
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultAnswerRepository;
+use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -169,10 +173,10 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Returns the points
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $resultAnswer
+     * @param ResultAnswer $resultAnswer
      * @return string $points
      */
-    public function getPoints(\Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $resultAnswer = null)
+    public function getPoints(ResultAnswer $resultAnswer = null)
     {
         return $this->points;
     }
@@ -251,11 +255,11 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Create the header of the line
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array options
      * @return string
      */
-    public function getCsvLineHeader(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $options = [])
+    public function getCsvLineHeader(Question $question, $options = [])
     {
         $aL = [];
         $addL = [];
@@ -271,28 +275,29 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $aL[] = strip_tags($this->getText());
         }
 
-        $line = implode($options['separator'], $aL) . $options['separator'];
-
-        return $line;
+        return implode($options['separator'], $aL) . $options['separator'];
     }
 
     /**
      * Create the data of the Csv Line
      * @param array $results
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array options
      * @return string
      */
     public function getCsvLineValues(
         array $results,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        Question $question,
         $options = []
     ) {
         $line = '';
         //for each results get the values
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-        $repRA = $this->objectManager->get(ResultAnswerRepository::class);
-        $repRQ = $this->objectManager->get(ResultQuestionRepository::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var ResultAnswerRepository $repRA */
+        $repRA = $objectManager->get(ResultAnswerRepository::class);
+        /** @var ResultQuestionRepository $repRQ */
+        $repRQ = $objectManager->get(ResultQuestionRepository::class);
+        /** @var Result $result */
         foreach ($results as $result) {
             // $rAnswer = $result->getAnswer($question->getUid(), $this->getUid());
             $rQuestion = $repRQ->findByQuestionAndResultIdRaw($question, $result['uid']);
@@ -301,9 +306,6 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $rAnswer = $repRA->findForResultQuestionAndAnswerRaw($rQuestion[0]['uid'], $this->getUid());
 
             $rAnswer = $rAnswer[0];
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($rQuestion, 'rQuestion');
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($rAnswer, 'rAnswer');
-            //exit;
             if ($rAnswer) {
                 $aL[] = $this->getCsvValueRaw($rAnswer, $options);
                 if ($rAnswer && $rAnswer['additionalValue']) {
@@ -346,13 +348,13 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Create the whole Csv Line
      * @param array $results
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array options
      * @return string
      */
     public function getCsvLine(
         array $results,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        Question $question,
         $options = []
     ) {
 
@@ -364,11 +366,11 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * return the Value shown in the Csv Export
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer
+     * @param ResultAnswer $rAnswer
      * @param array $options
      * @return string
      */
-    public function getCsvValue(\Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer $rAnswer, $options = [])
+    public function getCsvValue(ResultAnswer $rAnswer, $options = [])
     {
         return $rAnswer->getValue();
     }

@@ -2,10 +2,13 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -33,7 +36,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ClozeTerm extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+class ClozeTerm extends Answer
 {
     /**
      * ClozePosition

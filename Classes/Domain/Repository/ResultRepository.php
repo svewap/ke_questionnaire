@@ -6,6 +6,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -65,7 +66,7 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all results for pid
      *
      * @param integer $pid
-     * @return Query Result
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findAllForPid($pid)
     {
@@ -81,7 +82,7 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param integer $pid
      * @param integer $interval
      * @param integer $position
-     * @return Query Result
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findAllForPidInterval($pid, $interval, $position)
     {
@@ -142,7 +143,7 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all results for pid
      *
      * @param integer $pid
-     * @return Query Result
+     * @return int
      */
     public function countAllForPid($pid)
     {
@@ -157,16 +158,17 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @param integer $pid
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findFinishedForPid($pid)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         return $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->greaterThan('finished', 0),
                 $query->equals('pid', $pid)
-            ))->execute();
+            ]))->execute();
     }
 
     /**
@@ -174,16 +176,17 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @param integer $pid
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findFinishedForPidRaw($pid)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->greaterThan('finished', 0),
                 $query->equals('pid', $pid)
-            ))->execute();
+            ]))->execute();
         return $query->execute(true);
     }
 
@@ -194,12 +197,13 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param integer $interval
      * @param integer $position
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findFinishedForPidInterval($pid, $interval, $position)
     {
         $interval = (int)$interval;
         $position = (int)$position;
-        if ($interval == 0) {
+        if ($interval === 0) {
             $interval = 1;
         }
         //\TYPO3\CMS\Core\Utility\GeneralUtility::devlog('arguments','keq',2,array($pid, $interval, $position));
@@ -208,10 +212,10 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->setLimit($interval);
         $query->setOffset($position);
         return $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->greaterThan('finished', 0),
                 $query->equals('pid', $pid)
-            ))->execute();
+            ]))->execute();
     }
 
     /**
@@ -221,12 +225,13 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param integer $interval
      * @param integer $position
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findFinishedForPidIntervalRaw($pid, $interval, $position)
     {
         $interval = (int)$interval;
         $position = (int)$position;
-        if ($interval == 0) {
+        if ($interval === 0) {
             $interval = 1;
         }
         //\TYPO3\CMS\Core\Utility\GeneralUtility::devlog('arguments','keq',2,array($pid, $interval, $position));
@@ -235,27 +240,28 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->setLimit($interval);
         $query->setOffset($position);
         return $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->greaterThan('finished', 0),
                 $query->equals('pid', $pid)
-            ))->execute(true);
+            ]))->execute(true);
     }
 
     /**
      * find all finished results for pid
      *
      * @param integer $pid
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @return int
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function countFinishedForPid($pid)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         return $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->greaterThan('finished', 0),
                 $query->equals('pid', $pid)
-            ))->count();
+            ]))->count();
     }
 
 
@@ -263,20 +269,21 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all finished results for pid
      *
      * @param integer $pid
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @return int
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function countConnectedForPid($pid)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         return $query->matching(
-            $query->logicalAnd(
-                $query->logicalOr(
+            $query->logicalAnd([
+                $query->logicalOr([
                     $query->greaterThan('fe_user', 0),
                     $query->greaterThan('auth_code', 0)
-                ),
+                ]),
                 $query->equals('pid', $pid)
-            ))->count();
+            ]))->count();
     }
 
 
@@ -286,20 +293,21 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param integer $user_id
      * @param integer $pid
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findByFeUserAndPid($userId, $pid)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
 
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->greaterThan('finished', 0),
             $query->equals('pid', $pid)
-        );
-        $constraint = $query->logicalAnd(
+        ]);
+        $constraint = $query->logicalAnd([
             $query->equals('fe_user', $userId),
             $constraint
-        );
+        ]);
         return $query->matching($constraint)->execute();
     }
 
@@ -307,7 +315,7 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all results for pid
      *
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\AuthCode $authCode
-     * @return Query Result
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findForAuthCode(\Kennziffer\KeQuestionnaire\Domain\Model\AuthCode $authCode)
     {

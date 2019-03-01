@@ -26,8 +26,8 @@ namespace Kennziffer\KeQuestionnaire\Controller\Wizard;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -179,7 +179,7 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
         $baseurl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
         if ($this->doClose) {
             return $this->closeWindow;
-        } else {
+        }
             // Putting together the items into a form:
             $this->content .= '<link rel="stylesheet" type="text/css" href="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Css/imgareaselect-animated.css" media="all">';
             $this->content .= '<script src="' . $baseurl . 'typo3conf/ext/ke_questionnaire/Resources/Public/Script/jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -233,7 +233,7 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
 										jQuery(parentForm).find(\'[name="' . $this->wizardParameters['itemName'] . '"]\').val(newVal);
 									});
 							</script>';
-        }
+
     }
 
     /**

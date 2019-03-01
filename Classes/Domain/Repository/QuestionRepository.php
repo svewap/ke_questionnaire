@@ -8,6 +8,7 @@ use Kennziffer\KeQuestionnaire\Domain\Model\Question;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -110,7 +111,7 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @params integer $uid
      * @return Question
      */
-    public function findForUid($uid)
+    public function findForUid($uid): Question
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
@@ -119,6 +120,6 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $query->matching($constraint);
         $questions = $query->execute();
-        return $questions[0];
+        return $questions->getFirst();
     }
 }

@@ -6,6 +6,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -27,6 +28,8 @@ namespace Kennziffer\KeQuestionnaire\Domain\Repository;
  ***************************************************************/
 
 use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
 
 /**
  *
@@ -43,9 +46,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findForResultQuestionRaw($questionId)
     {
         $query = $this->createQuery();
-
         $query->getQuerySettings()->setRespectStoragePage(false);
-
         $query->matching($query->equals('resultquestion', $questionId));
 
         return $query->execute(true);
@@ -59,10 +60,10 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $constraint = $query->equals('resultquestion', $questionId);
-        $constraint = $query->logicalAnd(
+        $constraint = $query->logicalAnd([
             $query->equals('answer', $answerId),
             $constraint
-        );
+        ]);
         $query->matching($constraint);
         return $query->execute(true);
     }
@@ -73,11 +74,8 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findForAnswer($answer)
     {
         $query = $this->createQuery();
-
         $query->getQuerySettings()->setRespectStoragePage(false);
-
         $query->matching($query->equals('answer', $answer));
-
         return $query->execute();
     }
 
@@ -87,75 +85,68 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findForAnswerRaw($answer)
     {
         $query = $this->createQuery();
-
         $query->getQuerySettings()->setRespectStoragePage(false);
-
         $query->matching($query->equals('answer', $answer));
-
         return $query->execute(true);
     }
 
     /**
      * count given answers
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer
+     * @param Answer $answer
+     * @return int
      */
-    public function countResultAnswersForAnswer(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer)
+    public function countResultAnswersForAnswer(Answer $answer)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
         $query->matching($query->equals('answer', $answer));
-
         return $query->count();
     }
 
     /**
      * count given answers
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer
+     * @param Answer $answer
+     * @return int
      */
-    public function countResultAnswersForAnswerAndValue(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer)
+    public function countResultAnswersForAnswerAndValue(Answer $answer)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
 
-        $query->matching($query->logicalAnd(
+        $query->matching($query->logicalAnd([
             $query->equals('answer', $answer),
             $query->equals('value', $answer->getUid())
-        ));
+        ]));
 
         return $query->count();
     }
 
     /**
-     * getspecific Result Answer
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * get specific Result Answer
+     *
+     * @param Question $question
+     * @param Result $result
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function getResultAnswersForQuestionAndResult(
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+    public function getResultAnswersForQuestionAndResult(Question $question, Result $result
     ) {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
         $query->matching($query->equals('question', $question));
-
         return $query->execute();
     }
 
     /**
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $row
+     * @param Answer $row
      * @param string $value
      * @return integer
      */
-    public function countResultAnswersForRowAndValue(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $row, $value)
+    public function countResultAnswersForRowAndValue(Answer $row, $value)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
-        $query->matching($query->logicalAnd($query->equals('answer', $row), $query->equals('value', $value)));
-
+        $query->matching($query->logicalAnd([$query->equals('answer', $row), $query->equals('value', $value)]));
         return $query->count();
     }
 
@@ -169,8 +160,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
-        $query->matching($query->logicalAnd($query->equals('answer', $row), $query->equals('col', $value)));
+        $query->matching($query->logicalAnd([$query->equals('answer', $row), $query->equals('col', $value)]));
 
         return $query->count();
     }
@@ -185,8 +175,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
-        $query->matching($query->logicalAnd($query->equals('answer', $row), $query->equals('col', $value)));
+        $query->matching($query->logicalAnd([$query->equals('answer', $row), $query->equals('col', $value)]));
 
         return $query->execute();
     }
@@ -201,8 +190,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
-        $query->matching($query->logicalAnd($query->equals('answer', $row), $query->equals('col', $value)));
+        $query->matching($query->logicalAnd([$query->equals('answer', $row), $query->equals('col', $value)]));
 
         return $query->execute(true);
     }
@@ -216,7 +204,6 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
-
         $query->matching($query->equals('answer', $answer));
 
         return $query->execute();

@@ -6,6 +6,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -560,18 +561,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return boolean
      */
-    public function IsDependant()
+    public function isDependant()
     {
         return (boolean)$this->getIsDependant();
     }
 
     public function getIsDependant()
     {
-        if (count($this->dependancies) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return count($this->dependancies) > 0;
     }
 
     /**
@@ -623,7 +620,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function fullfillsDependancies(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result)
     {
-        if ($this->IsDependant()) {
+        if ($this->isDependant()) {
             $full = false;
             $fullcount = 0;
             //check all dependancies
@@ -657,8 +654,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 }
             }
             return $full;
-        } else {
-            return true;
         }
+        return true;
     }
 }

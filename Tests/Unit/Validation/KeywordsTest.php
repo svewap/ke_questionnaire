@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -31,49 +32,47 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_KeQuestionnaire_Validation_KeywordsTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_KeQuestionnaire_Validation_KeywordsTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
 
-	/**
-	 * @var Tx_KeQuestionnaire_Validation_Keywords
-	 */
-	protected $validator;
-
-
-
+    /**
+     * @var Tx_KeQuestionnaire_Validation_Keywords
+     */
+    protected $validator;
 
 
-	public function setUp() {
-		$this->validator = new Tx_KeQuestionnaire_Validation_Keywords();
-		$this->validator->injectObjectManager(new \TYPO3\CMS\Extbase\Object\ObjectManager());
-	}
+    public function setUp()
+    {
+        $this->validator = new Tx_KeQuestionnaire_Validation_Keywords();
+        $this->validator->injectObjectManager(new \TYPO3\CMS\Extbase\Object\ObjectManager());
+    }
 
-	public function tearDown() {
-		unset($this->validator);
-	}
+    public function tearDown()
+    {
+        unset($this->validator);
+    }
 
 
+    /**
+     * @test
+     */
+    public function validateKeywords()
+    {
+        $model = new Tx_KeQuestionnaire_Domain_Model_AnswerType_SingleInput();
+        $model->setValidationText('hello, you');
+        $model->setValidationKeysAmount(2);
 
+        $result = $this->validator->isValid('Hello everybody. I\'m fine...and you?', $model);
+        $this->assertEquals(false, $result);
 
+        $result = $this->validator->isValid('hello everybody. I\'m fine...and you?', $model);
+        $this->assertEquals(true, $result);
 
-	/**
-	 * @test
-	 */
-	public function validateKeywords() {
-		$model = new Tx_KeQuestionnaire_Domain_Model_AnswerType_SingleInput();
-		$model->setValidationText('hello, you');
-		$model->setValidationKeysAmount(2);
+        $result = $this->validator->isValid('Hello everybody', $model);
+        $this->assertEquals(false, $result);
 
-		$result = $this->validator->isValid('Hello everybody. I\'m fine...and you?', $model);
-		$this->assertEquals(false, $result);
-
-		$result = $this->validator->isValid('hello everybody. I\'m fine...and you?', $model);
-		$this->assertEquals(true, $result);
-
-		$result = $this->validator->isValid('Hello everybody', $model);
-		$this->assertEquals(false, $result);
-
-		$result = $this->validator->isValid('Hello hello.', $model);
-		$this->assertEquals(true, $result);
-	}
+        $result = $this->validator->isValid('Hello hello.', $model);
+        $this->assertEquals(true, $result);
+    }
 
 }

@@ -6,6 +6,7 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -92,7 +93,7 @@ class ConditionalJumpViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
             if (!$question->isOnlyJs()) {
                 $this->jsViewhelper->cacheJavaScript($js);
             }
-            if ($question->getJavascript() != '') {
+            if ($question->getJavascript() !== '') {
                 //$output = $this->renderChildren();
                 //changed javascript text to file resource
                 //add it to the footerData

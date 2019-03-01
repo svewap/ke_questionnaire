@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -37,28 +38,35 @@
  * @author Stefan froemken <froemken@kennziffer.com>
  * @author Fabian Friedrich <friedrich@kennziffer.com>
  */
-class Tx_KeQuestionnaire_Domain_Model_ResultAnswerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
-	/**
-	 * @var Tx_KeQuestionnaire_Domain_Model_ResultAnswer
-	 */
-	protected $fixture;
+class Tx_KeQuestionnaire_Domain_Model_ResultAnswerTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
+    /**
+     * @var Tx_KeQuestionnaire_Domain_Model_ResultAnswer
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = new Tx_KeQuestionnaire_Domain_Model_ResultAnswer();
-	}
+    public function setUp()
+    {
+        $this->fixture = new Tx_KeQuestionnaire_Domain_Model_ResultAnswer();
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getAnswerReturnsInitialValueForTx_KeQuestionnaire_Domain_Model_Answer() { }
+    /**
+     * @test
+     */
+    public function getAnswerReturnsInitialValueForTx_KeQuestionnaire_Domain_Model_Answer()
+    {
+    }
 
-	/**
-	 * @test
-	 */
-	public function setAnswerForTx_KeQuestionnaire_Domain_Model_AnswerSetsAnswer() { }
+    /**
+     * @test
+     */
+    public function setAnswerForTx_KeQuestionnaire_Domain_Model_AnswerSetsAnswer()
+    {
+    }
 
 }

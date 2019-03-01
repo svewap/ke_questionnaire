@@ -8,6 +8,7 @@ use Kennziffer\KeQuestionnaire\Utility\Localization;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -35,94 +36,96 @@ use Kennziffer\KeQuestionnaire\Utility\Localization;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_KeQuestionnaire_Ajax_AnswerValidationTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
 
-	/**
-	 * @var Tx_KeQuestionnaire_Ajax_AnswerValidation
-	 */
-	protected $answerValidation;
+    /**
+     * @var Tx_KeQuestionnaire_Ajax_AnswerValidation
+     */
+    protected $answerValidation;
 
-	
-	
-	
-	
-	public function setUp() {
-		$this->answerValidation = $this->objectManager->get(AnswerValidation::class);
-	}
 
-	public function tearDown() {
-		unset($this->answerValidation);
-	}
+    public function setUp()
+    {
+        $this->answerValidation = $this->objectManager->get(AnswerValidation::class);
+    }
 
-	
-	
-	
-	/**
-	 * @test
-	 */
-	public function testProcessAjaxRequestTrue() {
-		$answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', ['getValidationType', 'isValid'], [], '', FALSE);
-		$answer
-			->expects($this->any())
-			->method('getValidationType')
-			->will($this->returnValue('compareText'));
-		$answer
-			->expects($this->any())
-			->method('isValid')
-			->will($this->returnValue(TRUE));
+    public function tearDown()
+    {
+        unset($this->answerValidation);
+    }
 
-		$answerRepository = $this->getMock(AnswerRepository::class, ['findByUid'], [], '', FALSE);
-		$answerRepository
-			->expects($this->any())
-			->method('findByUid')
-			->will($this->returnValue($answer));
-		
-		$this->answerValidation->injectAnswerRepository($answerRepository);
-		
-		$arguments = [
-			'answerUid' => 123,
-			'value' => 'Hello world'
+
+    /**
+     * @test
+     */
+    public function testProcessAjaxRequestTrue()
+    {
+        $answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', ['getValidationType', 'isValid'], [], '',
+            false);
+        $answer
+            ->expects($this->any())
+            ->method('getValidationType')
+            ->will($this->returnValue('compareText'));
+        $answer
+            ->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+
+        $answerRepository = $this->getMock(AnswerRepository::class, ['findByUid'], [], '', false);
+        $answerRepository
+            ->expects($this->any())
+            ->method('findByUid')
+            ->will($this->returnValue($answer));
+
+        $this->answerValidation->injectAnswerRepository($answerRepository);
+
+        $arguments = [
+            'answerUid' => 123,
+            'value' => 'Hello world'
         ];
-		
-		$json = $this->answerValidation->processAjaxRequest($arguments);
-		$this->assertEquals('{"error":0,"info":""}', $json);
-	}
 
-	/**
-	 * @test
-	 */
-	public function testProcessAjaxRequestFalseNumeric() {
-		$answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', ['getValidationType', 'isValid'], [], '', FALSE);
-		$answer
-			->expects($this->any())
-			->method('getValidationType')
-			->will($this->returnValue('numeric'));
-		$answer
-			->expects($this->any())
-			->method('isValid')
-			->will($this->returnValue(FALSE));
+        $json = $this->answerValidation->processAjaxRequest($arguments);
+        $this->assertEquals('{"error":0,"info":""}', $json);
+    }
 
-		$answerRepository = $this->getMock(AnswerRepository::class, ['findByUid'], [], '', FALSE);
-		$answerRepository
-			->expects($this->any())
-			->method('findByUid')
-			->will($this->returnValue($answer));
-		$localization = $this->getMock(Localization::class, ['translate']);
-		$localization
-			->expects($this->any())
-			->method('translate')
-			->will($this->returnValue('Only numeric allowed'));
-		
-		$this->answerValidation->injectAnswerRepository($answerRepository);
-		$this->answerValidation->injectLocalization($localization);
-		
-		$arguments = [
-			'answerUid' => 123,
-			'value' => 'Hello world'
+    /**
+     * @test
+     */
+    public function testProcessAjaxRequestFalseNumeric()
+    {
+        $answer = $this->getMock('Tx_KeQuestionnaire_Domain_Model_Answer', ['getValidationType', 'isValid'], [], '',
+            false);
+        $answer
+            ->expects($this->any())
+            ->method('getValidationType')
+            ->will($this->returnValue('numeric'));
+        $answer
+            ->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(false));
+
+        $answerRepository = $this->getMock(AnswerRepository::class, ['findByUid'], [], '', false);
+        $answerRepository
+            ->expects($this->any())
+            ->method('findByUid')
+            ->will($this->returnValue($answer));
+        $localization = $this->getMock(Localization::class, ['translate']);
+        $localization
+            ->expects($this->any())
+            ->method('translate')
+            ->will($this->returnValue('Only numeric allowed'));
+
+        $this->answerValidation->injectAnswerRepository($answerRepository);
+        $this->answerValidation->injectLocalization($localization);
+
+        $arguments = [
+            'answerUid' => 123,
+            'value' => 'Hello world'
         ];
-		
-		$json = $this->answerValidation->processAjaxRequest($arguments);
-		$this->assertEquals('{"error":1,"info":"Only numeric allowed"}', $json);
-	}
+
+        $json = $this->answerValidation->processAjaxRequest($arguments);
+        $this->assertEquals('{"error":1,"info":"Only numeric allowed"}', $json);
+    }
 
 }

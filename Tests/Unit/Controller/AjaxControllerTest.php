@@ -1,9 +1,12 @@
 <?php
 
+use Kennziffer\KeQuestionnaire\Controller\AjaxController;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -36,44 +39,42 @@
  *
  * @author Fabian Friedrich <friedrich@kennziffer.com>
  */
-class Tx_Ke_questionnaire_Controller_AjaxControllerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_Ke_questionnaire_Controller_AjaxControllerTest extends UnitTestCase
+{
 
-	/**
-	 * @var  \Kennziffer\KeQuestionnaire\Controller\AjaxController
-	 */
-	protected $ajaxController;
-
-
-
+    /**
+     * @var  \Kennziffer\KeQuestionnaire\Controller\AjaxController
+     */
+    protected $ajaxController;
 
 
-	public function setUp() {
-		$this->ajaxController = $this->objectManager->get(' \Kennziffer\KeQuestionnaire\Controller\AjaxController');
-	}
+    public function setUp()
+    {
+        $this->ajaxController = $this->objectManager->get(AjaxController::class);
+    }
 
-	public function tearDown() {
-		unset($this->ajaxController);
-	}
+    public function tearDown()
+    {
+        unset($this->ajaxController);
+    }
 
 
+    /**
+     * @test
+     */
+    public function ajaxAction()
+    {
+        $result = $this->ajaxController->ajaxAction('AnswerValidation');
+        $this->assertEquals('', $result);
 
+        $result = $this->ajaxController->ajaxAction('tx_phpunit_testcase');
+        $this->assertEquals('', $result);
 
+        $result = $this->ajaxController->ajaxAction('trallala');
+        $this->assertEquals('', $result);
 
-	/**
-	 * @test
-	 */
-	public function ajaxAction() {
-		$result = $this->ajaxController->ajaxAction('AnswerValidation');
-		$this->assertEquals('', $result);
-
-		$result = $this->ajaxController->ajaxAction('tx_phpunit_testcase');
-		$this->assertEquals('', $result);
-
-		$result = $this->ajaxController->ajaxAction('trallala');
-		$this->assertEquals('', $result);
-
-		$result = $this->ajaxController->ajaxAction(123);
-		$this->assertEquals('', $result);
-	}
+        $result = $this->ajaxController->ajaxAction(123);
+        $this->assertEquals('', $result);
+    }
 
 }

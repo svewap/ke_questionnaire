@@ -2,16 +2,21 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 
-use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultAnswerRepository;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
-use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -39,7 +44,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class RankingInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSequence
+class RankingInput extends DDAreaSequence
 {
     /**
      * pdfType
@@ -51,14 +56,14 @@ class RankingInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\D
     /**
      * Get the Ranking-Order as string
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Result $result
+     * @param Question $question
      *
      * @return string line for Analysis
      */
     public function getRankingLine(
-        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+        Result $result,
+        Question $question
     ) {
         $line = [];
 
@@ -73,7 +78,7 @@ class RankingInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\D
      * Gets the Images
      *
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Result $result
      * @return array
      */
     public function getTerms($question, $result)
@@ -83,11 +88,15 @@ class RankingInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\D
         // workaround for pointer in question, so all following answer-objects are rendered.
         $addIt = false;
         $type = '';
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-        $rep = $this->objectManager->get(AnswerRepository::class);
-        $repRQ = $this->objectManager->get(ResultQuestionRepository::class);
-        $repRQA = $this->objectManager->get(ResultAnswerRepository::class);
-        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var AnswerRepository $rep */
+        $rep = $objectManager->get(AnswerRepository::class);
+        /** @var ResultQuestionRepository $repRQ */
+        $repRQ = $objectManager->get(ResultQuestionRepository::class);
+        /** @var ResultAnswerRepository $repRQA */
+        $repRQA = $objectManager->get(ResultAnswerRepository::class);
+        /** @var Typo3QuerySettings $querySettings */
+        $querySettings = $objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $rep->setDefaultQuerySettings($querySettings);
         $repRQ->setDefaultQuerySettings($querySettings);
@@ -96,9 +105,11 @@ class RankingInput extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\D
         $ranswers = [];
         if ($result) {
             $rQuestions = $repRQ->findByResult($result);
+            /** @var ResultQuestion $rquestion */
             foreach ($rQuestions as $rquestion) {
-                if ($rquestion->getQuestion()->getUid() == $question->getUid()) {
+                if ($rquestion->getQuestion()->getUid() === $question->getUid()) {
                     $rQAnswers = $repRQA->findByResultquestion($rquestion);
+                    /** @var ResultAnswer $ranswer */
                     foreach ($rQAnswers as $ranswer) {
                         $ranswers[$ranswer->getAnswer()->getUid()] = $ranswer->getValue();
                     }

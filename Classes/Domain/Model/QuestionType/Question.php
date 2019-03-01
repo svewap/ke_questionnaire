@@ -2,13 +2,17 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question as BaseQuestion;
 use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -36,7 +40,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Question extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
+class Question extends BaseQuestion
 {
 
     /**
@@ -117,14 +121,6 @@ class Question extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
      */
     protected $minAnswers;
 
-    /**
-     * __construct
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * Returns the text
@@ -218,11 +214,13 @@ class Question extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
     public function getIsMandatory()
     {
         // Check if one answer is a DataPrivacy. If yes, the the question is always mandatory
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-        $rep = $this->objectManager->get(AnswerRepository::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var AnswerRepository $rep */
+        $rep = $objectManager->get(AnswerRepository::class);
         $answers = $rep->findByQuestion($this);
+        /** @var Answer $answer */
         foreach ($answers as $answer) {
-            if ($answer->getShortType() == 'DataPrivacy') {
+            if ($answer->getShortType() === 'DataPrivacy') {
                 $this->isMandatory = true;
             }
         }
@@ -314,9 +312,8 @@ class Question extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
             $answers = $this->answers->toArray();
             shuffle($answers);
             return $answers;
-        } else {
-            return $this->answers;
         }
+        return $this->answers;
     }
 
     /**

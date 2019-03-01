@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -31,43 +32,41 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_KeQuestionnaire_ViewHelpers_ClozeTextTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_KeQuestionnaire_ViewHelpers_ClozeTextTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
 
-	/**
-	 * @var Tx_KeQuestionnaire_ViewHelpers_ClozeTextViewHelper
-	 */
-	protected $clozeText;
-
-
-
+    /**
+     * @var Tx_KeQuestionnaire_ViewHelpers_ClozeTextViewHelper
+     */
+    protected $clozeText;
 
 
-	public function setUp() {
-		$this->clozeText = new Tx_KeQuestionnaire_ViewHelpers_ClozeTextViewHelper();
-	}
+    public function setUp()
+    {
+        $this->clozeText = new Tx_KeQuestionnaire_ViewHelpers_ClozeTextViewHelper();
+    }
 
-	public function tearDown() {
-		unset($this->clozeText);
-	}
+    public function tearDown()
+    {
+        unset($this->clozeText);
+    }
 
 
-
-
-
-	/**
-	 * @test
-	 */
-	public function validateClozeText() {
-		$expectedResult = [
-			0 => 50,
-			1 => 6,
+    /**
+     * @test
+     */
+    public function validateClozeText()
+    {
+        $expectedResult = [
+            0 => 50,
+            1 => 6,
         ];
-		$text = 'Ich esse gerne Äpfel. Ich habe schon immer gerne Äpfel gegessen.';
-		$word = 'Äpfel';
-		$wordPosition = 2;
+        $text = 'Ich esse gerne Äpfel. Ich habe schon immer gerne Äpfel gegessen.';
+        $word = 'Äpfel';
+        $wordPosition = 2;
 
-		$result = $this->clozeText->getWordPosition($text, $word, $wordPosition);
-		$this->assertEquals($expectedResult, $result);
-	}
+        $result = $this->clozeText->getWordPosition($text, $word, $wordPosition);
+        $this->assertEquals($expectedResult, $result);
+    }
 
 }

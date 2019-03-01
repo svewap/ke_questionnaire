@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -37,98 +38,108 @@
  * @author Stefan froemken <froemken@kennziffer.com>
  * @author Fabian Friedrich <friedrich@kennziffer.com>
  */
-class Tx_KeQuestionnaire_Domain_Model_ResultTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
-	/**
-	 * @var Tx_KeQuestionnaire_Domain_Model_Result
-	 */
-	protected $fixture;
+class Tx_KeQuestionnaire_Domain_Model_ResultTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
+    /**
+     * @var Tx_KeQuestionnaire_Domain_Model_Result
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = new Tx_KeQuestionnaire_Domain_Model_Result();
-	}
+    public function setUp()
+    {
+        $this->fixture = new Tx_KeQuestionnaire_Domain_Model_Result();
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getFinishedReturnsInitialValueForInteger() {
-		$this->assertSame(
-			0,
-			$this->fixture->getFinished()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getFinishedReturnsInitialValueForInteger()
+    {
+        $this->assertSame(
+            0,
+            $this->fixture->getFinished()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setFinishedForIntegerSetsFinished() {
-		$this->fixture->setFinished(12);
+    /**
+     * @test
+     */
+    public function setFinishedForIntegerSetsFinished()
+    {
+        $this->fixture->setFinished(12);
 
-		$this->assertSame(
-			12,
-			$this->fixture->getFinished()
-		);
-	}
+        $this->assertSame(
+            12,
+            $this->fixture->getFinished()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getQuestionsReturnsInitialValueForObjectStorageContainingTx_KeQuestionnaire_Domain_Model_ResultQuestion() {
-		$newObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
-		$this->assertEquals(
-			$newObjectStorage,
-			$this->fixture->getQuestions()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getQuestionsReturnsInitialValueForObjectStorageContainingTx_KeQuestionnaire_Domain_Model_ResultQuestion(
+    )
+    {
+        $newObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
+        $this->assertEquals(
+            $newObjectStorage,
+            $this->fixture->getQuestions()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setQuestionsForObjectStorageContainingTx_KeQuestionnaire_Domain_Model_ResultQuestionSetsQuestions() {
-		$question = new Tx_KeQuestionnaire_Domain_Model_ResultQuestion();
-		$objectStorageHoldingExactlyOneQuestions = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
-		$objectStorageHoldingExactlyOneQuestions->attach($question);
-		$this->fixture->setQuestions($objectStorageHoldingExactlyOneQuestions);
+    /**
+     * @test
+     */
+    public function setQuestionsForObjectStorageContainingTx_KeQuestionnaire_Domain_Model_ResultQuestionSetsQuestions()
+    {
+        $question = new Tx_KeQuestionnaire_Domain_Model_ResultQuestion();
+        $objectStorageHoldingExactlyOneQuestions = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
+        $objectStorageHoldingExactlyOneQuestions->attach($question);
+        $this->fixture->setQuestions($objectStorageHoldingExactlyOneQuestions);
 
-		$this->assertSame(
-			$objectStorageHoldingExactlyOneQuestions,
-			$this->fixture->getQuestions()
-		);
-	}
+        $this->assertSame(
+            $objectStorageHoldingExactlyOneQuestions,
+            $this->fixture->getQuestions()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function addQuestionToObjectStorageHoldingQuestions() {
-		$question = new Tx_KeQuestionnaire_Domain_Model_ResultQuestion();
-		$objectStorageHoldingExactlyOneQuestion = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
-		$objectStorageHoldingExactlyOneQuestion->attach($question);
-		$this->fixture->addQuestion($question);
+    /**
+     * @test
+     */
+    public function addQuestionToObjectStorageHoldingQuestions()
+    {
+        $question = new Tx_KeQuestionnaire_Domain_Model_ResultQuestion();
+        $objectStorageHoldingExactlyOneQuestion = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
+        $objectStorageHoldingExactlyOneQuestion->attach($question);
+        $this->fixture->addQuestion($question);
 
-		$this->assertEquals(
-			$objectStorageHoldingExactlyOneQuestion,
-			$this->fixture->getQuestions()
-		);
-	}
+        $this->assertEquals(
+            $objectStorageHoldingExactlyOneQuestion,
+            $this->fixture->getQuestions()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function removeQuestionFromObjectStorageHoldingQuestions() {
-		$question = new Tx_KeQuestionnaire_Domain_Model_ResultQuestion();
-		$localObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
-		$localObjectStorage->attach($question);
-		$localObjectStorage->detach($question);
-		$this->fixture->addQuestion($question);
-		$this->fixture->removeQuestion($question);
+    /**
+     * @test
+     */
+    public function removeQuestionFromObjectStorageHoldingQuestions()
+    {
+        $question = new Tx_KeQuestionnaire_Domain_Model_ResultQuestion();
+        $localObjectStorage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectStorage::class);
+        $localObjectStorage->attach($question);
+        $localObjectStorage->detach($question);
+        $this->fixture->addQuestion($question);
+        $this->fixture->removeQuestion($question);
 
-		$this->assertEquals(
-			$localObjectStorage,
-			$this->fixture->getQuestions()
-		);
-	}
+        $this->assertEquals(
+            $localObjectStorage,
+            $this->fixture->getQuestions()
+        );
+    }
 
 }

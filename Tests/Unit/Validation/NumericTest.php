@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -31,54 +32,52 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_KeQuestionnaire_Validation_NumericTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_KeQuestionnaire_Validation_NumericTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
 
-	/**
-	 * @var Tx_KeQuestionnaire_Validation_Numeric
-	 */
-	protected $validator;
-
-
-
+    /**
+     * @var Tx_KeQuestionnaire_Validation_Numeric
+     */
+    protected $validator;
 
 
-	public function setUp() {
-		$this->validator = new Tx_KeQuestionnaire_Validation_Numeric();
-		$this->validator->injectObjectManager(new \TYPO3\CMS\Extbase\Object\ObjectManager());
-	}
+    public function setUp()
+    {
+        $this->validator = new Tx_KeQuestionnaire_Validation_Numeric();
+        $this->validator->injectObjectManager(new \TYPO3\CMS\Extbase\Object\ObjectManager());
+    }
 
-	public function tearDown() {
-		unset($this->validator);
-	}
+    public function tearDown()
+    {
+        unset($this->validator);
+    }
 
 
+    /**
+     * @test
+     */
+    public function validateInteger()
+    {
+        $result = $this->validator->isValid('123');
+        $this->assertEquals(true, $result);
 
+        $result = $this->validator->isValid('123.23');
+        $this->assertEquals(true, $result);
 
+        $result = $this->validator->isValid('123,23');
+        $this->assertEquals(true, $result);
 
-	/**
-	 * @test
-	 */
-	public function validateInteger() {
-		$result = $this->validator->isValid('123');
-		$this->assertEquals(true, $result);
+        $result = $this->validator->isValid('hallo');
+        $this->assertEquals(false, $result);
 
-		$result = $this->validator->isValid('123.23');
-		$this->assertEquals(true, $result);
+        $result = $this->validator->isValid(123.23);
+        $this->assertEquals(true, $result);
 
-		$result = $this->validator->isValid('123,23');
-		$this->assertEquals(true, $result);
+        $result = $this->validator->isValid(123);
+        $this->assertEquals(true, $result);
 
-		$result = $this->validator->isValid('hallo');
-		$this->assertEquals(false, $result);
-
-		$result = $this->validator->isValid(123.23);
-		$this->assertEquals(true, $result);
-
-		$result = $this->validator->isValid(123);
-		$this->assertEquals(true, $result);
-
-		$result = $this->validator->isValid(1234567890);
-		$this->assertEquals(true, $result);
-	}
+        $result = $this->validator->isValid(1234567890);
+        $this->assertEquals(true, $result);
+    }
 
 }

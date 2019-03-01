@@ -2,13 +2,17 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
 use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -36,7 +40,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+class MatrixHeader extends Answer
 {
     /**
      * Cols
@@ -79,10 +83,10 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Adds a Col
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $col
+     * @param Answer $col
      * @return void
      */
-    public function addCol(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $col)
+    public function addCol(Answer $col)
     {
         $this->cols->attach($col);
     }
@@ -90,10 +94,10 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Removes a Col
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $colToRemove The Col to be removed
+     * @param Answer $colToRemove The Col to be removed
      * @return void
      */
-    public function removeCol(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $colToRemove)
+    public function removeCol(Answer $colToRemove)
     {
         $this->cols->detach($colToRemove);
     }
@@ -105,8 +109,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
      */
     public function getCols()
     {
-        $cols = $this->cols;
-        return $cols;
+        return $this->cols;
     }
 
     /**
@@ -165,13 +168,13 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Create the whole Csv Line
      * @param array $results
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array options
      * @return string
      */
     public function getCsvLine(
         array $results,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        Question $question,
         $options = []
     ) {
         if ($options['rows']) {
@@ -180,6 +183,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
             $rows = $this->getRows($question);
         }
         $line = '';
+
 
         foreach ($rows as $row) {
             $aL = [];
@@ -231,11 +235,11 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
 
     /**
      * Create the header of the line
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array options
      * @return string
      */
-    public function getCsvLineHeader(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $options = [])
+    public function getCsvLineHeader(Question $question, $options = [])
     {
         if ($options['rows']) {
             $rows = $options['rows'];
@@ -278,7 +282,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Create the data of the Csv Line
      * @param array $results
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array options
      * @param array oldArray
      * @param integer counter
@@ -286,7 +290,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
      */
     public function getCsvLineValues(
         array $results,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        Question $question,
         $options = []
     ) {
         if ($options['rows']) {
@@ -303,7 +307,7 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
                 foreach ($this->getCols() as $column) {
                     $aL = [];
                     foreach ($results as $result) {
-                        if ($column->getShortType() == 'Radiobutton' && !$options['extended']) {
+                        if ($column->getShortType() === 'Radiobutton' && !$options['extended']) {
                             $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), 0);
                         } else {
                             $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), $column->getUid());
@@ -322,7 +326,6 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
                         }
                     }
 
-                    //\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('$aL', 'keq', 0, $aL);
                     if (is_array($aL)) {
                         //implode the csv
                         $line .= implode($options['separator'], $aL) . $options['newline'];
@@ -330,7 +333,6 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
                 }
             }
         }
-        //\TYPO3\CMS\Core\Utility\GeneralUtility::devLog($line, 'keq', 0, $aL);
         return $line;
     }
 
@@ -338,29 +340,30 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Gets the Rows
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the rows are in
-     * @return array
+     * @param Question $question the rows are in
+     * @return Answer[]
      */
-    public function getRows(\Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question)
+    public function getRows(Question $question)
     {
         $rows = [];
 
         // workaround for pointer in question, so all following answer-objects are rendered.
         $addIt = false;
-        //$rep = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-        $rep = $this->objectManager->get(AnswerRepository::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var AnswerRepository $rep */
+        $rep = $objectManager->get(AnswerRepository::class);
         $answers = $rep->findByQuestionWithoutPid($question);
 
+        /** @var Answer $answer */
         foreach ($answers as $answer) {
             //Add only after the correct Matrix-Header is found, only following rows will be added.
-            if ((get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader' || get_class($answer) === 'Kennziffer\KeQuestionnairePremium\Domain\Model\AnswerType\ExtendedMatrixHeader')
-                AND $answer === $this) {
+            // TODO: Fix
+            if ($answer instanceof self && $answer === $this) {
                 $addIt = true;
-            } elseif (get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader') {
+            } elseif ($answer instanceof self) {
                 $addIt = false;
             }
-            if ($addIt && get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow') {
+            if ($addIt && $answer instanceof MatrixRow) {
                 $rows[] = $answer;
             }
         }
@@ -371,10 +374,10 @@ class MatrixHeader extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * get clone-Row
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the rows are in
-     * @return \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixRow $row
+     * @param Question $question the rows are in
+     * @return MatrixRow $row
      */
-    public function getCloneableRow(\Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question)
+    public function getCloneableRow(Question $question)
     {
         $rows = $this->getRows($question);
         return $rows[count($rows) - 1];

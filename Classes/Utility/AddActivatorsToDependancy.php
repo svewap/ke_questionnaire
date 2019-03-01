@@ -3,13 +3,14 @@
 namespace Kennziffer\KeQuestionnaire\Utility;
 
 use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *

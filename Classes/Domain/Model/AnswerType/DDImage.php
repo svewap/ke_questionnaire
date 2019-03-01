@@ -2,10 +2,12 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -33,7 +35,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DDImage extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage
+class DDImage extends DDAreaImage
 {
     /**
      * AreaIndex
@@ -51,7 +53,6 @@ class DDImage extends \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDArea
     {
         return $this->areaIndex;
     }
-
 
     /**
      * Sets the areaIndex

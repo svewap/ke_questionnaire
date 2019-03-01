@@ -4,7 +4,8 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
- *  			
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,25 +37,29 @@
  *
  * @author Fabian Friedrich <friedrich@kennziffer.com>
  */
-class Tx_Ke_questionnaire_Controller_QuestionControllerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
-	/**
-	 * @var Tx_KeQuestionnaire_Domain_Model_Question
-	 */
-	protected $fixture;
+class Tx_Ke_questionnaire_Controller_QuestionControllerTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
+    /**
+     * @var Tx_KeQuestionnaire_Domain_Model_Question
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = new Tx_KeQuestionnaire_Domain_Model_Question();
-	}
+    public function setUp()
+    {
+        $this->fixture = new Tx_KeQuestionnaire_Domain_Model_Question();
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	/**
-	 * @test
-	 */
-	public function dummyMethod() {
-		$this->markTestIncomplete();
-	}
+    /**
+     * @test
+     */
+    public function dummyMethod()
+    {
+        $this->markTestIncomplete();
+    }
 
 }

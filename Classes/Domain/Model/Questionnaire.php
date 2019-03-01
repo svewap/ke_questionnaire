@@ -6,6 +6,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model;
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -32,19 +33,15 @@ use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\PageBreak;
 use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question;
 use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Text;
 use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Typo3Content;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extensionmanager\Command\ExtensionCommandController;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionnaireRepository;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
-use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
-use Kennziffer\KeQuestionnaire\Domain\Model\Result;
-use TYPO3\CMS\Extbase\Service\FlexFormService;
 use Kennziffer\KeQuestionnaire\Domain\Repository\AuthCodeRepository;
-use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
-use Kennziffer\KeQuestionnaire\Domain\Repository\ResultRepository;
+use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionnaireRepository;
 use Kennziffer\KeQuestionnaire\Domain\Repository\QuestionRepository;
+use Kennziffer\KeQuestionnaire\Domain\Repository\ResultRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Service\FlexFormService;
 
 /**
  * This Model is not connected to DB

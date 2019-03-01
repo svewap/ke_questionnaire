@@ -2,10 +2,15 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage;
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -52,14 +57,14 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
     /**
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer Answer to be rendered
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Result $result
      * @param string $as The name of the iteration variable
      * @return string filename
      */
     public function render(
         \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer,
         \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result,
+        Result $result,
         $as
     ) {
         //area image
@@ -86,7 +91,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      *
      * @param string $main main-image
      * @param array $images d&d images
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Result $result
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer Answer to be rendered
      * @return string
@@ -94,7 +99,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
     private function createExportImage(
         $main,
         array $images,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Result $result,
+        Result $result,
         \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
         \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer
     ) {
@@ -138,7 +143,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
                     $ddImage = imagecreatefrompng(PATH_site . 'uploads/tx_kequestionnaire/' . $image->getImage());
                     break;
             }
-            if ($resultAnswer->getValue() && $ddImage) {
+            if ($resultAnswer !== null && $resultAnswer->getValue() && $ddImage) {
                 $x = 0;
                 $y = 0;
                 $area_coords = [];
@@ -183,7 +188,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
     /**
      * Returns a requested question from result record
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Result $result
      * @param integer $questionUid
      * @param integer $answerUid
      * @return
@@ -221,19 +226,14 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 
         foreach ($answers as $answer) {
             //Add only after the correct Header is found, only following rows will be added.
-            if ((
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage' OR
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSequence' OR
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSimpleScale'
-                ) && $answer === $header) {
-                $addIt = true;
-            } elseif (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage' OR
-                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSequence' OR
-                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSimpleScale') {
+            if ($answer instanceof DDAreaImage) {
                 $addIt = false;
+                if ($answer === $header) {
+                    $addIt = true;
+                }
             }
             if ($addIt) {
-                if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage') {
+                if ($answer instanceof DDImage) {
                     $terms[] = $answer;
                 }
             }

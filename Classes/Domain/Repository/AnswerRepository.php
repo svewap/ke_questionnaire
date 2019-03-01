@@ -2,12 +2,14 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -48,10 +50,10 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * find all answers for question
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
      */
-    public function findByQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
+    public function findByQuestion(Question $question)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectSysLanguage(true);
@@ -68,10 +70,10 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * find all results for pid
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
      */
-    public function findByQuestionWithoutPid(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
+    public function findByQuestionWithoutPid(Question $question)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);

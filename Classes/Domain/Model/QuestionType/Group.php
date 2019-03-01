@@ -2,10 +2,13 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -33,6 +36,6 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\QuestionType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Group extends \Kennziffer\KeQuestionnaire\Domain\Model\Question
+class Group extends Question
 {
 }

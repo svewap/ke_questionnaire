@@ -2,10 +2,14 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -33,7 +37,7 @@ namespace Kennziffer\KeQuestionnaire\Domain\Model\AnswerType;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
+class DDAreaImage extends Answer
 {
     /**
      * pdfType
@@ -59,14 +63,14 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Width
      *
-     * @var integer
+     * @var int
      */
     protected $width;
 
     /**
      * Height
      *
-     * @var integer
+     * @var int
      */
     protected $height;
 
@@ -155,7 +159,7 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Returns the width
      *
-     * @return integer $width
+     * @return int $width
      */
     public function getWidth()
     {
@@ -165,7 +169,7 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Sets the width
      *
-     * @param integer $width
+     * @param int $width
      * @return void
      */
     public function setWidth($width)
@@ -176,7 +180,7 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Returns the height
      *
-     * @return integer $height
+     * @return int $height
      */
     public function getHeight()
     {
@@ -186,7 +190,7 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
     /**
      * Sets the height
      *
-     * @param integer $height
+     * @param int $height
      * @return void
      */
     public function setHeight($height)
@@ -203,12 +207,15 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
      */
     public function imagesCorrectPlaced($resultAnswers, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
     {
+        /** @var ResultAnswer $answer */
         foreach ($resultAnswers as $answer) {
             $counter = 0;
             $matched = 0;
-            if ($answer->getAnswer()->getShortType() == 'DDImage') {
+            if ($answer->getAnswer()->getShortType() === 'DDImage') {
                 $counter++;
-                if ($answer->getValue() == $answer->getAnswer()->getAreaIndex()) {
+                /** @var DDImage $ddImage */
+                $ddImage = $answer->getAnswer();
+                if ((int)$answer->getValue() === $ddImage->getAreaIndex()) {
                     $matched++;
                 }
             }
@@ -216,10 +223,12 @@ class DDAreaImage extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
                 return true;
             }
         }
+        /*
         \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([
             $counter,
             $matched
         ], 'result');
+        */
         return false;
     }
 }

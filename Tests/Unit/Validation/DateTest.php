@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2013 Kennziffer.com <info@kennziffer.com>, www.kennziffer.com
+ *  (c) 2019 WapplerSystems <typo3YYYY@wappler.systems>, www.wappler.systems
  *
  *  All rights reserved
  *
@@ -31,57 +32,55 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_KeQuestionnaire_Validation_DateTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_KeQuestionnaire_Validation_DateTest extends Tx_Extbase_Tests_Unit_BaseTestCase
+{
 
-	/**
-	 * @var Tx_KeQuestionnaire_Validation_Date
-	 */
-	protected $validator;
-
-
-
+    /**
+     * @var Tx_KeQuestionnaire_Validation_Date
+     */
+    protected $validator;
 
 
-	public function setUp() {
-		$this->validator = new Tx_KeQuestionnaire_Validation_Date();
-		$this->validator->injectObjectManager(new \TYPO3\CMS\Extbase\Object\ObjectManager());
-	}
+    public function setUp()
+    {
+        $this->validator = new Tx_KeQuestionnaire_Validation_Date();
+        $this->validator->injectObjectManager(new \TYPO3\CMS\Extbase\Object\ObjectManager());
+    }
 
-	public function tearDown() {
-		unset($this->validator);
-	}
+    public function tearDown()
+    {
+        unset($this->validator);
+    }
 
 
+    /**
+     * @test
+     */
+    public function validateDate()
+    {
+        $result = $this->validator->isValid('17.01.1979');
+        $this->assertEquals(true, $result);
 
+        $result = $this->validator->isValid('17-01-1979');
+        $this->assertEquals(true, $result);
 
+        $result = $this->validator->isValid('30-02-1979');
+        $this->assertEquals(false, $result);
 
-	/**
-	 * @test
-	 */
-	public function validateDate() {
-		$result = $this->validator->isValid('17.01.1979');
-		$this->assertEquals(true, $result);
+        $result = $this->validator->isValid('01-17-1979');
+        $this->assertEquals(false, $result);
 
-		$result = $this->validator->isValid('17-01-1979');
-		$this->assertEquals(true, $result);
+        $result = $this->validator->isValid('31/02/1979');
+        $this->assertEquals(false, $result);
 
-		$result = $this->validator->isValid('30-02-1979');
-		$this->assertEquals(false, $result);
+        $result = $this->validator->isValid('12/24/1979');
+        $this->assertEquals(true, $result);
 
-		$result = $this->validator->isValid('01-17-1979');
-		$this->assertEquals(false, $result);
+        $result = $this->validator->isValid('12.13.1979');
+        $this->assertEquals(false, $result);
 
-		$result = $this->validator->isValid('31/02/1979');
-		$this->assertEquals(false, $result);
-
-		$result = $this->validator->isValid('12/24/1979');
-		$this->assertEquals(true, $result);
-
-		$result = $this->validator->isValid('12.13.1979');
-		$this->assertEquals(false, $result);
-
-		$result = $this->validator->isValid('31.11.1979');
-		$this->assertEquals(false, $result);
-	}
+        $result = $this->validator->isValid('31.11.1979');
+        $this->assertEquals(false, $result);
+    }
 
 }
