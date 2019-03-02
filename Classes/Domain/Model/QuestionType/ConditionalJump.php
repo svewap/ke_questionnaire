@@ -42,7 +42,7 @@ class ConditionalJump extends Question
     /**
      * Dependancies
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\Dependancy>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\Dependency>
      * @lazy
      */
     protected $dependancies;

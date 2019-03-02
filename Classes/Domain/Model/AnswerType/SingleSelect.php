@@ -122,7 +122,7 @@ class SingleSelect extends \Kennziffer\KeQuestionnaire\Domain\Model\Answer
         $values = [];
         foreach (explode("\n", $this->comparisonText) as $line) {
             $temp = explode(':', $line);
-            if ($temp[1] == '') {
+            if ($temp[1] === '') {
                 $temp[1] = $temp[0];
             }
             $values[trim($temp[0])] = trim($temp[1]);

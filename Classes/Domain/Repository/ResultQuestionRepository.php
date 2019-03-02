@@ -59,7 +59,7 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
+     * @param Question $question
      * @param int $resultId
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
      */
@@ -78,8 +78,8 @@ class ResultQuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Question $question
+     * @param Result $result
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
      */
     public function findByQuestionAndResultRaw($question, $result)

@@ -18,6 +18,7 @@
 			<label index="tx_kequestionnaire_domain_model_question.type.I.Group">Group</label>
             <label index="tx_kequestionnaire_domain_model_question.type.I.ConditionalJump">Conditional Behaviour</label>
             <label index="tx_kequestionnaire_domain_model_question.type.I.PlausiCheck">Plausibility Check</label>
+			<label index="tx_kequestionnaire_domain_model_question.type.I.2">Pagebreak</label>
 			<label index="tx_kequestionnaire_domain_model_question.title">Title</label>
 			<label index="tx_kequestionnaire_domain_model_question.show_title">Show Title</label>
 			<label index="tx_kequestionnaire_domain_model_question.text">Text</label>

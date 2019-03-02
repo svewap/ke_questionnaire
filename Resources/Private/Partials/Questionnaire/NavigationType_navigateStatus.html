@@ -1,10 +1,10 @@
 {namespace ke=Kennziffer\KeQuestionnaire\ViewHelpers}
-<div class="keqNavigationTypeDisplay">
-	<ul>
+<div class="keqNavigationTypeNavigateStatus">
+	<ul class="list-group mb-3">
 	<f:for each="{questionnaire.navigationQuestions}" as="question">
 		<f:if condition="{question.page} == {questionnaire.page}">
 			<f:then>
-				<li style="font-weight: bold;">
+				<li class="list-group-item" style="font-weight: bold;">
 					<span class="quest_number">{question.numbering}</span><p>{question.title} <f:translate key="LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:navigation.onPage" /> {question.page}</p>
 					<ke:checkAnsweredQuestion question="{question}" result="{result}">
 						<f:image src="EXT:ke_questionnaire/Resources/Public/Images/check_label.png" alt="check" />
@@ -12,7 +12,7 @@
 				</li>
 			</f:then>
 			<f:else>
-				<li>
+				<li class="list-group-item">
 				    <a href="#" onclick="submitToPage({question.page});return false;"><span class="quest_number">{question.numbering}</span><p>{question.title} <f:translate key="LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:navigation.onPage" /> {question.page}</p></a>
 					<ke:checkAnsweredQuestion question="{question}" result="{result}">
 						<f:image src="EXT:ke_questionnaire/Resources/Public/Images/check_label.png" alt="check" />

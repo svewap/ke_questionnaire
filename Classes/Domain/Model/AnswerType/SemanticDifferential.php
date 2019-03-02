@@ -61,7 +61,7 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
     /**
      * stepPercentage
      *
-     * @var integer
+     * @var int
      */
     protected $stepPercentage;
 
@@ -124,22 +124,21 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
     /**
      * Returns the stepLabels as array
      *
-     * @return array $stepLabels
+     * @return array|boolean $stepLabels
      */
     public function getStepLabelsArray()
     {
         $labels = explode(',', $this->stepLabels);
-        if ($labels[0] == '') {
+        if ($labels[0] === '') {
             return false;
-        } else {
-            return $labels;
         }
+        return $labels;
     }
 
     /**
      * Returns the stepLabels as array
      *
-     * @return array $stepLabels
+     * @return array|boolean $stepLabels
      */
     public function getStepLabelsValuesArray()
     {
@@ -149,11 +148,10 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
         foreach ($steps as $nr => $value) {
             $labels[$value] = $base[$nr];
         }
-        if (count($labels) == 0) {
+        if (count($labels) === 0) {
             return false;
-        } else {
-            return $labels;
         }
+        return $labels;
     }
 
     /**
@@ -173,7 +171,7 @@ class SemanticDifferential extends \Kennziffer\KeQuestionnaire\Domain\Model\Answ
     /**
      * Returns the steps percentage
      *
-     * @return integer percentage
+     * @return int percentage
      */
     public function getStepPercentage()
     {

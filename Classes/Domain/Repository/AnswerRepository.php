@@ -2,8 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
 use Kennziffer\KeQuestionnaire\Domain\Model\Question;
-use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
 /***************************************************************
  *  Copyright notice
@@ -51,7 +51,7 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all answers for question
      *
      * @param Question $question
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
+     * @return Answer[]|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result
      */
     public function findByQuestion(Question $question)
     {
@@ -86,7 +86,7 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all results for pid
      *
      * @param integer $pid
-     * @return Query Result
+     * @return Answer Result
      */
     public function findByUidFree($uid)
     {
@@ -94,6 +94,6 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching($query->equals('uid', $uid));
         $result = $query->execute();
-        return $result[0];
+        return $result->getFirst();
     }
 }

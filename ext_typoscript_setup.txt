@@ -283,5 +283,13 @@ config.tx_extbase.persistence {
                     }
                 }
             }
+
+
+
+			Kennziffer\KeQuestionnaire\Domain\Model\Dependency {
+				mapping {
+					tableName = tx_kequestionnaire_domain_model_dependancy
+				}
+			}
 		}
 }

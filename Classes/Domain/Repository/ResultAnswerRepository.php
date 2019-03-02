@@ -152,11 +152,11 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $row
+     * @param Answer $row
      * @param string $value
      * @return integer
      */
-    public function countResultAnswersForRowAndCol(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $row, $value)
+    public function countResultAnswersForRowAndCol(Answer $row, $value)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
@@ -167,11 +167,11 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $row
+     * @param Answer $row
      * @param string $value
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function getResultAnswersForRowAndCol(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $row, $value)
+    public function getResultAnswersForRowAndCol(Answer $row, $value)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
@@ -182,11 +182,11 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $row
+     * @param Answer $row
      * @param string $value
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function getResultAnswersForRowAndColRaw(\Kennziffer\KeQuestionnaire\Domain\Model\Answer $row, $value)
+    public function getResultAnswersForRowAndColRaw(Answer $row, $value)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
@@ -197,7 +197,7 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      * get related result answers to answer
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer
+     * @param Answer $answer
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function getResultAnswersForAnswer(Answer $answer)

@@ -222,7 +222,7 @@ class ClozeText extends Answer
         }
 
         foreach ($results as $result) {
-            $resultQuestion = $rep->findByQuestionAndResultId($question->getUid(), $result['uid']);
+            $resultQuestion = $rep->findByQuestionAndResultId($question, $result['uid']);
             $resultQuestion = $resultQuestion[0];
             if ($resultQuestion) {
                 $aL[] = $this->getUserText($resultQuestion->getAnswers(), $question, false);

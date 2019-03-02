@@ -1,15 +1,15 @@
-<div class="keqNavigationTypeDisplay">
-	<ul>
+<div class="keqNavigationTypePages">
+	<ul class="list-group mb-3">
 	<f:for each="{questionnaire.navigationPages}" as="page">
 		<f:if condition="{page} == {questionnaire.page}">
 			<f:then>
-				<li style="font-weight: bold;">
-					<f:translate key="LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:navigation.page" /> {page}
+				<li class="list-group-item" style="font-weight: bold;">
+					<f:translate key="navigation.page" /> {page}
 				</li>
 			</f:then>
 			<f:else>
-				<li>
-					<a href="#" onclick="submitToPage({page});return false;"><f:translate key="LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:navigation.page" /> {page}</a>
+				<li class="list-group-item">
+					<a href="#" onclick="submitToPage({page});return false;"><f:translate key="navigation.page" /> {page}</a>
 				</li>
 			</f:else>
 		</f:if>

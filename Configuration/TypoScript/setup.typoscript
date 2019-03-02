@@ -3,19 +3,31 @@ page.includeCSS {
 	ke-questionnaire = EXT:ke_questionnaire/Resources/Public/Css/KeQuestionnaire.css
 }
 
-page.includeJS {
-	jQuery = EXT:ke_questionnaire/Resources/Public/Script/jquery-1.11.3.min.js
-	jQueryUi = EXT:ke_questionnaire/Resources/Public/Script/jquery-ui-1.11.4.min.js
-	jQueryTools = EXT:ke_questionnaire/Resources/Public/Script/jquery.tools.custom.min.js
+
+page.includeJSFooter {
+	#jQueryTools = EXT:ke_questionnaire/Resources/Public/Script/jquery.tools.custom.min.js
 	questionnaire = EXT:ke_questionnaire/Resources/Public/Script/Questionnaire.js
 	#flotr2 = EXT:ke_questionnaire/Resources/Public/Script/Flotr2.min.js
 }
 
 plugin.tx_kequestionnaire {
+
 	view {
-		templateRootPaths.10 = {$plugin.tx_kequestionnaire.view.templateRootPath}
-		partialRootPaths.10 = {$plugin.tx_kequestionnaire.view.partialRootPath}
-		layoutRootPaths.10 = {$plugin.tx_kequestionnaire.view.layoutRootPath}
+
+		templateRootPaths {
+			0 = EXT:ke_questionnaire/Resources/Private/Templates/
+			1 = {$plugin.tx_kequestionnaire.view.templateRootPath}
+		}
+
+		partialRootPaths {
+			0 = EXT:ke_questionnaire/Resources/Private/Partials/
+			1 = {$plugin.tx_kequestionnaire.view.partialRootPath}
+		}
+
+		layoutRootPaths {
+			0 = EXT:ke_questionnaire/Resources/Private/Layouts/
+			1 = {$plugin.tx_kequestionnaire.view.layoutRootPath}
+		}
 	}
 	persistence {
 		storagePid = {$plugin.tx_kequestionnaire.persistence.storagePid}

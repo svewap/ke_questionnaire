@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Domain\Repository;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\AuthCode;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -41,7 +43,7 @@ class AuthCodeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find authcodes for a pid
      *
      * @param integer $pid
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return AuthCode[]|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findAllForPid($pid)
     {

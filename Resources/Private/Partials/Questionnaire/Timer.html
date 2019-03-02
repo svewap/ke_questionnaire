@@ -10,8 +10,10 @@
     </div>
 
 </div>
-<script type="application/javascript">
-    var started = {started} ;
+
+<ke:pageRenderer.addJsFooterInlineCode name="timer" >
+
+    var started = <f:format.raw value="{started}" />;
     var maxSeconds = {maxSeconds} ;
     var totalTime = getLeftTime (parseInt( {maxSeconds})) ;
     console.log(" totalTime = " + totalTime ) ;
@@ -31,7 +33,7 @@
         var maxVal = parseInt(jQuery(baseID ).attr("aria-valuemax")) - minVal ;
 
         var nowVal = parseInt(jQuery(baseID ).attr("aria-valuenow")) + 1 ;
-        jQuery(baseID ).attr("aria-valuenow", nowVal);
+        jQuery(baseID ).attr('aria-valuenow', nowVal);
         nowVal = nowVal - minVal ;
         var proz = parseInt( nowVal / maxVal * 100 ) ;
 
@@ -84,6 +86,4 @@
         return t ;
     }
 
-
-
-</script>
+</ke:pageRenderer.addJsFooterInlineCode>

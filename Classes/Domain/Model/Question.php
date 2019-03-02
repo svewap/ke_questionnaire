@@ -132,7 +132,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Dependancies
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\Dependancy>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\Dependency>
      * @lazy
      * @cascade remove
      */
@@ -516,10 +516,10 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Adds a Dependancy
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Dependancy $dependancy
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Dependency $dependancy
      * @return void
      */
-    public function addDependancy(\Kennziffer\KeQuestionnaire\Domain\Model\Dependancy $dependancy)
+    public function addDependancy(\Kennziffer\KeQuestionnaire\Domain\Model\Dependency $dependancy)
     {
         $this->dependancies->attach($dependancy);
     }
@@ -527,10 +527,10 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Removes a Dependancy
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Dependancy $dependancyToRemove The Dependancy to be removed
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Dependency $dependancyToRemove The Dependancy to be removed
      * @return void
      */
-    public function removeDependancy(\Kennziffer\KeQuestionnaire\Domain\Model\Dependancy $dependancyToRemove)
+    public function removeDependancy(\Kennziffer\KeQuestionnaire\Domain\Model\Dependency $dependancyToRemove)
     {
         $this->dependancies->detach($dependancyToRemove);
     }
