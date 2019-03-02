@@ -16,7 +16,7 @@ class ImageAreaSelectWizard
     function init()
     {
         // Setting GET vars (used in frameset script):
-        $this->P = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('P', 1);
+        $this->P = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('P');
 
         // Setting GET vars (used in colorpicker script):
         $this->currentValue = $this->P['currentValue'];

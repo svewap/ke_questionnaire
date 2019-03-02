@@ -3,6 +3,7 @@
 namespace Kennziffer\KeQuestionnaire\Utility;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -77,9 +78,9 @@ Allow from 127.0.0.1
 	Allow from all
 </FilesMatch>';
         $htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/.htaccess';
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
+        GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
         $htaccessFileAndPath = PATH_site . 'typo3temp/ke_questionnaire/pdf/.htaccess';
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
+        GeneralUtility::writeFileToTypo3tempDir($htaccessFileAndPath, $htaccess);
     }
 }
 

@@ -495,7 +495,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the answers
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $answers
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage|Answer[] $answers
      */
     public function getAnswers()
     {

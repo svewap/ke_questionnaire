@@ -34,7 +34,7 @@ namespace Kennziffer\KeQuestionnaire\Evaluation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class AbstractChart implements \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface
+class AbstractChart implements RenderChartInterface
 {
 
     /**
@@ -89,14 +89,14 @@ class AbstractChart implements \Kennziffer\KeQuestionnaire\Evaluation\RenderChar
      *
      * @var string
      */
-    protected $renderChart = \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED;
+    protected $renderChart = RenderChartInterface::FINISHED;
 
     /**
      * chartType
      *
      * @var string
      */
-    protected $chartType = \Kennziffer\KeQuestionnaire\Evaluation\RChartTypeInterface::PIE;
+    protected $chartType = RChartTypeInterface::PIE;
 
     /**
      * settings

@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Controller;
 
+use Kennziffer\KeQuestionnaire\Evaluation\GoogleChart;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -53,7 +55,7 @@ class EvaluationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         $class = $this->settings['chart']['class'];
         $this->chartClass = $this->objectManager->get($class);
         if (!$this->chartClass instanceof \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart) {
-            $this->chartClass = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Evaluation\\GoogleChart');
+            $this->chartClass = $this->objectManager->get(GoogleChart::class);
         }
         $this->chartClass->setSettings($this->settings);
 

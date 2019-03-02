@@ -157,7 +157,6 @@ class ImageAreaSelectController extends \TYPO3\CMS\Backend\Controller\Wizard\Abs
      */
     public function mainAction(ServerRequestInterface $request, ResponseInterface $response)
     {
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->wizardParameters, 'c');	
         $this->main($request);
         $response->getBody()->write($this->content);
         return $response;

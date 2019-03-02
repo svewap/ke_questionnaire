@@ -4,6 +4,8 @@ namespace Kennziffer\KeQuestionnaire\Utility;
 
 use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
 use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
 
 /***************************************************************
  *  Copyright notice
@@ -249,7 +251,7 @@ class CsvExport
 
     /**
      * Getter Separator
-     * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+     * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult|Result[]
      */
     public function getResults()
     {
@@ -402,17 +404,17 @@ class CsvExport
      */
     public function createAuthCodes($authCodes)
     {
-        $this->csv = '';
+        $csv = '';
 
         foreach ($authCodes as $code) {
-            $this->csv .= $code->getAuthCode();
-            $this->csv .= $this->newline;
+            $csv .= $code->getAuthCode();
+            $csv .= $this->newline;
         }
 
         //SignalSlot for Action
         $this->signalSlotDispatcher->dispatch(__CLASS__, 'createAuthCodes', [$this, $authCodes]);
 
-        return $this->csv;
+        return $csv;
     }
 
     /**
@@ -489,7 +491,7 @@ class CsvExport
         $aL2[] = 'Answer Title';
         $questions = $this->getQuestions($plugin);
         foreach ($questions as $question) {
-            if ($question->getShortType() == 'Question') {
+            if ($question->getShortType() === 'Question') {
                 $this->RBStruct[$question->getUid()] = [];
                 //$qL[] = $question->getUid();
                 //$qL2[] = $this->text.$question->getTitle().$this->text;
@@ -559,11 +561,11 @@ class CsvExport
     /**
      * create the header infos
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array $qL
-     * @return string
+     * @return string[]
      */
-    protected function createQuestionPointsLine(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $qL)
+    protected function createQuestionPointsLine(Question $question, $qL)
     {
         $qL[] = 'Points';
         if ($this->getShowQText()) {
@@ -578,9 +580,11 @@ class CsvExport
             $qL[] = '';
         }
 
+        /** @var Result $result */
         foreach ($this->results as $result) {
+            /** @var ResultQuestion $rquestion */
             foreach ($result->getQuestions() as $rquestion) {
-                if ($rquestion->getQuestion()->getUid() == $question->getUid()) {
+                if ($rquestion->getQuestion()->getUid() === $question->getUid()) {
                     $qL[] = $rquestion->getPoints();
                 }
             }
@@ -593,7 +597,7 @@ class CsvExport
      * @param array $plugin
      * @return string
      */
-    protected function createQBLines($plugin)
+    protected function createQBLines($plugin): string
     {
         $lines = '';
         $questions = $this->getQuestions($plugin);
@@ -697,16 +701,14 @@ class CsvExport
      * get the Questions for the questionnaire
      *
      * @param array $plugin
-     * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+     * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult|Question[]
      */
     protected function getQuestions($plugin)
     {
         $pids = explode(',', $plugin['pages']);
         $storagePid = $pids[0];
 
-        $questions = $this->questionRepository->findAllForPid($storagePid);
-
-        return $questions;
+        return $this->questionRepository->findAllForPid($storagePid);
     }
 
     /**
@@ -714,6 +716,7 @@ class CsvExport
      *
      * @param array $plugin
      * @param string $csvString
+     * @return string
      */
     public function finishIntervalExport($plugin, $csvString)
     {
@@ -734,6 +737,7 @@ class CsvExport
      *
      * @param array $plugin
      * @param string $csvString
+     * @return string
      */
     public function finishRbIntervalExport($plugin, $csvString)
     {
@@ -748,6 +752,7 @@ class CsvExport
      * start the interval Export
      *
      * @param array $oldContent
+     * @return string
      */
     public function processQbIntervalExport($plugin, $oldContent)
     {
@@ -759,9 +764,9 @@ class CsvExport
         $questions = $this->getQuestions($plugin);
         $counter = 0;
 
+        /** @var Question $question */
         foreach ($questions as $question) {
             if ($question->getShortType() === 'Question') {
-                /** @var Answer $answer */
                 foreach ($question->getAnswers() as $answer) {
                     if ($answer->exportInCsv()) {
                         $options = [];
@@ -824,17 +829,18 @@ class CsvExport
      * start the interval Export
      *
      * @param array $oldContent
+     * @return string
      */
     public function processRbIntervalExport($plugin, $oldContent)
     {
         $header = $this->createRBHeader($plugin);
-        $lines = $oldContent . $this->createRBLines($plugin);
-        return $lines;
+        return $oldContent . $this->createRBLines($plugin);
     }
 
     /**
      * process the old CSV Content
      * @param string $d
+     * @return array
      */
     protected function parseCsv($data)
     {
@@ -843,6 +849,10 @@ class CsvExport
         return $return_rows;
     }
 
+    /**
+     * @param string $s
+     * @return string
+     */
     protected function dos2unix($s)
     {
         $s = str_replace("\r\n", "\n", $s);
