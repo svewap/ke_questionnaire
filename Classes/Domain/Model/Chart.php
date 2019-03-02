@@ -61,7 +61,7 @@ class Chart extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Data
      *
-     * @var Array
+     * @var array
      */
     protected $data;
 
@@ -131,9 +131,10 @@ class Chart extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the data
      *
+     * @param string $varName
      * @param string $outerWrap
      * @param string $innerWrap
-     * @return string $data
+     * @return array $data
      */
     public function getData($varName = 'chartData', $outerWrap = '[|]', $innerWrap = '[|]')
     {

@@ -307,7 +307,7 @@ class MatrixHeader extends Answer
                 foreach ($this->getCols() as $column) {
                     $aL = [];
                     foreach ($results as $result) {
-                        if ($column->getShortType() === 'Radiobutton' && !$options['extended']) {
+                        if (!$options['extended'] && $column->getShortType() === 'Radiobutton') {
                             $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), 0);
                         } else {
                             $rAnswer = $result->getAnswer($question->getUid(), $row->getUid(), $column->getUid());

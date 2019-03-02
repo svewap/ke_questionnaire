@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Object;
 
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -108,10 +110,14 @@ class DataMapper
      * @param string $className The name of the class
      * @param array $rows An array of arrays with field_name => value pairs
      * @return array An array of objects of the given class
+     * @throws \Kennziffer\KeQuestionnaire\Exception
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\InvalidTypeHintException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\InvalidValidationConfigurationException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\NoSuchValidatorException
      */
     public function map($className, array $rows)
     {
-        $objectStorage = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+        $objectStorage = $this->objectManager->get(ObjectStorage::class);
         foreach ($rows as $row) {
             /* @var $objectStorage \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
             $objectStorage->attach($this->mapSingleRow($className, $row));
@@ -125,6 +131,10 @@ class DataMapper
      * @param string $className The name of the target class
      * @param array $row A single array with field_name => value pairs
      * @return object An object of the given class
+     * @throws \Kennziffer\KeQuestionnaire\Exception
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\InvalidTypeHintException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\InvalidValidationConfigurationException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\NoSuchValidatorException
      */
     public function mapSingleRow($className, array $row)
     {
@@ -150,6 +160,10 @@ class DataMapper
      * @param $object The object to set properties on
      * @param array $row
      * @return object
+     * @throws \Kennziffer\KeQuestionnaire\Exception
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\InvalidTypeHintException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\InvalidValidationConfigurationException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception\NoSuchValidatorException
      */
     public function mapProperties($object, array $row)
     {

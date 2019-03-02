@@ -2,6 +2,10 @@
 
 namespace Kennziffer\KeQuestionnaire\View;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Mvc\Web\Request;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -76,9 +80,9 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView
         if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('extbase')) {
             return 'In the current version you still need to have Extbase installed in order to use the Fluid Standalone view!';
         }
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
 
-        $configurationManager = $this->objectManager->get('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
+        $configurationManager = $this->objectManager->get(ConfigurationManagerInterface::class);
         if ($contentObject === null) {
             $contentObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
         }
@@ -123,7 +127,7 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView
      * @return string $format
      * @api
      */
-    public function getFormat()
+    public function getFormat(): string
     {
         return $this->getRequest()->getFormat();
     }
@@ -131,9 +135,9 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView
     /**
      * Returns the current request object
      *
-     * @return Tx_Extbase_MVC_Web_Request
+     * @return Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->controllerContext->getRequest();
     }
@@ -192,7 +196,7 @@ class Chart extends \TYPO3\CMS\Fluid\View\AbstractTemplateView
      * @return string Fluid layout root path
      * @api
      */
-    public function getLayoutRootPath()
+    public function getLayoutRootPath(): string
     {
         if ($this->layoutRootPath === null && $this->templatePathAndFilename === null) {
             throw new \TYPO3\CMS\Fluid\View\Exception\InvalidTemplateResourceException('No layout root path has been specified. Use setLayoutRootPath().',

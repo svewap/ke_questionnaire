@@ -39,8 +39,10 @@ class ArrayValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVal
 
     /**
      * validate
+     * @param $array
+     * @return bool
      */
-    public function isValid($array)
+    public function isValid($array) : bool
     {
         if (!is_array($array)) {
             $this->addError('The given Object is not an Array.', 1262341470);

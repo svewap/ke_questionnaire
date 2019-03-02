@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -125,7 +127,7 @@ class CoaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         }
 
         /* @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObject */
-        $contentObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
+        $contentObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         $contentObject->start($data);
 

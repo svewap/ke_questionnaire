@@ -74,10 +74,13 @@ class AnalyseController extends BackendController
     /**
      * action analyse questions
      *
-     * @param integer $storage
-     * @param array $plugin
-     * @ignorevalidaton $plugin
+     * @param bool $storage
+     * @param bool $plugin
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
+     * @ignorevalidaton $plugin
      */
     public function questionsAction($storage = false, $plugin = false)
     {
@@ -120,8 +123,9 @@ class AnalyseController extends BackendController
     /**
      * Shows the general anlysis: participation amount and date linechart
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @ignorevalidaton $plugin
      */
     public function generalAction($storage = false, $plugin = false)

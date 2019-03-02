@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Utility;
 
+use TYPO3\CMS\Core\Mail\MailMessage;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -200,12 +202,13 @@ class Mail
      * send mail
      *
      * @return integer amount of valid receivers
+     * @throws \Kennziffer\KeQuestionnaire\Exception
      */
     public function sendMail()
     {
         if ($this->validateMessage()) {
             $number = $this->message->send();
-            $this->message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
+            $this->message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MailMessage::class);
             return $number;
         } else {
             return 0;

@@ -10,8 +10,8 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -96,6 +96,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      * @param Result $newResult A fresh new result object
      * @param int $requestedPage after checking the questions of currentPage redirect to this page
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @ignorevalidaton $newResult
@@ -327,6 +328,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      *
      * @param Result $result
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function showAction(Result $result = null)
     {
@@ -410,6 +412,8 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      *
      * @param Result $newResult
      * @return Result The modified result object
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
@@ -431,6 +435,8 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      * @param Result $formResult This is the result from the form. NOT DB!
      * @return Result The added result object
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function addResult(Result $formResult)
     {
@@ -454,6 +460,8 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      * @return Result The updated result object
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function updateResult(Result $formResult)
     {
@@ -522,6 +530,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      * checks the logged in user
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function checkFeUser()
     {
@@ -613,6 +622,7 @@ class ResultController extends \Kennziffer\KeQuestionnaire\Controller\AbstractCo
      * checks the max participations allowed
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function checkMaxParticipations()
     {

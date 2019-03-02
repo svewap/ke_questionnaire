@@ -401,6 +401,8 @@ class CsvExport
      *
      * @param array $authCodes
      * @return string
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function createAuthCodes($authCodes)
     {
@@ -751,6 +753,7 @@ class CsvExport
     /**
      * start the interval Export
      *
+     * @param $plugin
      * @param array $oldContent
      * @return string
      */
@@ -828,6 +831,7 @@ class CsvExport
     /**
      * start the interval Export
      *
+     * @param $plugin
      * @param array $oldContent
      * @return string
      */
@@ -839,10 +843,10 @@ class CsvExport
 
     /**
      * process the old CSV Content
-     * @param string $d
+     * @param string $data
      * @return array
      */
-    protected function parseCsv($data)
+    protected function parseCsv($data): array
     {
         $convert = $this->dos2unix($data);
         $return_rows = $this->csvstring_to_array($convert, $this->getSeparator(), $this->getText(), $this->newline);

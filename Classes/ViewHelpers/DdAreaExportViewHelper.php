@@ -4,7 +4,9 @@ namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
 use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage;
 use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question;
 use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
 
 /***************************************************************
  *  Copyright notice
@@ -55,15 +57,15 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 
 
     /**
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer Answer to be rendered
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
+     * @param DDAreaImage $answer Answer to be rendered
+     * @param Question $question the images are in
      * @param Result $result
      * @param string $as The name of the iteration variable
      * @return string filename
      */
     public function render(
-        \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer,
-        \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
+        DDAreaImage $answer,
+        Question $question,
         Result $result,
         $as
     ) {
@@ -92,26 +94,22 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * @param string $main main-image
      * @param array $images d&d images
      * @param Result $result
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer Answer to be rendered
+     * @param Question $question the images are in
+     * @param DDAreaImage $answer Answer to be rendered
      * @return string
      */
     private function createExportImage(
         $main,
         array $images,
         Result $result,
-        \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
-        \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage $answer
+        Question $question,
+        DDAreaImage $answer
     ) {
-        $width = 0;
-        $height = 0;
         $filename = 'test.png';
         $main_infos = [];
 
         //get image size of main image
         $size = getimagesize(PATH_site . 'uploads/tx_kequestionnaire/' . $main, $main_infos);
-        $width = $size[0];
-        $height = $size[1];
         $mainImage = null;
         switch ($size[2]) {
             case 1: //IMAGETYPE_GIF
@@ -167,7 +165,7 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
                 $areas[$area_coords['base_key']]['amount']++;
                 $areas[$area_coords['base_key']]['left'] = $x;
                 $areas[$area_coords['base_key']]['top'] = $y;
-                if ($image->getWidth() or $image->getHeight()) {
+                if ($image->getWidth() || $image->getHeight()) {
                     $newWidth = $image->getWidth();
                     $newHeight = $image->getHeight();
                     imagecopyresized($mainImage, $ddImage, $x, $y, 0, 0, $newWidth, $newHeight, $info[0], $info[1]);
@@ -189,19 +187,19 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * Returns a requested question from result record
      *
      * @param Result $result
-     * @param integer $questionUid
-     * @param integer $answerUid
-     * @return
+     * @param int $questionUid
+     * @param int $answerUid
+     * @return null|ResultAnswer
      */
     public function getResultAnswer($result, $questionUid, $answerUid)
     {
         $resultQuestions = $result->getQuestions();
         /* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
         foreach ($resultQuestions as $resultQuestion) {
-            if ($resultQuestion->getQuestion() && $questionUid == $resultQuestion->getQuestion()->getUid()) {
+            if ($resultQuestion->getQuestion() && $questionUid === $resultQuestion->getQuestion()->getUid()) {
                 /* @var $resultAnswer \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer */
                 foreach ($resultQuestion->getAnswers()->toArray() as $resultAnswer) {
-                    if ($resultAnswer->getAnswer() && $answerUid == $resultAnswer->getAnswer()->getUid()) {
+                    if ($resultAnswer->getAnswer() && $answerUid === $resultAnswer->getAnswer()->getUid()) {
                         return $resultAnswer;
                     }
                 }
@@ -213,7 +211,8 @@ class DdAreaExportViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
     /**
      * Gets the Images
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
+     * @param Question $question the terms are in
+     * @param $header
      * @return array
      */
     public function getImages($question, $header)

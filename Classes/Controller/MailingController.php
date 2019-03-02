@@ -34,7 +34,7 @@ namespace Kennziffer\KeQuestionnaire\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class MailingController extends \Kennziffer\KeQuestionnaire\Controller\AbstractController
+class MailingController extends AbstractController
 {
 
     /**
@@ -60,7 +60,7 @@ class MailingController extends \Kennziffer\KeQuestionnaire\Controller\AbstractC
     /**
      * action mail
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $newResult A fresh new result object
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result A fresh new result object
      * @return void
      */
     public function mailAction(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result)

@@ -8,6 +8,7 @@ use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /***************************************************************
  *  Copyright notice
@@ -138,7 +139,7 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
          * It will be rewritten on each save in the extension builder
          * You may modify the constructor of this class instead
          */
-        $this->questions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->questions = new ObjectStorage();
     }
 
     /**
@@ -207,10 +208,10 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Adds a ResultQuestion
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $rquestion
+     * @param ResultQuestion $rquestion
      * @return void
      */
-    public function addOrUpdateQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $rquestion)
+    public function addOrUpdateQuestion(ResultQuestion $rquestion)
     {
         //check if a resultQuestion with this Question is already here
         //if no question is given
@@ -226,10 +227,10 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Checks the Question if it contains MatrixRows and checks their values
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $question
-     * @return \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion return the question
+     * @param ResultQuestion $question
+     * @return ResultQuestion return the question
      */
-    public function checkMatrixType(\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $question)
+    public function checkMatrixType(ResultQuestion $question)
     {
         $answers = $question->getAnswers();
         $newAnswers = GeneralUtility::makeInstance(ObjectStorage::class);
@@ -340,19 +341,19 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer
+     * @param Answer $answer
      *
-     * @return \Kennziffer\KeQuestionnaire\Domain\Model\Answer $newAnswer
+     * @return ResultAnswer $newAnswer
      */
     private function duplicateAnswer($answer)
     {
-        $availableProperties = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettablePropertyNames($answer);
-        $newAnswer = new \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer();
+        $availableProperties = ObjectAccess::getGettablePropertyNames($answer);
+        $newAnswer = new ResultAnswer();
         foreach ($availableProperties as $propertyName) {
-            if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newAnswer,
+            if (ObjectAccess::isPropertySettable($newAnswer,
                     $propertyName) && !in_array($propertyName, ['uid', 'pid', 'resultquestion'])) {
-                $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($answer, $propertyName);
-                \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newAnswer, $propertyName, $propertyValue);
+                $propertyValue = ObjectAccess::getProperty($answer, $propertyName);
+                ObjectAccess::setProperty($newAnswer, $propertyName, $propertyValue);
             }
         }
 
@@ -362,10 +363,10 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Adds a ResultQuestion
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $resultQuestion
+     * @param ResultQuestion $resultQuestion
      * @return void
      */
-    public function addQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $resultQuestion)
+    public function addQuestion(ResultQuestion $resultQuestion)
     {
         $this->questions->attach($resultQuestion);
     }
@@ -373,10 +374,10 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Removes a ResultQuestion
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $questionToRemove The ResultQuestion to be removed
+     * @param ResultQuestion $questionToRemove The ResultQuestion to be removed
      * @return void
      */
-    public function removeQuestion(\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $questionToRemove)
+    public function removeQuestion(ResultQuestion $questionToRemove)
     {
         $this->questions->detach($questionToRemove);
     }
@@ -412,7 +413,7 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Try to find a resultQuestion with help of the question UID
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion $question The question UID. NOT the UID of the resultQuestion
+     * @param ResultQuestion $question The question UID. NOT the UID of the resultQuestion
      * @return bool|ResultQuestion
      */
     public function questionKnown($question)
@@ -439,7 +440,7 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $questionUid The question UID. NOT the UID of the resultQuestion
      * @param int $answerUid The answer UID. NOT the UID of the resultAnswer
      * @param int $columnUid The answer UID of the row. NOT the UID of the resultAnswer
-     * @return \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer
+     * @return ResultAnswer
      */
     public function getAnswer($questionUid, $answerUid, $columnUid = 0)
     {
@@ -473,7 +474,7 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $questionUid The question UID. NOT the UID of the resultQuestion
      * @param int $answerUid The answer UID. NOT the UID of the resultAnswer
      * @param int $columnUid The answer UID of the row. NOT the UID of the resultAnswer
-     * @return \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer
+     * @return ResultAnswer
      */
     public function getRadioAnswer($questionUid, $answerUid, $columnUid)
     {
@@ -499,7 +500,7 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Try to find a resultAnswer with help of the answer UID
      *
      * @param int $answerUid The resultAnswer UID
-     * @return \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer
+     * @return ResultAnswer
      */
     public function getResultAnswer($answerUid)
     {
@@ -624,9 +625,10 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Returns the calculated Average
      *
      * @params boolean $calculateAll
-     * @return int $average
+     * @param bool $all
+     * @return float $average
      */
-    public function getAverage($all = false)
+    public function getAverage($all = false): float
     {
         $qCount = 0;
         foreach ($this->getQuestions() as $rQuestion) {
@@ -659,13 +661,13 @@ class Result extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $group = null;
         $groupPoints = 0;
         $maxGroupPoints = 0;
-        /* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
+        /* @var $resultQuestion ResultQuestion */
         //count for all questions in result
         foreach ($this->getQuestions() as $resultQuestion) {
             if ($resultQuestion->getQuestion()) {
                 // check for point calculation
                 $pointsForQuestion = 0;
-                /* @var $resultAnswer \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer */
+                /* @var $resultAnswer ResultAnswer */
                 if (count($resultQuestion->getAnswers()) > 0) {
                     //calculate for each answer
                     foreach ($resultQuestion->getAnswers() as $resultAnswer) {

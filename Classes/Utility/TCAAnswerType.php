@@ -2,6 +2,14 @@
 
 namespace Kennziffer\KeQuestionnaire\Utility;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Checkbox;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Radiobutton;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleSelect;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -68,8 +76,8 @@ class TCAAnswerType
         //if more than one answer is found => more depth than question->answer
         //get the base element
         if (count($uids) > 1) {
-            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-            $rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
+            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+            $rep = $this->objectManager->get(AnswerRepository::class);
             //baseElement for is the last element before the newly added
             $baseElement = $rep->findByUid($uids[count($uids) - 2]);
         }
@@ -83,19 +91,19 @@ class TCAAnswerType
                 // - SingleSelect
                 case 'MatrixHeader':
                     $params['items'] = [
-                        [1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Radiobutton',
+                        [1 => Radiobutton::class,
                             0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.Radiobutton',
                                 'ke_questionnaire')
                         ],
-                        [1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\Checkbox',
+                        [1 => Checkbox::class,
                             0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.Checkbox',
                                 'ke_questionnaire')
                         ],
-                        [1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleInput',
+                        [1 => SingleInput::class,
                             0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.SingleInput',
                                 'ke_questionnaire')
                         ],
-                        [1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\SingleSelect',
+                        [1 => SingleSelect::class,
                             0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.SingleSelect',
                                 'ke_questionnaire')
                         ]
@@ -105,12 +113,12 @@ class TCAAnswerType
                 // - MatrixHeader
                 case 'ExtendedMatrixHeader':
                     $params['items'] = [
-                        [1 => 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader',
+                        [1 => MatrixHeader::class,
                             0 => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang_db.xml:tx_kequestionnaire_domain_model_answer.type.MatrixHeader',
                                 'ke_questionnaire')
                         ],
                     ];
-                    $params['default'] = 'Kennziffer\\KeQuestionnaire\\Domain\\Model\\AnswerType\\MatrixHeader';
+                    $params['default'] = MatrixHeader::class;
                     break;
             };
 

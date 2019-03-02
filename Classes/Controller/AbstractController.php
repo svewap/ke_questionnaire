@@ -183,7 +183,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     /**
      * inject localization
      *
-     * @param \Kennziffer\KeQuestionnaire\Utility\Localization $extConf
+     * @param \Kennziffer\KeQuestionnaire\Utility\Localization $localization
      */
     public function injectLocalization(\Kennziffer\KeQuestionnaire\Utility\Localization $localization)
     {
@@ -270,7 +270,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      *
      * @return string
      */
-    protected function getErrorFlashMessage()
+    protected function getErrorFlashMessage() : string
     {
         $defaultFlashMessage = parent::getErrorFlashMessage();
         $locallangKey = sprintf('error.%s.%s', $this->request->getControllerName(), $this->actionMethodName);

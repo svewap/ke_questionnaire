@@ -2,6 +2,12 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -82,6 +88,7 @@ class DdImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      * Gets the Images
      *
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
+     * @param $header
      * @return array
      */
     public function getImages($question, $header)
@@ -90,26 +97,22 @@ class DdImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 
         // workaround for pointer in question, so all following answer-objects are rendered.
         $addIt = false;
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var AnswerRepository $rep */
+        $rep = $this->objectManager->get(AnswerRepository::class);
         $answers = $rep->findByQuestion($question);
         //$answers = $question->getAnswers();
 
         foreach ($answers as $answer) {
             //Add only after the correct Matrix-Header is found, only following rows will be added.
-            if ((
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage' OR
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSequence' OR
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSimpleScale'
-                ) && $answer === $header) {
-                $addIt = true;
-            } elseif (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaImage' OR
-                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSequence' OR
-                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDAreaSimpleScale') {
+            if ($answer instanceof DDAreaImage) {
                 $addIt = false;
+                if ($answer === $header) {
+                    $addIt = true;
+                }
             }
             if ($addIt) {
-                if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\DDImage') {
+                if ($answer instanceof DDImage) {
                     $terms[] = $answer;
                 }
             }

@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Controller;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -94,8 +96,9 @@ class ExportController extends BackendController
      * CSV Action
      * display for csv export
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @ignorevalidaton $plugin
      */
     public function csvAction($storage = false, $plugin = false)
@@ -126,6 +129,9 @@ class ExportController extends BackendController
      * CSV Interval Action
      * @param int $pluginUid
      * @param int $interval
+     * @return false|string
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function csvIntervalAction($pluginUid, $interval)
     {
@@ -238,7 +244,7 @@ class ExportController extends BackendController
 
     /**
      * CSV Download Interval Action
-     * @param string $filename
+     * @param string $fileName
      */
     public function downloadCsvIntervalAction($fileName)
     {
@@ -267,6 +273,7 @@ class ExportController extends BackendController
      * CSV Check Interval Action
      * @param int $pluginUid
      * @param int $interval
+     * @return false|string
      */
     public function csvCheckIntervalAction($pluginUid, $interval)
     {
@@ -282,8 +289,9 @@ class ExportController extends BackendController
      * CSV Result Based Action
      * display for csv export
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @ignorevalidaton $plugin
      */
     public function csvRbAction($storage = false, $plugin = false)
@@ -314,6 +322,9 @@ class ExportController extends BackendController
      * CSV Interval Action
      * @param int $pluginUid
      * @param int $interval
+     * @return false|string
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function csvRbIntervalAction($pluginUid, $interval)
     {
@@ -424,8 +435,9 @@ class ExportController extends BackendController
     /**
      * PDF Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @ignorevalidaton $plugin
      */
     public function pdfAction($storage = false, $plugin = false)
@@ -445,8 +457,10 @@ class ExportController extends BackendController
     /**
      * Download CSV Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @ignorevalidaton $plugin
      */
     public function downloadCsvAction($storage = false, $plugin = false)
@@ -490,8 +504,10 @@ class ExportController extends BackendController
     /**
      * Download CSV Result Based Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @ignorevalidaton $plugin
      */
     public function downloadCsvRbAction($storage = false, $plugin = false)
@@ -534,8 +550,10 @@ class ExportController extends BackendController
     /**
      * Download CSV Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @ignorevalidaton $plugin
      */
     public function downloadAuthCodesCsvAction($storage = false, $plugin = false)
@@ -641,8 +659,10 @@ class ExportController extends BackendController
     /**
      * Download PDF Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @ignorevalidaton $plugin
      */
     public function downloadPdfAction($storage = false, $plugin = false)
@@ -685,6 +705,7 @@ class ExportController extends BackendController
      *
      * @param integer $resultId
      * @param boolean $compared
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     public function createPdf($resultId = null, $compared = false)
     {
@@ -705,7 +726,7 @@ class ExportController extends BackendController
         if ($resultId) {
             $result = $this->resultRepository->findByUid($resultId);
         } else {
-            $result = $this->objectManager->get('Kennziffer\KeQuestionnaire\Domain\Model\Result');
+            $result = $this->objectManager->get(Result::class);
         }
         $this->view->assign('result', $result);
 

@@ -52,6 +52,7 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find all finished results
      *
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface All finished results
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findFinishedResults()
     {
@@ -337,6 +338,7 @@ class ResultRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      *
      * @param integer $resultId
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function collectRAnswersForCSVRBExport($resultId)
     {

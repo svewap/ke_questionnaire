@@ -28,8 +28,11 @@ namespace Kennziffer\KeQuestionnaire\Utility;
  ***************************************************************/
 
 use Kennziffer\KeQuestionnaire\Domain\Model\Answer;
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultAnswerRepository;
 use Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -111,11 +114,12 @@ class Analysis
      *
      * @param array $results
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Questionnaire $questionnaire
+     * @return string
      */
     public function createParticipationAnalysis(
         $results,
         \Kennziffer\KeQuestionnaire\Domain\Model\Questionnaire $questionnaire
-    ) {
+    ): string {
         $data = $this->createParticipationData($results);
         return $this->jqPlot->createLineChart('participation_chart_' . $questionnaire->getUid(), $data);
     }
@@ -123,10 +127,14 @@ class Analysis
     /**
      * create Question Analysis
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array $results
+     * @return array
+     * @return array
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
-    public function createQuestionAnalysis(\Kennziffer\KeQuestionnaire\Domain\Model\Question $question, $results)
+    public function createQuestionAnalysis(Question $question, $results)
     {
         $charts = [];
         //create Data and Chart for all participations
@@ -143,10 +151,12 @@ class Analysis
      *
      * @param string $type
      * @param array $data
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @return array
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
-    private function createChartWithData($type, $data, \Kennziffer\KeQuestionnaire\Domain\Model\Question $question)
+    private function createChartWithData($type, $data, Question $question)
     {
         $charts = '';
         $divs = '';
@@ -273,11 +283,11 @@ class Analysis
     /**
      * create String lines output
      *
-     * @param array $data
+     * @param array $values
      * @param boolean $useAdditionalValues
      * @return string lines
      */
-    public function createLineOutput($values, $useAdditionalValues = false)
+    public function createLineOutput($values, $useAdditionalValues = false): string
     {
         $lines = '';
         foreach ($values as $data) {
@@ -302,11 +312,11 @@ class Analysis
     /**
      * create image outout
      *
-     * @param array $data
+     * @param array $values
      * @param string $base
      * @return string lines
      */
-    public function createImageOutput($values, $base)
+    public function createImageOutput($values, $base): string
     {
         $lines = '';
 
@@ -328,17 +338,22 @@ class Analysis
      * create data array
      *
      * @param string $type
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array $results
+     * @return array
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function createQuestionDataArray(
         $type,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        Question $question,
         $results
     ) {
         $answers = [];
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var ResultQuestionRepository $resultQuestionRepository */
         $resultQuestionRepository = $objectManager->get(ResultQuestionRepository::class);
+        /** @var ResultAnswerRepository $resultAnswerRepository */
         $resultAnswerRepository = $objectManager->get(ResultAnswerRepository::class);
 
         /** @var Answer $answer */
@@ -353,7 +368,7 @@ class Analysis
 
                     //Get all additionalValue for answer
                     $rAnswers = $resultAnswerRepository->getResultAnswersForAnswer($answer);
-                    /** @var Answer $rAnswer */
+                    /** @var ResultAnswer $rAnswer */
                     foreach ($rAnswers as $rAnswer) {
                         if ($rAnswer->getAdditionalValue()) {
                             $answers[$answer->getShortType()][$answer->getUid()]['additionalValues'][] = $rAnswer->getAdditionalValue();
@@ -510,6 +525,7 @@ class Analysis
     /**
      * create dataarray for participations
      * @param array $results
+     * @return array
      */
     public function createParticipationData($results)
     {

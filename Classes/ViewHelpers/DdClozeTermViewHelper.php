@@ -103,7 +103,7 @@ class DdClozeTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
         $terms = [];
 
         foreach ($question->getAnswers() as $answer) {
-            if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm') {
+            if ($answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\ClozeTerm) {
                 $terms[$answer->getTitle()][$answer->getClozePosition()] = $answer;
             }
         }

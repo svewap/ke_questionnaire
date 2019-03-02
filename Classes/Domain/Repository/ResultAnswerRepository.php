@@ -42,6 +42,8 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
     /**
      * get a raw result => no object, only array
+     * @param $questionId
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findForResultQuestionRaw($questionId)
     {
@@ -54,6 +56,9 @@ class ResultAnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      * get a raw result => no object, only array
+     * @param $questionId
+     * @param $answerId
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findForResultQuestionAndAnswerRaw($questionId, $answerId)
     {

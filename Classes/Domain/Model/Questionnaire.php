@@ -41,6 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Service\FlexFormService;
 
 /**
@@ -57,7 +58,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Questions
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @var QueryResultInterface
      */
     protected $questions;
 
@@ -234,6 +235,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Returns the amount of results
      *
      * @return int $countResults
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getCountResults()
     {
@@ -244,6 +246,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Returns the amount of finished Results
      *
      * @return int $countFinishedResults
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getCountFinishedResults()
     {
@@ -322,7 +325,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the questions
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions
+     * @return QueryResultInterface $questions
      */
     public function getQuestions()
     {
@@ -389,10 +392,10 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Sets the questions
      * add seperates all questions by page
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions
+     * @param QueryResultInterface $questions
      * @return void
      */
-    public function setQuestions(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions)
+    public function setQuestions(QueryResultInterface $questions)
     {
         $questions = $this->checkNumbering($questions);
         $this->questions = $questions;
@@ -418,10 +421,10 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Checks the Numbering of the Questions in the Questionnaire
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $questions
+     * @param QueryResultInterface $questions
+     * @return QueryResultInterface $questions
      */
-    private function checkNumbering(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $questions)
+    private function checkNumbering(QueryResultInterface $questions)
     {
         //create numbering only if there are any questions
         if ($questions->count()) {
@@ -493,8 +496,9 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets the results of the user and questionnaire
      *
-     * @param int userId
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @param bool $userId
+     * @return array|QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getUserResults($userId = false)
     {
@@ -521,6 +525,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @param bool $finished
      * @return int
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function countResults($finished = true)
     {
@@ -544,7 +549,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return int
      */
-    public function countAuthCodes()
+    public function countAuthCodes(): int
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var Typo3QuerySettings $querySettings */
@@ -682,7 +687,7 @@ class Questionnaire extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * returns the piFlexForm
      *
-     * @return $piFlexForm
+     * @return array
      */
     public function getPiFlexForm()
     {

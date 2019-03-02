@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Utility;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -42,14 +44,15 @@ class JqPlot
      * @param string $type
      * @param array $dataArray
      * @param string $divId
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
+     * @param Question $question
      * @param array $labels
+     * @return string
      */
     public function getChart(
         $type,
         $divId,
         $dataArray,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question = null,
+        Question $question = null,
         $labels = null
     ) {
         switch ($type) {
@@ -65,13 +68,14 @@ class JqPlot
                 break;
 
         }
-        return false;
     }
 
     /**
      * create line
      *
+     * @param $divId
      * @param array $dataArray
+     * @return string
      */
     public function createLineChart($divId, $dataArray)
     {
@@ -159,14 +163,14 @@ class JqPlot
      *
      * @param string $type
      * @param array $values
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-     * @param array $labels
+     * @param Question $question
+     * @param bool $labels
      * @return string $chart
      */
     public function createSingleBarChart(
         $type,
         $values,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question,
+        Question $question,
         $labels = false
     ) {
         if (is_array($values)) {
@@ -234,20 +238,20 @@ class JqPlot
      *
      * @param string $type
      * @param array $values
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Question $question
-     * @param boolean $absoulteValues
+     * @param Question $question
+     * @param bool $absoluteValues
      * @return string $chart
      */
     public function createPieChart(
         $type,
         $values,
-        \Kennziffer\KeQuestionnaire\Domain\Model\Question $question = null,
+        Question $question = null,
         $absoluteValues = false
     ) {
         $data = '[';
         foreach ($values as $key => $answer) {
             if ($answer['answer']) {
-                $data .= "['" . $answer["answer"]->getTitle() . "', ";
+                $data .= "['" . $answer['answer']->getTitle() . "', ";
             } else {
                 $data .= "['" . $key . "', ";
             }

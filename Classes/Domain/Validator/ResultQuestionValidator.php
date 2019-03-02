@@ -3,6 +3,7 @@
 namespace Kennziffer\KeQuestionnaire\Domain\Validator;
 
 use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /***************************************************************
  *  Copyright notice
@@ -36,7 +37,7 @@ use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ResultQuestionValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
+class ResultQuestionValidator extends AbstractValidator
 {
 
     /**

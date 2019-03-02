@@ -2,6 +2,10 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -78,6 +82,8 @@ class RangeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
      * @param string $as The name of the iteration variable
      * @return string
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function render($questionnaire, $result, $as)
     {
@@ -107,6 +113,8 @@ class RangeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      * get the Ranges
      *
      * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface|array The query result object or an array if $returnRawQueryResult is TRUE
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     private function collectRanges()
     {
@@ -134,14 +142,14 @@ class RangeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      */
     private function getRanges()
     {
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->configurationManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $this->configurationManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ConfigurationManager::class);
         $this->contentObj = $this->configurationManager->getContentObject();
         $uid = $this->contentObj->data['uid'];
 
         $this->questionnaire = $this->questionnaire->loadFullObject($this->contentObj->data['uid']);
         /** @var \Kennziffer\KeQuestionnaire\Domain\Repository\RangeRepository $rep */
-        $rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\RangeRepository');
+        $rep = $this->objectManager->get(RangeRepository::class);
 
         $ranges = $rep->findForPid($this->questionnaire->getStoragePid());
         return $ranges;

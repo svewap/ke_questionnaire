@@ -2,6 +2,9 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -52,20 +55,20 @@ class GetResultAnswerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     /**
      * Returns a requested question from result record
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-     * @param integer $questionUid
-     * @param integer $answerUid
-     * @return
+     * @param Result $result
+     * @param int $questionUid
+     * @param int $answerUid
+     * @return null|ResultAnswer
      */
     public function render($result, $questionUid, $answerUid)
     {
         $resultQuestions = $result->getQuestions();
         /* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
         foreach ($resultQuestions as $resultQuestion) {
-            if ($resultQuestion->getQuestion() && $questionUid == $resultQuestion->getQuestion()->getUid()) {
+            if ($resultQuestion->getQuestion() && $questionUid === $resultQuestion->getQuestion()->getUid()) {
                 /* @var $resultAnswer \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer */
                 foreach ($resultQuestion->getAnswers()->toArray() as $resultAnswer) {
-                    if ($resultAnswer->getAnswer() && $answerUid == $resultAnswer->getAnswer()->getUid()) {
+                    if ($resultAnswer->getAnswer() && $answerUid === $resultAnswer->getAnswer()->getUid()) {
                         return $resultAnswer;
                     }
                 }

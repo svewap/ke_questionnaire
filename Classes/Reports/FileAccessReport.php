@@ -29,6 +29,7 @@ namespace Kennziffer\KeQuestionnaire\Reports;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Reports\Status;
+use TYPO3\CMS\Reports\StatusProviderInterface;
 
 /**
  *
@@ -37,7 +38,7 @@ use TYPO3\CMS\Reports\Status;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface
+class FileAccessReport implements StatusProviderInterface
 {
     /**
      * @var string
@@ -99,25 +100,25 @@ class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.ok'),
                 '',
-                \TYPO3\CMS\Reports\Status::OK
+                Status::OK
             ],
             'writeFail' => [
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.details'),
-                \TYPO3\CMS\Reports\Status::WARNING
+                Status::WARNING
             ],
             'tmpFileReadable' => [
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.error.explanation'),
-                \TYPO3\CMS\Reports\Status::ERROR
+                Status::ERROR
             ],
             'unknownErrorCheckingTmpFile' => [
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.title'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning'),
                 $GLOBALS['LANG']->sL('LLL:EXT:ke_questionnaire/Resources/Private/Language/locallang.xml:report.fileAccess.warning.unknown'),
-                \TYPO3\CMS\Reports\Status::WARNING
+                Status::WARNING
             ]
         ];
     }
@@ -129,15 +130,12 @@ class FileAccessReport implements \TYPO3\CMS\Reports\StatusProviderInterface
      */
     protected function checkStatus()
     {
-        $failState = '';
-
         $failState = $this->createAndCheckTmpFile();
-        $failState = (!strlen($failState)) ? $this->checkTmpFileReadable() : $failState;
+        $failState = ($failState === '') ? $this->checkTmpFileReadable() : $failState;
 
-        if (!strlen(trim($failState))) {
+        if (trim($failState) === '') {
             $failState = 'ok';
         }
-
         return $failState;
     }
 
@@ -198,7 +196,7 @@ Allow from 127.0.0.1
             return 'unknownErrorCheckingTmpFile';
         }
 
-        if (intval($responseHeaders['http_code']) === 200) {
+        if ((int)$responseHeaders['http_code'] === 200) {
             return 'tmpFileReadable';
         }
 

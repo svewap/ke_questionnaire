@@ -3,10 +3,16 @@
 namespace Kennziffer\KeQuestionnaire\Controller;
 
 
+use Kennziffer\KeQuestionnaire\Domain\Model\AuthCode;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\TtAddress\Domain\Repository\AddressRepository;
 
 /***************************************************************
  *  Copyright notice
@@ -104,7 +110,7 @@ class BackendController extends AbstractController
             $this->pluginFF = $this->flexFormService->convertFlexFormContentToArray($this->plugin['pi_flexform']);
         }
         //merge the settings
-        if (is_array($this->pluginFF['settings']) && is_array($this->settings)) {
+        if (is_array($this->settings) && is_array($this->pluginFF['settings'])) {
             $this->pluginFF['settings'] = array_merge($this->settings, $this->pluginFF['settings']);
         } else {
             $this->pluginFF['settings'] = $this->settings;
@@ -126,14 +132,14 @@ class BackendController extends AbstractController
     /**
      * AuthCode Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param int $storagePid
+     * @param mixed $plugin
      * @ignorevalidaton $plugin
      */
-    public function authCodesAction($storage = false, $plugin = false)
+    public function authCodesAction($storagePid = null, $plugin = null)
     {
-        if ($storage) {
-            $this->storagePid = $storage;
+        if ($storagePid) {
+            $this->storagePid = $storagePid;
         }
         if ($plugin) {
             $this->plugin = $plugin;
@@ -149,14 +155,14 @@ class BackendController extends AbstractController
     /**
      * AuthCode Simple Action
      *
-     * @param integer $storage
+     * @param int $storagePid
      * @param array $plugin
      * @ignorevalidaton $plugin
      */
-    public function authCodesSimpleAction($storage = false, $plugin = false)
+    public function authCodesSimpleAction($storagePid = null, $plugin = null)
     {
-        if ($storage) {
-            $this->storagePid = $storage;
+        if ($storagePid) {
+            $this->storagePid = $storagePid;
         }
         if ($plugin) {
             $this->plugin = $plugin;
@@ -169,11 +175,11 @@ class BackendController extends AbstractController
      * AuthCode Mail Action
      * Action to send the mails for the authcodes
      *
-     * @param integer $storage
+     * @param int $storage
      * @param array $plugin
      * @ignorevalidaton $plugin
      */
-    public function authCodesMailAction($storage = false, $plugin = false)
+    public function authCodesMailAction($storage = null, $plugin = null)
     {
         if ($storage) {
             $this->storagePid = $storage;
@@ -212,7 +218,7 @@ class BackendController extends AbstractController
         $addresses = false;
         if ($this->extConf->isEnableAuthCode2ttAddress()) {
             //check if extension is installed
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('tt_address')) {
+            if (ExtensionManagementUtility::isLoaded('tt_address')) {
                 $res = $GLOBALS['TYPO3_DB']->sql_query("SELECT * from tt_address WHERE hidden=0 and deleted=0");
                 $addresses = [];
                 while ($address = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -232,11 +238,11 @@ class BackendController extends AbstractController
         //create the preview with the plugin or standard-texts
         $preview = [];
         $this->view->assign('authCode', ['authCode' => 'AUTHCODE']);
-        $preview['subject'] = ($this->plugin['ffdata']['settings']['email']['invite']['subject'] ? $this->plugin['ffdata']['settings']['email']['invite']['subject'] : \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.subject',
+        $preview['subject'] = ($this->plugin['ffdata']['settings']['email']['invite']['subject'] ?: \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.subject',
             $this->extensionName));
-        $text['before'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['before'] ? $this->plugin['ffdata']['settings']['email']['invite']['text']['before'] : \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.before',
+        $text['before'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['before'] ?: \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.before',
             $this->extensionName)));
-        $text['after'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['after'] ? $this->plugin['ffdata']['settings']['email']['invite']['text']['after'] : \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.after',
+        $text['after'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['after'] ?: \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.after',
             $this->extensionName)));
         $this->view->assign('text', $text);
         // $preview['body'] = trim($this->view->render('CreatedMail'));
@@ -246,6 +252,9 @@ class BackendController extends AbstractController
 
     /**
      * generate AuthCodes
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function createAuthCodesAction()
     {
@@ -255,12 +264,13 @@ class BackendController extends AbstractController
         $codeLength = $this->settings['authCodes']['length'];
         //create the codes and store them in the storagepid of the plugin
         for ($i = 0; $i < $amount; $i++) {
-            $newAuthCode = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Model\\AuthCode');
+            /** @var AuthCode $newAuthCode */
+            $newAuthCode = $this->objectManager->get(AuthCode::class);
             $newAuthCode->generateAuthCode($codeLength, $this->storagePid);
             $newAuthCode->setPid($this->storagePid);
             $this->authCodeRepository->add($newAuthCode);
-            $persistenceManager = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
-            /* @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
+            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
+            /* @var $persistenceManager PersistenceManager */
             $persistenceManager->persistAll();
         }
         //forward to the standard-Action
@@ -321,23 +331,23 @@ class BackendController extends AbstractController
 
         //send the mail for each given email
         foreach ($emails as $mail) {
-            if ($mail['email'] != '') {
+            if ($mail['email'] !== '') {
                 //create the authcode
-                $newAuthCode = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Model\\AuthCode');
+                $newAuthCode = $this->objectManager->get(AuthCode::class);
                 $newAuthCode->generateAuthCode($codeLength, $this->storagePid);
                 $newAuthCode->setPid($this->storagePid);
                 $newAuthCode->setEmail($mail['email']);
                 switch ($mail['sourcetype']) {
                     case 'feuser':
-                        $userRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
-                        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+                        $userRepository = $this->objectManager->get(FrontendUserRepository::class);
+                        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
                         $querySettings->setRespectStoragePage(false);
                         $userRepository->setDefaultQuerySettings($querySettings);
                         $newAuthCode->setFeUser($userRepository->findByUid($mail['uid']));
                         break;
                     case 'ttaddress':
-                        $addrRepository = $this->objectManager->get('TYPO3\\TtAddress\\Domain\\Repository\\AddressRepository');
-                        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+                        $addrRepository = $this->objectManager->get(AddressRepository::class);
+                        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
                         $querySettings->setRespectStoragePage(false);
                         $addrRepository->setDefaultQuerySettings($querySettings);
                         $newAuthCode->setTtAddress($addrRepository->findByUid($mail['uid']));
@@ -349,11 +359,11 @@ class BackendController extends AbstractController
                 $this->authCodeRepository->add($newAuthCode);
                 //add mail data to view
                 $this->view->assign('authCode', $newAuthCode);
-                $subject = ($this->plugin['ffdata']['settings']['email']['invite']['subject'] ? $this->plugin['ffdata']['settings']['email']['invite']['subject'] : \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.subject',
+                $subject = ($this->plugin['ffdata']['settings']['email']['invite']['subject'] ?: \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.subject',
                     $this->extensionName));
-                $text['before'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['before'] ? $this->plugin['ffdata']['settings']['email']['invite']['text']['before'] : \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.before',
+                $text['before'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['before'] ?: \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.before',
                     $this->extensionName)));
-                $text['after'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['after'] ? $this->plugin['ffdata']['settings']['email']['invite']['text']['after'] : \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.after',
+                $text['after'] = trim(($this->plugin['ffdata']['settings']['email']['invite']['text']['after'] ?: \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mail.standard.text.after',
                     $this->extensionName)));
                 foreach ($mail as $field => $value) {
                     $text['before'] = str_replace('###' . strtoupper($field) . '###', $value, $text['before']);
@@ -368,7 +378,7 @@ class BackendController extends AbstractController
                     ->setSubject($subject)
                     ->sendMail();
                 //store the authCode
-                $persistenceManager = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
+                $persistenceManager = $this->objectManager->get(PersistenceManager::class);
                 // @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
                 $persistenceManager->persistAll();
             }
@@ -382,21 +392,25 @@ class BackendController extends AbstractController
      * @param array fe_groups
      * @return array
      */
-    private function getMailsFromFeGroups($fe_groups)
+    private function getMailsFromFeGroups($fe_groups): array
     {
         $mails = [];
 
         foreach ($fe_groups as $uid) {
             $group = BackendUtility::getRecord('fe_groups', $uid);
-            $userRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
-            $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+            /** @var FrontendUserRepository $userRepository */
+            $userRepository = $this->objectManager->get(FrontendUserRepository::class);
+            /** @var Typo3QuerySettings $querySettings */
+            $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
             $querySettings->setRespectStoragePage(false);
             $userRepository->setDefaultQuerySettings($querySettings);
-            $user = $userRepository->findAll();
-            foreach ($user as $use) {
-                foreach ($use->getUsergroup() as $ugroup) {
-                    if ($uid == $ugroup->getUid() && $use->getEmail()) {
-                        $mails[$use->getUid()] = BackendUtility::getRecord('fe_users', $use->getUid());
+            $users = $userRepository->findAll();
+            /** @var FrontendUser $user */
+            foreach ($users as $user) {
+                /** @var FrontendUserGroup $ugroup */
+                foreach ($user->getUsergroup() as $ugroup) {
+                    if ($uid === $ugroup->getUid() && $user->getEmail()) {
+                        $mails[$user->getUid()] = BackendUtility::getRecord('fe_users', $user->getUid());
                     }
                 }
             }
@@ -407,6 +421,7 @@ class BackendController extends AbstractController
     /**
      * Count the participations of the chosen questionnaire
      * @return array
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function countParticipations()
     {
@@ -442,8 +457,10 @@ class BackendController extends AbstractController
     /**
      * AuthCode Reminder Action
      *
-     * @param integer $storage
-     * @param array $plugin
+     * @param bool $storage
+     * @param bool $plugin
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @ignorevalidaton $plugin
      */
     public function authCodesRemindAction($storage = false, $plugin = false)

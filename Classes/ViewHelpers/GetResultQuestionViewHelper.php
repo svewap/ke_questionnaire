@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -53,15 +55,15 @@ class GetResultQuestionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
      * Returns a requested question from result record
      *
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-     * @param integer $questionUid
-     * @return
+     * @param int $questionUid
+     * @return null|Question
      */
     public function render($result, $questionUid)
     {
         $questions = $result->getQuestions();
         /* @var $question \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
         foreach ($questions as $key => $question) {
-            if ($questionUid == $question->getQuestion()->getUid()) {
+            if ($questionUid === $question->getQuestion()->getUid()) {
                 return $question->getQuestion();
             }
         }

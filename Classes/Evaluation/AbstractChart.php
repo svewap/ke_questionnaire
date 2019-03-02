@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\Evaluation;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -149,7 +151,7 @@ class AbstractChart implements RenderChartInterface
     /**
      * injectResultQuestionRepository
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository $resultRepository
+     * @param \Kennziffer\KeQuestionnaire\Domain\Repository\ResultQuestionRepository $resultQuestionRepository
      * @return void
      */
     public function injectResultQuestionRepository(
@@ -198,7 +200,7 @@ class AbstractChart implements RenderChartInterface
      *
      * @return string $libraryName
      */
-    public function getLibraryName()
+    public function getLibraryName(): string
     {
         return $this->libraryName;
     }
@@ -407,7 +409,7 @@ class AbstractChart implements RenderChartInterface
      */
     public function getHeaderJs()
     {
-        $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('ke_questionnaire');
+        $extPath = ExtensionManagementUtility::extPath('ke_questionnaire');
         $path = 'Resources/Private/Templates/Evaluation/' . $this->getLibraryName() . '/' . $this->getChartType() . '.html';
         $this->view->setTemplatePathAndFilename($extPath . $path);
         $this->view->assign('containerId', $this->getContainerId());

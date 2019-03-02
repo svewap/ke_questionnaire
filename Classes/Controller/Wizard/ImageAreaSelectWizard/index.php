@@ -52,7 +52,7 @@ class ImageAreaSelectWizard
     protected function indexAction()
     {
         /** @var $view tx_form_View_Wizard_Wizard */
-        $view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Kennziffer\\KeQuestionnaire\\View\\ImageAreaSelectWizard');
+        $view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Kennziffer\KeQuestionnaire\View\ImageAreaSelectWizard::class);
         $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('ke_questionnaire');
         $path = 'Resources/Private/Templates/Wizards/ImageAreaSelect.html';
         $view->setTemplatePathAndFilename($extPath . $path);
@@ -67,5 +67,5 @@ class ImageAreaSelectWizard
     }
 }
 
-$wizard = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Kennziffer\\KeQuestionnaire\\Controller\\Wizard\\ImageAreaSelectWizard\\ImageAreaSelectWizard');
+$wizard = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Kennziffer\KeQuestionnaire\Controller\Wizard\ImageAreaSelectWizard\ImageAreaSelectWizard::class);
 $wizard->dispatch();

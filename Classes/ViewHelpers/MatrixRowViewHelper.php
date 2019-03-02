@@ -61,7 +61,7 @@ class MatrixRowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question,
         $as
     ) {
-        if (get_class($answer) == 'Kennziffer\\KeQuestionnaire\\Domain\\Model\\AnswerType\\MatrixHeader' || get_class($answer) == 'Kennziffer\\KeQuestionnairePremium\\Domain\\Model\\AnswerType\\ExtendedMatrixHeader') {
+        if ($answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\MatrixHeader || get_class($answer) == 'Kennziffer\\KeQuestionnairePremium\\Domain\\Model\\AnswerType\\ExtendedMatrixHeader') {
             $rows = $answer->getRows($question);
 
             $templateVariableContainer = $this->renderingContext->getVariableProvider();

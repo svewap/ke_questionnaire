@@ -2,6 +2,8 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -53,16 +55,16 @@ class GetClonedResultAnswersViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\
      * Returns a requested question from result record
      *
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
-     * @param integer $questionUid
-     * @param integer $answerUid
-     * @return
+     * @param int $questionUid
+     * @param int $answerUid
+     * @return null|ResultAnswer[]
      */
     public function render($result, $questionUid, $answerUid)
     {
         $resultQuestions = $result->getQuestions();
         /* @var $resultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */
         foreach ($resultQuestions as $resultQuestion) {
-            if ($questionUid == $resultQuestion->getQuestion()->getUid()) {
+            if ($questionUid === $resultQuestion->getQuestion()->getUid()) {
                 /* @var $resultAnswer \Kennziffer\KeQuestionnaire\Domain\Model\ResultAnswer */
                 return $resultQuestion->getClonedAnswers();
             }

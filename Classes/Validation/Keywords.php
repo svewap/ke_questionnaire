@@ -55,7 +55,7 @@ class Keywords extends AbstractValidation
         }
         foreach ($keywords as $key) {
             $pos = strpos($value, $key);
-            if (is_integer($pos)) {
+            if (is_int($pos)) {
                 $keyword_counter++;
             }
             if ($to_match > 0) {

@@ -41,8 +41,10 @@ class AnswerValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVa
 
     /**
      * validate
+     * @param Answer
+     * @return bool
      */
-    public function isValid($result)
+    public function isValid($result) : bool
     {
         if (!$result instanceof Answer) {
             $this->addError('The given Object is not a KeQ-Answer.', 1262341470);

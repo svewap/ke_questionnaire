@@ -66,7 +66,7 @@ class EvaluationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
     /**
      * action show
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $newResult A fresh new result object
+     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result A fresh new result object
      * @return void
      */
     public function showAction(\Kennziffer\KeQuestionnaire\Domain\Model\Result $result)

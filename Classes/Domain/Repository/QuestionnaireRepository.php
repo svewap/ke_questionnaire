@@ -90,6 +90,7 @@ class QuestionnaireRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find ke_questionnaires for uids
      *
      * @params array $uids
+     * @param $uids
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
@@ -106,6 +107,7 @@ class QuestionnaireRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find ke_questionnaires for uid
      *
      * @params integer $uid
+     * @param $uid
      * @return Questionnaire
      */
     public function findForUid($uid)

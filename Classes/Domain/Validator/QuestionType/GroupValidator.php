@@ -41,8 +41,10 @@ class GroupValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVal
 
     /**
      * validate
+     * @param Group
+     * @return bool
      */
-    public function isValid($result)
+    public function isValid($result) : bool
     {
         if (!$result instanceof Group) {
             $this->addError('The given Object is not a KeQ-QuestionType-Group.', 1262341470);

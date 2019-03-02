@@ -93,6 +93,7 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * find questions for uids
      *
      * @params string $uids
+     * @param string $uids
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
@@ -108,7 +109,7 @@ class QuestionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * find question for uid
      *
-     * @params integer $uid
+     * @params int $uid
      * @return Question
      */
     public function findForUid($uid): Question

@@ -116,6 +116,9 @@ class QuestionnaireController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
      * action list
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function listAction()
     {
@@ -162,6 +165,7 @@ class QuestionnaireController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
      * get the selected Questionnaires
      *
      * @return array
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     private function getQuestionnaires()
     {

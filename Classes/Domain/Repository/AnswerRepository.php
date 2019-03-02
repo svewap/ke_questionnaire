@@ -85,7 +85,7 @@ class AnswerRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * find all results for pid
      *
-     * @param integer $pid
+     * @param int $uid
      * @return Answer Result
      */
     public function findByUidFree($uid)

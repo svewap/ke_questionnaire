@@ -34,7 +34,7 @@ namespace Kennziffer\KeQuestionnaire\Evaluation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
+class Flotr2Chart extends AbstractChart
 {
 
     /**
@@ -59,11 +59,12 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
      * get JavaScript Array for Pie Charts
      *
      * @return string JsonEncoded JavaScript Array
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getDataForPie()
     {
         switch ($this->getRenderChart()) {
-            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
+            case RenderChartInterface::FINISHED:
                 $amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
                 $amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
                 $dataChart = [
@@ -90,11 +91,12 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
      * get JavaScript Array for Column Charts
      *
      * @return string JsonEncoded JavaScript Array
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getDataForColumn()
     {
         switch ($this->getRenderChart()) {
-            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
+            case RenderChartInterface::FINISHED:
                 $amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
                 $amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
                 $dataChart = [
@@ -112,7 +114,7 @@ class Flotr2Chart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
                     ],
                 ];
                 break;
-            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::COMPARE_POINTS:
+            case RenderChartInterface::COMPARE_POINTS:
                 $results = $this->resultRepository->findAll();
                 $counter = 1;
                 /* @var $userResultQuestion \Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion */

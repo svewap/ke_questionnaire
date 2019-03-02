@@ -51,7 +51,7 @@ class Date extends AbstractValidation
 
     function validateDate($date, $format = 'Y-m-d H:i:s')
     {
-        $version = explode('.', phpversion());
+        $version = explode('.', PHP_VERSION);
         if (((int)$version[0] >= 5 && (int)$version[1] >= 2 && (int)$version[2] > 17)) {
             $d = \DateTime::createFromFormat($format, $date);
         } else {

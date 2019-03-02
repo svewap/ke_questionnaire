@@ -2,6 +2,16 @@
 
 namespace Kennziffer\KeQuestionnaire\ViewHelpers;
 
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder;
+use Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingTerm;
+use Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question;
+use Kennziffer\KeQuestionnaire\Domain\Model\Result;
+use Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion;
+use Kennziffer\KeQuestionnaire\Domain\Repository\AnswerRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -52,12 +62,12 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
      * Adds the needed Javascript-File to Additional Header Data
      *
      * @param \Kennziffer\KeQuestionnaire\Domain\Model\Answer $answer Answer to be rendered
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the images are in
+     * @param Question $question the images are in
      * @param string $as The name of the iteration variable
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Result $result
      * @return string
      */
-    public function render($answer, $question, $as, $result = null)
+    public function render($answer, $question, $as, $result = null): string
     {
         $terms = $this->getTerms($question, $answer, $result);
 
@@ -79,27 +89,28 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
     /**
      * Gets the Images
      *
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\QuestionType\Question $question the terms are in
-     * @param \Kennziffer\KeQuestionnaire\Domain\Model\Result $result
+     * @param Question $question the terms are in
+     * @param $header
+     * @param Result $result
      * @return array
      */
-    public function getTerms($question, $header, $result)
+    public function getTerms($question, $header, $result): array
     {
         $terms = [];
 
         // workaround for pointer in question, so all following answer-objects are rendered.
         $addIt = false;
-        $type = '';
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $rep = $this->objectManager->get('Kennziffer\\KeQuestionnaire\\Domain\\Repository\\AnswerRepository');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var AnswerRepository $rep */
+        $rep = $objectManager->get(AnswerRepository::class);
         $answers = $rep->findByQuestion($question);
 
         $ranswers = [];
         if ($result) {
-            /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Kennziffer\KeQuestionnaire\Domain\Model\ResultQuestion> $rquestion */
+            /** @var ResultQuestion $rquestion */
             foreach ($result->getQuestions() as $rquestion) {
 
-                if ($rquestion->getQuestion()->getUid() == $question->getUid()) {
+                if ($rquestion->getQuestion()->getUid() === $question->getUid()) {
                     foreach ($rquestion->getAnswers() as $ranswer) {
                         $ranswers[$ranswer->getAnswer()->getUid()] = $ranswer->getValue();
                     }
@@ -111,35 +122,27 @@ class RankingTermViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
         $counter = 0;
         foreach ($answers as $answer) {
             //Add only after the correct Matrix-Header is found, only following rows will be added.
-            if ((
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' OR
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' OR
-                    get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder'
-                ) && $answer === $header) {
-                $addIt = true;
-                $type = get_class($answer);
-            } elseif (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' OR
-                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' OR
-                get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') {
+            if ($answer instanceof RankingInput) {
                 $addIt = false;
+                if ($answer === $header) {
+                    $addIt = true;
+                }
             }
-            if ($addIt) {
-                if (get_class($answer) == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingTerm') {
-                    $counter++;
-                    if ($answer->getOrder() == 0) {
+            if ($addIt && $answer instanceof RankingTerm) {
+                $counter++;
+                if ($answer->getOrder() === 0) {
+                    $answer->setOrder($counter);
+                }
+                if ($answer instanceof RankingOrder) {
+                    if ($ranswers[$answer->getUid()]) {
+                        $answer->setOrder($ranswers[$answer->getUid()]);
+                    }
+                    $terms[$answer->getOrder()] = $answer;
+                } else {
+                    if ($answer->getOrder() === 0) {
                         $answer->setOrder($counter);
                     }
-                    if ($type == 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') {
-                        if ($ranswers[$answer->getUid()]) {
-                            $answer->setOrder($ranswers[$answer->getUid()]);
-                        }
-                        $terms[$answer->getOrder()] = $answer;
-                    } else {
-                        if ($answer->getOrder() == 0) {
-                            $answer->setOrder($counter);
-                        }
-                        $terms[] = $answer;
-                    }
+                    $terms[] = $answer;
                 }
             }
         }

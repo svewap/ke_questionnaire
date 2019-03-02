@@ -84,8 +84,6 @@ class AddJsFooterInlineCodeViewHelper extends AbstractTagBasedViewHelper
 
     /**
      * Render
-     *
-     * @param string $block
      */
     public function render()
     {

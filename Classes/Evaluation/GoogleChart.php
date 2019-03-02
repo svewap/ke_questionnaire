@@ -34,7 +34,7 @@ namespace Kennziffer\KeQuestionnaire\Evaluation;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
+class GoogleChart extends AbstractChart
 {
 
     /**
@@ -48,7 +48,7 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
     /**
      * add js libraries within HEAD-Tag
      *
-     * @return void
+     * @return string
      */
     public function getChartLibraryPath()
     {
@@ -59,11 +59,12 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
      * get JavaScript Array for Pie Charts
      *
      * @return string JsonEncoded JavaScript Array
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getDataForPie()
     {
         switch ($this->getRenderChart()) {
-            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
+            case RenderChartInterface::FINISHED:
                 $amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
                 $amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
                 $dataChart = [
@@ -81,11 +82,12 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
      * get JavaScript Array for Column Charts
      *
      * @return string JsonEncoded JavaScript Array
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function getDataForColumn()
     {
         switch ($this->getRenderChart()) {
-            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::FINISHED:
+            case RenderChartInterface::FINISHED:
                 $amountOfFinishedResults = $this->resultRepository->findFinishedResults()->count();
                 $amountOfNotFinishedResults = $this->resultRepository->findByFinished(0)->count();
                 $dataChart = [
@@ -94,7 +96,7 @@ class GoogleChart extends \Kennziffer\KeQuestionnaire\Evaluation\AbstractChart
                     ['Not Finished', $amountOfNotFinishedResults]
                 ];
                 break;
-            case \Kennziffer\KeQuestionnaire\Evaluation\RenderChartInterface::COMPARE_POINTS:
+            case RenderChartInterface::COMPARE_POINTS:
                 $dataChart[] = [
                     'Title',
                     'Your own points',

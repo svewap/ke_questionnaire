@@ -58,6 +58,8 @@ class AutoSave extends AbstractAjax
      *
      * @param array $arguments If you want, you can add some arguments to your object
      * @return string In most cases JSON
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function processAjaxRequest(array $arguments)
     {

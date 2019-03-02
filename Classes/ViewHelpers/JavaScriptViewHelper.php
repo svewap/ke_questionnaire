@@ -56,20 +56,21 @@ class JavaScriptViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
     /**
      * ViewHelper to bundle the javascript in a single file and include this
      *
-     * @param string $alwaysreplace
+     * @param bool $alwaysReplace
      */
-    public function render($alwaysreplace = false)
+    public function render($alwaysReplace = false)
     {
-        $this->always = $alwaysreplace;
+        $this->always = $alwaysReplace;
         $this->cacheJavaScript($this->renderChildren());
     }
 
     /**
      * write the Javascript in the file
+     * @param $script
      */
     public function cacheJavaScript($script)
     {
-        if (trim($script) != '') {
+        if (trim($script) !== '') {
             $endOfFile = "\n});// end of file";
             $beginningOfFile = "jQuery(document).ready(function() {\n";
 

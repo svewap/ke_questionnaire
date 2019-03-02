@@ -122,17 +122,17 @@ class RankingInput extends DDAreaSequence
             //Add only after the correct Header is found, only following rows will be added.
             if ((
                     get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' ||
-                    get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' ||
-                    get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder'
+                    $answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect ||
+                    $answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder
                 ) && $answer === $this) {
                 $addIt = true;
                 $type = get_class($answer);
             } elseif (get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingInput' ||
-                get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect' ||
-                get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder') {
+                $answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingSelect ||
+                $answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingOrder) {
                 $addIt = false;
             }
-            if ($addIt && get_class($answer) === 'Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingTerm') {
+            if ($addIt && $answer instanceof \Kennziffer\KeQuestionnaire\Domain\Model\AnswerType\RankingTerm) {
                 $counter++;
                 if ($answer->getOrder() == 0) {
                     $answer->setOrder($counter);

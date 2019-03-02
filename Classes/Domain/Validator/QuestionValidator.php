@@ -3,6 +3,7 @@
 namespace Kennziffer\KeQuestionnaire\Domain\Validator;
 
 use Kennziffer\KeQuestionnaire\Domain\Model\Question;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /***************************************************************
  *  Copyright notice
@@ -36,13 +37,15 @@ use Kennziffer\KeQuestionnaire\Domain\Model\Question;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class QuestionValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
+class QuestionValidator extends AbstractValidator
 {
 
     /**
      * validate
+     * @param Question
+     * @return bool
      */
-    public function isValid($result)
+    public function isValid($result) : bool
     {
         if (!$result instanceof Question) {
             $this->addError('The given Object is not a KeQ-Question.', 1262341470);

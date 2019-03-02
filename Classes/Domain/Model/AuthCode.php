@@ -146,7 +146,9 @@ class AuthCode extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * generate a single and unique AuthCode
      *
      * @param integer $length
-     * @param integer §pid
+     * @param $pid
+     * @return string
+     * @throws \Exception
      */
     public function generateAuthCode($length = 10, $pid)
     {
